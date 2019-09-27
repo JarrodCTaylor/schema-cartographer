@@ -1,0 +1,783 @@
+// --- Color Themes
+// region === Dark Theme
+$dark-1:  #282a36;
+$dark-2:  #44475a;
+$dark-3:  #6272a4;
+$dark-4:  #f8f8f2;
+$dark-5:  #33363E;
+$dark-6:  #8be9fd;
+$dark-7:  #50fa7b;
+$dark-8:  #ffb86c;
+$dark-9:  #ff79c6;
+$dark-10: #ff5555;
+$dark-11: #f1fa8c;
+$dark-app-bg: $dark-1;
+$dark-element-bg: $dark-2;
+$dark-title-bg: $dark-4;
+$dark-error-message: $dark-10;
+$dark-menu-link-hover: $dark-9;
+$dark-panel-heading-1: $dark-5;
+$dark-panel-heading-2: $dark-7;
+$dark-panel-heading-border: $dark-1;
+$dark-panel-fg: $dark-4;
+$dark-panel-tab-1: $dark-4;
+$dark-panel-tab-2: $dark-8;
+$dark-panel-tab-border: $dark-1;
+$dark-panel-border: $dark-6;
+$dark-panel-bg: $dark-2;
+$dark-button-border: $dark-1;
+$dark-button-bg: $dark-6;
+$dark-button-bg-hover: adjust-color($dark-button-bg, $hue: 15%);
+$dark-button-fg: $dark-5;
+$dark-input-border: $dark-1;
+$dark-label: $dark-4;
+$dark-icon: $dark-7;
+$dark-tag-1: $dark-6;
+$dark-tag-2: $dark-6;
+$dark-tag-2-fg: $dark-5;
+$dark-tag-3: $dark-2;
+$dark-tag-3-fg: $dark-4;
+$dark-tag-border: $dark-1;
+$dark-aside-label: $dark-7;
+$dark-aside-link: $dark-6;
+$dark-aside-link-active-bg: $dark-3;
+$dark-aside-link-active-fg: $dark-4;
+$dark-aside-link-active-hover-fg: $dark-4;
+$dark-input-bg: $dark-4;
+$dark-input-icon: $dark-5;
+$dark-namespace-summary-fg: $dark-4;
+$dark-settings-title: $dark-7;
+$dark-settings-selected-button-bg: $dark-6;
+$dark-settings-selected-button-fg: $dark-5;
+$dark-settings-button-bg: $dark-4;
+$dark-settings-unload-button-fg: $dark-1;
+$dark-settings-unload-button-bg: $dark-10;
+$dark-settings-unload-button-bg-hover: #ff3a3a;
+$dark-modal-card-head-bg: $dark-1;
+$dark-sparkline-text: $dark-7;
+$dark-sparkline-bg: $dark-5;
+$dark-sparkline-divider: $dark-8;
+$dark-sparkline-stroke: $dark-3;
+$dark-sparkline-fill: $dark-2;
+$dark-sparkline-cursor: $dark-11;
+$dark-sparkline-spot-fill: $dark-10;
+$dark-sparkline-spot-stroke: $dark-10;
+// endregion
+
+// region === Light
+$light-1:  #E7DFD6;
+$light-2:  #CFC6BB;
+$light-3:  #706860;
+$light-4:  #0A0909;
+$light-5:  #B16286;
+$light-6:  #689D6A;
+$light-7:  #EDBD52;
+$light-8:  #CC241D;
+$light-9:  #076678;
+$light-app-bg: $light-1;
+$light-element-bg: $light-2;
+$light-title-bg: $light-1;
+$light-error-message: $light-8;
+$light-menu-link-hover: $light-4;
+$light-panel-heading-1: $light-4;
+$light-panel-heading-2: $light-1;
+$light-panel-heading-border: $light-4;
+$light-panel-fg: $light-4;
+$light-panel-tab-1: $light-4;
+$light-panel-tab-2: $light-9;
+$light-panel-tab-border: $light-4;
+$light-panel-border: $light-4;
+$light-panel-bg: $light-2;
+$light-button-border: $light-4;
+$light-button-bg: $light-6;
+$light-button-bg-hover: adjust-color($light-button-bg, $saturation: 10%);
+$light-button-fg: $light-4;
+$light-input-border: $light-4;
+$light-label: $light-4;
+$light-icon: $light-7;
+$light-tag-1: $light-9;
+$light-tag-2: $light-9;
+$light-tag-2-fg: $light-1;
+$light-tag-3: $light-2;
+$light-tag-3-fg: $light-4;
+$light-tag-border: $light-4;
+$light-aside-label: $light-4;
+$light-aside-link: $light-9;
+$light-aside-link-active-bg: $light-4;
+$light-aside-link-active-fg: $light-1;
+$light-aside-link-active-hover-fg: $light-1;
+$light-input-bg: $light-2;
+$light-input-icon: $light-3;
+$light-namespace-summary-fg: $light-4;
+$light-settings-title: $light-4;
+$light-settings-selected-button-bg: $light-6;
+$light-settings-selected-button-fg: $light-1;
+$light-settings-button-bg: $light-2;
+$light-settings-unload-button-fg: $light-4;
+$light-settings-unload-button-bg: $light-8;
+$light-settings-unload-button-bg-hover: adjust-color($light-8, $saturation: 15%);
+$light-modal-card-head-bg: $light-4;
+$light-sparkline-text: $light-4;
+$light-sparkline-bg: $light-1;
+$light-sparkline-divider: $light-4;
+$light-sparkline-stroke: $light-4;
+$light-sparkline-fill: $light-2;
+$light-sparkline-cursor: $light-9;
+$light-sparkline-spot-fill: $light-8;
+$light-sparkline-spot-stroke: $light-8;
+// endregion
+
+// Bulma customization
+$radius: 2px;
+$radius-large: 2px;
+
+@import "bulma/bulma";
+@import "tool-tips";
+
+body {
+  padding-top: 8px;
+  overflow: hidden;
+}
+
+html, body, #app {
+  height: 99vh;
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
+@mixin theme($name, $app-bg, $element-bg, $title-bg,
+             $menu-link-hover, $error-message, $panel-heading-1, $panel-heading-2, $panel-heading-border, $panel-fg, $panel-tab-1,
+             $panel-tab-2, $panel-tab-border, $panel-border, $panel-bg, $button-border, $button-bg, $button-bg-hover, $button-fg, $input-border,
+             $label, $icon, $tag-1, $tag-2, $tag-2-fg, $tag-3, $tag-3-fg, $tag-border, $aside-label, $aside-link, $aside-link-active-bg,
+             $aside-link-active-fg, $aside-link-active-hover-fg, $input-bg, $input-icon,
+             $namespace-summary-fg, $settings-title, $setting-selected-button-bg,
+             $setting-selected-button-fg, $setting-button-bg, $unload-button-fg,
+             $unload-button-bg, $unload-button-bg-hover, $modal-card-head-bg, $sparkline-text,
+             $sparkline-bg, $sparkline-divider, $sparkline-stroke, $sparkline-fill,
+             $sparkline-cursor, $sparkline-spot-fill, $sparkline-spot-stroke) {
+  .#{$name} {
+
+    body, #app {
+      background-color: $app-bg;
+    }
+
+    #alerts {
+      position: absolute;
+      width: 100%;
+      z-index: 9999;
+      bottom: 0;
+
+      .delete {
+        margin-right: 20px;
+        top: unset;
+      }
+    }
+
+    .error-message {
+      color: $error-message;
+      font-size: small;
+    }
+
+    .tag:not(body) {
+      margin-right: 5px;
+      color: $tag-border;
+      border: 1px solid $tag-border;
+      cursor: pointer;
+
+      &.is-tag-1 {
+        background-color: $tag-1;
+        color: $tag-2-fg;
+      }
+
+      &.is-tag-2 {
+        background-color: $tag-2;
+        color: $tag-2-fg;
+      }
+
+      &.is-tag-3 {
+        background-color: $tag-3;
+        color: $tag-3-fg;
+        cursor: default;
+      }
+    }
+
+    .input {
+      background: $title-bg;
+      box-shadow: none;
+      border-color: $input-border;
+    }
+
+    .default-button {
+      background: $button-bg;
+      border: 1px solid $input-border;
+      color: $button-fg;
+      &:hover {
+        transition: background-color 250ms ease-out;
+        background: $button-bg-hover;
+      }
+    }
+
+    #load-schema-inputs {
+      align-items: center;
+      display: flex;
+      height: 100%;
+      justify-content: center;
+
+      .card {
+        background: $panel-bg;
+        border: 1px solid $panel-border;
+        color: $title-bg;
+        max-width: 30%;
+        min-width: 610px;
+        padding: 10px;
+        min-height: 695px;
+      }
+
+      .panel-heading {
+        background-color: $panel-heading-1;
+        border: 1px solid $panel-heading-border;
+        color: $panel-heading-2;
+        font-weight: bold;
+      }
+
+      .panel-tabs, .panel-block {
+        border: 1px solid $panel-tab-border;
+        border-top: none;
+        a {
+          color: $panel-tab-1;
+          font-weight: bold;
+          border-bottom-color: $panel-tab-border;
+          &.is-active {
+            color: $panel-tab-2;
+            border-bottom-color: $panel-tab-2;
+          }
+        }
+      }
+
+      // region ===== Tab Transition
+      .tab-transition {
+        #file-upload, #local-server-block {
+          &.tab-fade-enter {
+            opacity: 0.01;
+          }
+
+          &.tab-fade-enter.tab-fade-enter-active {
+            opacity: 1;
+            transition: opacity 250ms ease-in;
+          }
+
+          &.tab-fade-exit {
+            display: none;
+          }
+
+          &.tab-fade-exit.tab-fade-exit-active {
+            display: none;
+          }
+        }
+      }
+      // endregion
+
+      #file-upload {
+        display: flex;
+        justify-content: center;
+
+        #file-input-cta {
+          @extend .default-button;
+        }
+      }
+
+      #local-server-block {
+        display: flex;
+        justify-content: center;
+
+        #local-server-form {
+          width: 75%;
+
+          .label {
+            color: $label;
+          }
+
+          .button {
+            @extend .default-button;
+            margin-top: 20px;
+          }
+        }
+      }
+    }
+
+    .grid-container {
+      height: 100vh;
+      display: grid;
+      grid-column-gap: 20px;
+      grid-row-gap: 15px;
+      grid-auto-rows: 1fr;
+      grid-auto-columns: 1fr;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 20% 20% 20% 20% 20%;
+
+      #entity-ns-analytic-info {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        z-index: 100;
+        i {
+          color: $namespace-summary-fg;
+          position: relative;
+          right: 10px;
+          top: 5px;
+          margin-bottom: 5px;
+        }
+        .dropdown-content {
+          background: $sparkline-bg;
+          .dropdown-divider {
+            background: $sparkline-divider;
+          }
+          p, strong {
+            color: $sparkline-text;
+          }
+          #pull-analytics-button {
+            @extend .default-button;
+          }
+        }
+        #sparkline-graph {
+          position: relative;
+
+          *[hidden] {
+            display: none;
+          }
+
+          .sparkline {
+            stroke: $sparkline-stroke;
+            fill: $sparkline-fill;
+          }
+
+          .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, .7);
+            color: #fff;
+            padding: 2px 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 9999;
+          }
+
+          .sparkline--cursor {
+            stroke: $sparkline-cursor;
+          }
+
+          .sparkline--spot {
+            fill: $sparkline-spot-fill;
+            stroke: $sparkline-spot-stroke;
+          }
+        }
+      }
+
+      #primary-nav {
+        grid-column: 1/3;
+        grid-row: 1;
+        position: relative;
+
+        #logo {
+          margin-top: 8px;
+        }
+
+        #settings-icon {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+        }
+
+        #ns-filter-input {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          input.input {
+            background: $input-bg;
+            color: #282828;
+          }
+          .icon {
+            color: $input-icon;
+          }
+        }
+      }
+
+      #aside {
+        grid-column: 1/3;
+        grid-row: 2/6;
+        margin-bottom: 1rem;
+        background: $element-bg;
+        padding: .5em 1em 0 1em;
+        overflow: auto;
+        border: 1px solid $panel-border;
+
+        a {
+          color: $aside-link;
+          font-weight: bold;
+        }
+
+        .menu-label {
+          color: $aside-label;
+          font-size: 1em;
+          font-weight: bold;
+        }
+
+        .menu-list {
+          li {
+            margin-top: .5em;
+
+            a {
+              &:hover {
+                color: $menu-link-hover;
+                background: $element-bg;
+                text-decoration: underline;
+              }
+
+              &.is-active {
+                background: $aside-link-active-bg;
+                color: $aside-link-active-fg;
+                
+                &:hover {
+                  color: $aside-link-active-hover-fg;
+                  text-decoration: none;
+                }
+              }
+            }
+          }
+
+          .shrink-grow-enter {
+            opacity: 0.01;
+            height: 0;
+          }
+
+          .shrink-grow-enter.shrink-grow-enter-active {
+            opacity: 1;
+            height: 44px;
+            transition: all 400ms ease-in;
+          }
+
+          .shrink-grow-exit {
+            opacity: 1;
+            height: 44px;
+          }
+
+          .shrink-grow-exit.shrink-grow-exit-active {
+            opacity: 0.01;
+            height: 0;
+            transition: all 400ms ease-out;
+          }
+        }
+      }
+
+      #namespace-controls {
+        grid-column: 3/13;
+        grid-row: 1;
+        background: $element-bg;
+        border: 1px solid $panel-border;
+        color: $namespace-summary-fg;
+        height: 100%;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        justify-content: stretch;
+        
+        .title {
+          color: $namespace-summary-fg;
+        }
+
+        .breadcrumb li + li::before {
+          color: $namespace-summary-fg;
+        }
+
+        #namespace-summary {
+          background: $element-bg;
+          color: $namespace-summary-fg;
+          height: 100%;
+        }
+      }
+
+      .body-panel {
+        .panel-body {
+          padding: 1.25em 1.5em;
+          background-color: $element-bg;
+          min-height: 100%;
+          border: 1px solid $panel-border;
+
+          .panel-heading {
+            border: 1px solid $panel-heading-border;
+            font-weight: bold;
+            background-color: $panel-heading-1;
+            color: $panel-heading-2;
+          }
+
+          .panel-block {
+            color: $panel-fg;
+            background-color: $element-bg;
+            border: 1px solid $panel-heading-border;
+            border-top: none;
+            font-weight: bold;
+            border-bottom-color: $panel-heading-border;
+          }
+        }
+      }
+
+      .namespace-details {
+        grid-column: 3/6;
+        grid-row: 2/6;
+        margin-bottom: 1rem;
+        overflow: auto;
+
+        .detail-icon {
+          color: $icon;
+        }
+
+        .attr-icon:nth-child(2) {
+          margin-left: 10px;
+        }
+
+        .panel-body {
+          border-bottom: none;
+        }
+
+        #detail-bottom {
+          min-height: 10%;
+          border-top: none;
+        }
+
+      }
+
+      .icon-div {
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        margin-right: 8px;
+        .chevron {
+          transition: transform 250ms ease-in;
+        }
+
+        .chevron-open {
+          transform: rotate(90deg);
+        }
+      }
+
+      .collapsible {
+        overflow: hidden;
+        transition: 250ms ease-out;
+        &.collapsed {
+          max-height: 0 !important;
+          transition: 250ms ease-in;
+        }
+      }
+
+      .relationship-graph {
+        grid-column: 6/13;
+        grid-row: 2/6;
+        margin-bottom: 1rem;
+
+        #relationship-graph-controls {
+          color: $namespace-summary-fg;
+          position: absolute;
+          z-index: 3;
+          right: 16px;
+          margin-top: 10px;
+
+          i {
+            margin-right: 10px;
+          }
+        }
+
+        .panel-body {
+          height: 100%;
+          padding: 0;
+        }
+      }
+
+      #go-diagram {
+        width: inherit;
+        height: inherit;
+
+        canvas {
+          outline: none;
+        }
+      }
+    }
+
+    #settings-modal {
+      .modal-card-head {
+        background: $modal-card-head-bg;
+      }
+
+      .modal-card-title {
+        color: $title-bg;
+      }
+
+      .modal-card-body {
+        background-color: $element-bg;
+        text-align: center;
+      }
+
+      .title {
+        color: $settings-title;
+        margin-bottom: 1rem;
+      }
+
+      .button {
+        border: 1px solid $button-border;
+        background-color: $setting-button-bg;
+        &:hover {
+          background-color: $button-bg-hover;
+          transition: all 250ms ease-in;
+        }
+      }
+
+      .settings-section {
+        margin-bottom: 2rem;
+        .field {
+          justify-content: center;
+        }
+      }
+
+      .selected-option {
+        background-color: $setting-selected-button-bg;
+        color: $setting-selected-button-fg;
+        &:hover {
+          text-decoration: none;
+          background-color: $setting-selected-button-bg;
+        }
+      }
+
+      .unload-schema-button {
+        color: $unload-button-fg;
+        background: $unload-button-bg;
+        border: 1px solid $unload-button-fg;
+        &:hover {
+          background: $unload-button-bg-hover;
+        }
+      }
+    }
+  }
+}
+
+@include theme(dark,
+               $dark-app-bg,
+               $dark-element-bg,
+               $dark-title-bg,
+               $dark-menu-link-hover,
+               $dark-error-message,
+               $dark-panel-heading-1,
+               $dark-panel-heading-2,
+               $dark-panel-heading-border,
+               $dark-panel-fg,
+               $dark-panel-tab-1,
+               $dark-panel-tab-2,
+               $dark-panel-tab-border,
+               $dark-panel-border,
+               $dark-panel-bg,
+               $dark-button-border,
+               $dark-button-bg,
+               $dark-button-bg-hover,
+               $dark-button-fg,
+               $dark-input-border,
+               $dark-label,
+               $dark-icon,
+               $dark-tag-1,
+               $dark-tag-2,
+               $dark-tag-2-fg,
+               $dark-tag-3,
+               $dark-tag-3-fg,
+               $dark-tag-border,
+               $dark-aside-label,
+               $dark-aside-link,
+               $dark-aside-link-active-bg,
+               $dark-aside-link-active-fg,
+               $dark-aside-link-active-hover-fg,
+               $dark-input-bg,
+               $dark-input-icon,
+               $dark-namespace-summary-fg,
+               $dark-settings-title,
+               $dark-settings-selected-button-bg,
+               $dark-settings-selected-button-fg,
+               $dark-settings-button-bg,
+               $dark-settings-unload-button-fg,
+               $dark-settings-unload-button-bg,
+               $dark-settings-unload-button-bg-hover,
+               $dark-modal-card-head-bg,
+               $dark-sparkline-text,
+               $dark-sparkline-bg,
+               $dark-sparkline-divider,
+               $dark-sparkline-stroke,
+               $dark-sparkline-fill,
+               $dark-sparkline-cursor,
+               $dark-sparkline-spot-fill,
+               $dark-sparkline-spot-stroke
+);
+
+@include theme(light,
+               $light-app-bg,
+               $light-element-bg,
+               $light-title-bg,
+               $light-menu-link-hover,
+               $light-error-message,
+               $light-panel-heading-1,
+               $light-panel-heading-2,
+               $light-panel-heading-border,
+               $light-panel-fg,
+               $light-panel-tab-1,
+               $light-panel-tab-2,
+               $light-panel-tab-border,
+               $light-panel-border,
+               $light-panel-bg,
+               $light-button-border,
+               $light-button-bg,
+               $light-button-bg-hover,
+               $light-button-fg,
+               $light-input-border,
+               $light-label,
+               $light-icon,
+               $light-tag-1,
+               $light-tag-2,
+               $light-tag-2-fg,
+               $light-tag-3,
+               $light-tag-3-fg,
+               $light-tag-border,
+               $light-aside-label,
+               $light-aside-link,
+               $light-aside-link-active-bg,
+               $light-aside-link-active-fg,
+               $light-aside-link-active-hover-fg,
+               $light-input-bg,
+               $light-input-icon,
+               $light-namespace-summary-fg,
+               $light-settings-title,
+               $light-settings-selected-button-bg,
+               $light-settings-selected-button-fg,
+               $light-settings-button-bg,
+               $light-settings-unload-button-fg,
+               $light-settings-unload-button-bg,
+               $light-settings-unload-button-bg-hover,
+               $light-modal-card-head-bg,
+               $light-sparkline-text,
+               $light-sparkline-bg,
+               $light-sparkline-divider,
+               $light-sparkline-stroke,
+               $light-sparkline-fill,
+               $light-sparkline-cursor,
+               $light-sparkline-spot-fill,
+               $light-sparkline-spot-stroke
+);
+
+.panel-fade-enter {
+  opacity: 0.01;
+}
+
+.panel-fade-enter.panel-fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.panel-fade-exit {
+  display: none;
+}
+
+.panel-fade-exit.panel-fade-exit-active {
+  display: none;
+}

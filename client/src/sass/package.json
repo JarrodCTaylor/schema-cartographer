@@ -1,0 +1,14 @@
+{
+  "name": "schema-cartographer",
+  "version": "0.1.0",
+  "main": "resources/public/js/compiled/app.js",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "node-sass": "^4.7.2"
+  },
+  "scripts": {
+    "css": "node-sass site.scss ../../resources/public/css/site.css",
+    "watch:css": "yarn css -w"
+  }
+}

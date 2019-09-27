@@ -1,0 +1,143 @@
+{:idents
+ {:db.schema.ident.namespace/cone-type {:namespace :db.schema.ident.namespace/cone-type
+                                        :doc "Ice cream cone options currently available in store."
+                                        :referenced-by [:db.schema.entity.namespace/sale]
+                                        :ns-idents [{:ident :cone-type/sugar
+                                                     :attribute? false
+                                                     :namespace :db.schema.ident.namespace/cone-type}
+                                                    {:ident :cone-type/cake
+                                                     :attribute? false
+                                                     :namespace :db.schema.ident.namespace/cone-type}
+                                                    {:replaced-by [:cone-type/cake]
+                                                     :ident :cone-type/gravy
+                                                     :attribute? false
+                                                     :namespace :db.schema.ident.namespace/cone-type
+                                                     :deprecated? true}
+                                                    {:ident :cone-type/waffle
+                                                     :attribute? false
+                                                     :namespace :db.schema.ident.namespace/cone-type}]}
+  :db.schema.ident.namespace/ice-cream-flavor {:namespace :db.schema.ident.namespace/ice-cream-flavor
+                                               :doc "Ice cream flavor options currently available in store."
+                                               :referenced-by [:db.schema.entity.namespace/sale]
+                                               :ns-idents [{:ident :ice-cream-flavor/vanilla
+                                                            :attribute? false
+                                                            :namespace :db.schema.ident.namespace/ice-cream-flavor}
+                                                           {:ident :ice-cream-flavor/strawberry
+                                                            :attribute? false
+                                                            :namespace :db.schema.ident.namespace/ice-cream-flavor}
+                                                           {:ident :ice-cream-flavor/chocolate
+                                                            :attribute? false
+                                                            :namespace :db.schema.ident.namespace/ice-cream-flavor}]}}
+ :entities {:db.schema.entity.namespace/licensed-retailer {:namespace :db.schema.entity.namespace/licensed-retailer
+                                                           :doc "An business who is licensed to sell our branded ice cream cones"
+                                                           :referenced-by [:db.schema.entity.namespace/sale]
+                                                           :ns-entities [{:unique :db.unique/identity
+                                                                          :ident :licensed-retailer/id
+                                                                          :attribute? true
+                                                                          :cardinality :db.cardinality/one
+                                                                          :doc "Unique id assigned to each licensed retailer"
+                                                                          :namespace :db.schema.entity.namespace/licensed-retailer
+                                                                          :value-type :db.type/uuid}
+                                                                         {:ident :licensed-retailer/address
+                                                                          :attribute? true
+                                                                          :cardinality :db.cardinality/one
+                                                                          :doc "Street address of a specific licensed retailer location"
+                                                                          :namespace :db.schema.entity.namespace/licensed-retailer
+                                                                          :value-type :db.type/string}
+                                                                         {:references-namespaces [:db.schema.entity.namespace/employee]
+                                                                          :ident :licensed-retailer/employees
+                                                                          :attribute? true
+                                                                          :cardinality :db.cardinality/many
+                                                                          :doc "Employees who may work at a given licensed retailer location"
+                                                                          :namespace :db.schema.entity.namespace/licensed-retailer
+                                                                          :value-type :db.type/ref}]}
+            :db.schema.entity.namespace/sale {:namespace :db.schema.entity.namespace/sale
+                                              :doc "An entity representing a single ice cream cone sale"
+                                              :referenced-by nil
+                                              :ns-entities [{:references-namespaces [:db.schema.entity.namespace/licensed-retailer
+                                                                                     :db.schema.entity.namespace/store]
+                                                             :ident :sale/location
+                                                             :attribute? true
+                                                             :cardinality :db.cardinality/one
+                                                             :doc "A reference to a store or licensed retailer entity"
+                                                             :namespace :db.schema.entity.namespace/sale
+                                                             :value-type :db.type/ref}
+                                                            {:unique :db.unique/identity
+                                                             :ident :sale/id
+                                                             :attribute? true
+                                                             :cardinality :db.cardinality/one
+                                                             :doc "Unique id assigned to each sale"
+                                                             :namespace :db.schema.entity.namespace/sale
+                                                             :value-type :db.type/uuid}
+                                                            {:references-namespaces [:db.schema.ident.namespace/ice-cream-flavor]
+                                                             :ident :sale/flavor
+                                                             :attribute? true
+                                                             :cardinality :db.cardinality/one
+                                                             :doc "A reference to ice-cream-flavor ident"
+                                                             :namespace :db.schema.entity.namespace/sale
+                                                             :value-type :db.type/ref}
+                                                            {:references-namespaces [:db.schema.ident.namespace/cone-type]
+                                                             :ident :sale/cone
+                                                             :attribute? true
+                                                             :cardinality :db.cardinality/one
+                                                             :doc "A reference to cone ident"
+                                                             :namespace :db.schema.entity.namespace/sale
+                                                             :value-type :db.type/ref}]}
+            :db.schema.entity.namespace/store {:namespace :db.schema.entity.namespace/store
+                                               :doc "An entity representing an individual ice cream store"
+                                               :referenced-by [:db.schema.entity.namespace/sale]
+                                               :ns-entities [{:unique :db.unique/identity
+                                                              :ident :store/id
+                                                              :attribute? true
+                                                              :cardinality :db.cardinality/one
+                                                              :doc "Unique id assigned to each store"
+                                                              :namespace :db.schema.entity.namespace/store
+                                                              :value-type :db.type/uuid}
+                                                             {:ident :store/address
+                                                              :attribute? true
+                                                              :cardinality :db.cardinality/one
+                                                              :doc "Street address of a specific store location"
+                                                              :namespace :db.schema.entity.namespace/store
+                                                              :value-type :db.type/string}
+                                                             {:is-component? true
+                                                              :references-namespaces [:db.schema.entity.namespace/employee]
+                                                              :ident :store/employees
+                                                              :attribute? true
+                                                              :cardinality :db.cardinality/many
+                                                              :doc "Employees who may work at a given store"
+                                                              :namespace :db.schema.entity.namespace/store
+                                                              :value-type :db.type/ref}
+                                                             {:attribute? true
+                                                              :cardinality :db.cardinality/one
+                                                              :doc "An id that is subject to change based on the whims of the accounting department. No history is retained."
+                                                              :ident :store/capricious-accounting-department-id
+                                                              :namespace :db.schema.entity.namespace/store
+                                                              :no-history? true
+                                                              :value-type :db.type/string}]}
+            :db.schema.entity.namespace/employee {:namespace :db.schema.entity.namespace/employee
+                                                  :doc "An entity representing an individual employee"
+                                                  :referenced-by [:db.schema.entity.namespace/store
+                                                                  :db.schema.entity.namespace/licensed-retailer]
+                                                  :attrs [:employee/first-name :employee/last-name]
+                                                  :preds ['i-am-not-real.entity-preds/valid-employee-name?]
+                                                  :ns-entities [{:ident :employee/first-name
+                                                                 :attribute? true
+                                                                 :cardinality :db.cardinality/one
+                                                                 :doc "Employee's first name"
+                                                                 :namespace :db.schema.entity.namespace/employee
+                                                                 :value-type :db.type/string}
+                                                                {:ident :employee/last-name
+                                                                 :attribute? true
+                                                                 :cardinality :db.cardinality/one
+                                                                 :doc "Employee's last name"
+                                                                 :namespace :db.schema.entity.namespace/employee
+                                                                 :value-type :db.type/string
+                                                                 :attr-preds ['i-am-not-real.attr-preds/user-name? 'i-am-not-real.attr-preds/valid-last-name?]}
+                                                                {:unique :db.unique/identity
+                                                                 :ident :employee/name
+                                                                 :attribute? true
+                                                                 :cardinality :db.cardinality/one
+                                                                 :doc "Employee's must have a unique combination of first and last names."
+                                                                 :namespace :db.schema.entity.namespace/employee
+                                                                 :value-type :db.type/tuple
+                                                                 :tuple-attrs [:employee/first-name :employee/last-name]}]}}}

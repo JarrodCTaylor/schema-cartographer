@@ -1,0 +1,11 @@
+^{:watch-dirs   ["test" "src"]
+  :css-dirs     ["resources/public/css"]
+  :auto-testing true
+  :npm {:bundles {"dist/index.bundle.js" "src/js/index.js"}}}
+
+{:main            client.core
+ :preloads        [day8.re-frame-10x.preload]
+ :optimizations   :none
+ :closure-defines {goog.DEBUG true
+                   "re_frame.trace.trace_enabled_QMARK_" true}}
+

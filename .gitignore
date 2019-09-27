@@ -1,0 +1,10 @@
+client/dist/*
+**/.cpcache/*
+**/node_modules/*
+**/yarn.lock
+**/cljs-out
+*.DS_Store
+*.css
+pom.xml
+figwheel_server.log
+*-lock.json

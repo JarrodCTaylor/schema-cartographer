@@ -1,0 +1,25 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "description": "deps for running karma tests",
+  "dependencies": {
+    "@fnando/sparkline": "^0.3.10",
+    "dayjs": "^1.8.14",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-cli": "^1.0.1",
+    "karma-cljs-test": "^0.1.0",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-transition-group": "4.2.2",
+    "webpack": "4.33.0",
+    "webpack-cli": "3.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarrodctaylor/client.git"
+  },
+  "devDependencies": {
+    "karma": "^2.0.2",
+    "webpack-cli": "^3.3.3"
+  }
+}

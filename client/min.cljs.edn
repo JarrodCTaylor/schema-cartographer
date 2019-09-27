@@ -1,0 +1,5 @@
+^{:npm {:bundles {"dist/index.bundle.js" "src/js/index.js"}}}
+{:main            client.core
+ :externs         ["externs/go.js"]
+ :optimizations   :advanced
+ :closure-defines {goog.DEBUG false}}
