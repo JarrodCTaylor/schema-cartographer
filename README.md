@@ -56,7 +56,7 @@ The annotations used by the application are:
 
 
 By adhering to a convention of assigning a `:db/ident` a value of a keyword with a namespace of `:db.schema.entity.namespace` and a name of `store`.
-We can then conclude all elements with a `:db/idnet` having a keyword with the namespace `store` will be grouped together in the application.
+We can then conclude all elements with a `:db/ident` having a keyword with the namespace `store` will be grouped together in the application.
 
 
 ``` clojure
@@ -85,7 +85,7 @@ We can then conclude all elements with a `:db/idnet` having a keyword with the n
 
 
 By adhering to a convention of assigning a `:db/ident` a value of a keyword with a namespace of `:db.schema.ident.namespace` and a name of `ice-cream-flavor`.
-We can then conclude all elements with a `:db/idnet` having a keyword with the namespace `ice-cream-flavor` will be grouped together in the application.
+We can then conclude all elements with a `:db/ident` having a keyword with the namespace `ice-cream-flavor` will be grouped together in the application.
 
 
 ``` clojure
