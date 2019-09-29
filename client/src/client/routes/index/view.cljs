@@ -91,7 +91,8 @@
                    "Pull Analytics"]]])]])))
 
 (defn namespace-summary []
-  (let [{:keys [doc label referenced-by by-way-of attrs preds]} (<sub [::route-subs/aside-selection-summary-info])]
+  (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])
+        {:keys [doc label referenced-by by-way-of attrs attrs-kw preds]} (<sub [::route-subs/aside-selection-summary-info])]
     [:div#namespace-controls
      [:> transition-group
       [:> csstransition
@@ -111,60 +112,61 @@
                                 :on-click #(>dis [::route-events/select-ns ns])} label])]
         [:div
          (when (not-empty attrs) [:span.has-text-weight-bold.title.is-5 "Required Attributes: "])
-         (for [attr attrs]
+         (for [attr (if display-as-keywords? attrs-kw attrs)]
            [:span.tag.is-tag-3 {:key attr} attr])]
         [:div
          (when (not-empty preds) [:span.has-text-weight-bold.title.is-5 "Entity Predicates: "])
          (for [attr preds]
            [:span.tag.is-tag-3 {:key attr} attr])]]]]]))
 
-(defn entity-summary [{:keys [unique is-component? ident cardinality doc value-type
+(defn entity-summary [{:keys [unique is-component? ident ident-kw cardinality doc value-type
                               deprecated? references-namespaces attr-preds tuple-attrs no-history?]}]
   (let [{:keys [collapse-details?]} (<sub [::route-subs/settings])
         component-state (r/atom {:collapsed? collapse-details?})]
     (fn [_]
-      [:nav.panel
-       [:p.panel-heading {:on-click #(do
-                                       (>dis [::route-events/set-transition-max-height])
-                                       (swap! component-state update :collapsed? not))
-                          :style {:cursor "pointer"}}
-        [:span.icon-div
-         [:i.fas.chevron {:class (str "fa-chevron-right" (when-not (:collapsed? @component-state) " chevron-open"))}]] ident
-        (when unique
-          [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Unique"} [:i.fas.fa-key.detail-icon]])
-        (when deprecated?
-          [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Deprecated"} [:i.fas.fa-skull.detail-icon]])
-        (when no-history?
-          [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "No History"} [:i.fas.fa-ban.detail-icon]])]
-       [:div.panel-details.collapsible {:class (when (:collapsed? @component-state) "collapsed")}
-        (when value-type
-          [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Type:"] value-type])
-        (when attr-preds
-          [:p.panel-block
-           [:span.has-text-weight-bold
-            {:style {:margin-right "3px"}}
-            "Attr Preds: " (for [attr attr-preds]
-                             [:span.tag.is-tag-3 {:key attr} (str attr)])]])
-        (when tuple-attrs
-          [:p.panel-block
-           [:span.has-text-weight-bold
-            {:style {:margin-right "3px"}}
-            "Tuple Attrs: " (for [attr tuple-attrs]
-                             [:span.tag.is-tag-3 {:key attr} (str attr)])]])
-        (when cardinality
-          [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Cardinality:"] cardinality])
-        (when is-component?
-          [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Is Component: True"]])
-        (when (not-empty references-namespaces)
-          [:p.panel-block
-           [:span.has-text-weight-bold
-            {:style {:margin-right "3px"}}
-            "References: " (for [{:keys [label kw]} references-namespaces]
-                             [:span.tag.is-tag-1 {:key label
-                                                  :on-click #(>dis [::route-events/select-ns-and-push-previous kw])}
-                              label])]])
-        (when doc
-          [:p.panel-block doc])]])))
+      (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])]
+        [:nav.panel
+         [:p.panel-heading {:on-click #(do
+                                         (>dis [::route-events/set-transition-max-height])
+                                         (swap! component-state update :collapsed? not))
+                            :style {:cursor "pointer"}}
+          [:span.icon-div
+           [:i.fas.chevron {:class (str "fa-chevron-right" (when-not (:collapsed? @component-state) " chevron-open"))}]] (if display-as-keywords? ident-kw ident)
+          (when unique
+            [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Unique"} [:i.fas.fa-key.detail-icon]])
+          (when deprecated?
+            [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Deprecated"} [:i.fas.fa-skull.detail-icon]])
+          (when no-history?
+            [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "No History"} [:i.fas.fa-ban.detail-icon]])]
+         [:div.panel-details.collapsible {:class (when (:collapsed? @component-state) "collapsed")}
+          (when value-type
+            [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Type:"] value-type])
+          (when attr-preds
+            [:p.panel-block
+             [:span.has-text-weight-bold
+              {:style {:margin-right "3px"}}
+              "Attr Preds: " (for [attr attr-preds]
+                               [:span.tag.is-tag-3 {:key attr} (str attr)])]])
+          (when tuple-attrs
+            [:p.panel-block
+             [:span.has-text-weight-bold
+              {:style {:margin-right "3px"}}
+              "Tuple Attrs: " (for [attr tuple-attrs]
+                                [:span.tag.is-tag-3 {:key attr} (str attr)])]])
+          (when cardinality
+            [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Cardinality:"] cardinality])
+          (when is-component?
+            [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Is Component: True"]])
+          (when (not-empty references-namespaces)
+            [:p.panel-block
+             [:span.has-text-weight-bold
+              {:style {:margin-right "3px"}}
+              "References: " (for [{:keys [label kw]} references-namespaces]
+                               [:span.tag.is-tag-1 {:key label
+                                                    :on-click #(>dis [::route-events/select-ns-and-push-previous kw])}
+                                label])]])
+          (when doc
+            [:p.panel-block doc])]]))))
 
 (defn namespace-details []
   (let [selected-ns-detail (<sub [::route-subs/aside-selection-details])
@@ -280,7 +282,7 @@
                "Get Schema"]]]]])]]]]))
 
 (defn settings-modal []
-  (let [{:keys [modal-visible? collapse-details? color-scheme]} (<sub [::route-subs/settings])]
+  (let [{:keys [modal-visible? collapse-details? display-as-keywords? color-scheme]} (<sub [::route-subs/settings])]
     [:div#settings-modal.modal {:class (when modal-visible? "is-active")}
      [:div.modal-background {:on-click #(>dis [::route-events/settings :modal-visible? false])}]
      [:div.modal-card
@@ -301,6 +303,19 @@
            {:class (when-not collapse-details? "selected-option")
             :on-click #(>dis [::route-events/settings :collapse-details? false])}
            [:span "Expanded"]]]]]
+       [:div.settings-section
+        [:h4.title.is-4 "Attribute Display Style"]
+        [:div.field.has-addons
+         [:p.control
+          [:a.button
+           {:class (when display-as-keywords? "selected-option")
+            :on-click #(>dis [::route-events/settings :display-as-keywords? true])}
+           [:span "Keyword"]]]
+         [:p.control
+          [:a.button
+           {:class (when-not display-as-keywords? "selected-option")
+            :on-click #(>dis [::route-events/settings :display-as-keywords? false])}
+           [:span "Pretty"]]]]]
        [:div.settings-section
         [:h4.title.is-4 "Color Scheme"]
         [:div.field.has-addons
