@@ -14,9 +14,10 @@
 ; region - Settings ---------------------------------------------------------------------
 (s/def ::modal-visible? boolean?)
 (s/def ::collapse-details? boolean?)
+(s/def ::display-as-keywords? boolean?)
 (s/def ::color-scheme #{"dark" "light"})
 (s/def ::background-color valid-hex-color?)
-(s/def ::settings (s/keys :req-un [::modal-visible? ::collapse-details? ::color-scheme ::background-color]))
+(s/def ::settings (s/keys :req-un [::modal-visible? ::collapse-details? ::display-as-keywords? ::color-scheme ::background-color]))
 ; endregion
 
 ; region - Analytics --------------------------------------------------------------------
@@ -77,6 +78,7 @@
 ; region = Default Index Route DB Map ===================================================
 (defonce index-db {:settings {:modal-visible? false
                               :collapse-details? true
+                              :display-as-keywords? false
                               :color-scheme "dark"
                               :background-color "#282A36"}
                    :analytics {:loading? false

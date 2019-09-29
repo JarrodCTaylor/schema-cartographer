@@ -71,6 +71,7 @@
        :sparkline-data (:sparkline-data analytics)
        :doc doc
        :attrs (->> attrs (map name) (map qualified-kebab->title))
+       :attrs-kw (->> attrs (map str))
        :preds preds
        :referenced-by (set (map (fn [ns]
                                   {:ns ns
@@ -90,6 +91,7 @@
                                  (let [idents (map (fn [attr]
                                                      (-> attr
                                                          (update :ident #(qualified-kebab->title (name %)))
+                                                         (assoc :ident-kw (-> attr :ident str))
                                                          (update :references-namespaces (fn [namespaces]
                                                                                           (map (fn [refed-ns]
                                                                                                  {:label (qualified-kebab->title (name refed-ns))
@@ -113,10 +115,13 @@
     (-> db :routes :index :diagram)))
 
 ; region ---- Node Data Arrays -------------------------------------------------
-(defn attr->node [{:keys [ident value-type unique deprecated?]}]
+(defn attr->node [display-as-keywords? {:keys [ident value-type unique deprecated?]}]
   (let [attr-type (when value-type (str ": " (str/capitalize (name value-type))))
-        unique? (= :db.unique/identity unique)]
-    (merge {:attr (str (-> ident name qualified-kebab->title) attr-type)
+        unique? (= :db.unique/identity unique)
+        attr (if display-as-keywords?
+               (str ident)
+               (-> ident name qualified-kebab->title))]
+    (merge {:attr (str attr attr-type)
             :iskey unique?
             :deprecated? deprecated?
             :figure (cond
@@ -126,14 +131,14 @@
                       :else "Empty")}
            (when unique? {:color "Yellow"}))))
 
-(defn node-data-array [{:keys [idents entities]}]
+(defn node-data-array [display-as-keywords? {:keys [idents entities]}]
   (let [make-node (fn [schema-type]
                     (fn [[k v]]
                       {:key (str (qualified-kebab->title (name k))
                                  (when (= schema-type :ns-idents) ": Idents"))
                        :items (sort-by
                                 (juxt :deprecated? (complement :iskey) :attr)
-                                (map attr->node (schema-type v)))}))
+                                (map (partial attr->node display-as-keywords?) (schema-type v)))}))
         ident-node-data (map (make-node :ns-idents) idents)
         entity-node-data (map (make-node :ns-entities) entities)]
     (sort-by :key (into ident-node-data entity-node-data))))
@@ -150,9 +155,10 @@
                                                                            (some->> ns-bucket schema selected-ns-key :ns-entities (mapcat :references-namespaces))]))
           filtered-idents (if (= :entities ns-bucket)
                             (select-keys (:idents schema) (some->> ns-bucket schema selected-ns-key :ns-entities (mapcat :references-namespaces)))
-                            (select-keys (:idents schema) [selected-ns-key]))]
+                            (select-keys (:idents schema) [selected-ns-key]))
+          display-as-keywords? (-> db :routes :index :settings :display-as-keywords?)]
       (when selected-ns-key
-        (-> {:idents filtered-idents :entities filtered-entities} node-data-array)))))
+        (node-data-array display-as-keywords? {:idents filtered-idents :entities filtered-entities})))))
 ; endregion
 
 ; region ---- Linked Data Arrays -----------------------------------------------

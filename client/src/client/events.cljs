@@ -60,7 +60,8 @@
         (assoc :cartographer-ls-database-name (get-from-ls "cartographer-ls-database-name"))
         (assoc :cartographer-ls-color-scheme (or (get-from-ls "cartographer-ls-color-scheme") "dark"))
         (assoc :cartographer-ls-background-color (or (get-from-ls "cartographer-ls-background-color") "#282A36"))
-        (assoc :cartographer-ls-collapse-details? (or (get-from-ls "cartographer-ls-collapse-details?") true)))))
+        (assoc :cartographer-ls-collapse-details? (get-from-ls "cartographer-ls-collapse-details?"))
+        (assoc :cartographer-ls-display-as-keywords? (get-from-ls "cartographer-ls-display-as-keywords?")))))
 
 
 (rf/reg-event-fx
@@ -68,14 +69,22 @@
   [(rf/inject-cofx ::local-store)
    standard-interceptors]
   (fn [{:keys [cartographer-ls-system cartographer-ls-region cartographer-ls-database-name
-               cartographer-ls-color-scheme cartographer-ls-background-color cartographer-ls-collapse-details?]} _]
+               cartographer-ls-color-scheme cartographer-ls-background-color
+               cartographer-ls-display-as-keywords? cartographer-ls-collapse-details?]} _]
     {:db (-> db/default-db
              (assoc-in [:routes :index :load-schema-form :system :value] cartographer-ls-system)
              (assoc-in [:routes :index :load-schema-form :region :value] cartographer-ls-region)
              (assoc-in [:routes :index :load-schema-form :database-name :value] cartographer-ls-database-name)
              (assoc-in [:routes :index :settings :color-scheme] cartographer-ls-color-scheme)
              (assoc-in [:routes :index :settings :background-color] cartographer-ls-background-color)
-             (assoc-in [:routes :index :settings :collapse-details?] (boolean cartographer-ls-collapse-details?)))}))
+             (assoc-in [:routes :index :settings :collapse-details?] (case cartographer-ls-collapse-details?
+                                                                       "true" true
+                                                                       "false" false
+                                                                       nil true))
+             (assoc-in [:routes :index :settings :display-as-keywords?] (case cartographer-ls-display-as-keywords?
+                                                                          "true" true
+                                                                          "false" false
+                                                                          nil false)))}))
 ; endregion
 
 ; region -- Routing ------------------------------------------------------------
