@@ -45,18 +45,9 @@
 ; endregion
 
 (rf/reg-sub
-  ::colors
+  ::graph-colors
   (fn [db _]
-    (let [color-scheme (-> db :routes :index :settings :color-scheme)]
-      (case color-scheme
-        "dark" {:color-1  "#282a36"
-                :color-2  "#44475a"
-                :color-3  "#ff79c6"
-                :color-4  "#f8f8f2"
-                :color-5  "#f1fa8c"}
-        "light" {:color-1  "#0A0909"
-                 :color-2  "#CFC6BB"
-                 :color-3  "#CC241D"
-                 :color-4  "#E7DFD6"
-                 :color-5  "#0A0909"}))))
+    (let [color-scheme (-> db :routes :index :settings :color-scheme)
+          colors (-> db :routes :index :graph-colors)]
+      (get colors color-scheme))))
 ; endregion

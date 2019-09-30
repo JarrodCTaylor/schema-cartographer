@@ -197,3 +197,25 @@
                     :on-success [::get-analytics-success]
                     :on-failure [::get-analytics-failure]}})))
 ; endregion
+
+(rf/reg-fx
+  ::download-doc
+  (fn [base64-img]
+    (let [a (.createElement js/document "a")]
+      (do (.appendChild (.-body js/document) a)
+          (set! (.-style a) "display: none")
+          (set! (.-href a) base64-img)
+          (set! (.-target a) "_self")
+          (set! (.-download a) "schema-diagram.png")
+          (.click a)
+          (.removeChild (.-body js/document) a)))))
+
+(rf/reg-event-fx
+  ::save-graph-to-file
+  (fn [{:keys [db]} _]
+    (let [diagram (-> db :routes :index :diagram :diagram)
+          color-scheme (-> db :routes :index :settings :color-scheme)
+          bg-color (-> db :routes :index :graph-colors (get color-scheme) :color-2)
+          base64-img (.makeImageData diagram (clj->js {:scale 1 :background bg-color :type "image/png"}))]
+      {::download-doc base64-img})))
+
