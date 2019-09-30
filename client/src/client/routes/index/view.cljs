@@ -195,7 +195,7 @@
 (defn relationship-graph []
   (let [node-data-array (clj->js (<sub [::route-subs/node-data-array]))
         linked-data-array (clj->js (<sub [::route-subs/linked-data-array]))
-        color-scheme (<sub [::shared-subs/colors])
+        color-scheme (<sub [::shared-subs/graph-colors])
         cmd-handler (<sub [::route-subs/graph-command-handler])]
     [:article.relationship-graph.body-panel
      [:div.panel-body
@@ -207,7 +207,9 @@
           [:i.fa.fa-2x.fa-search-plus {:on-click #(.increaseZoom cmd-handler)
                                        :style {:cursor "pointer"}}]
           [:i.fa.fa-2x.fa-arrows-alt {:on-click #(.zoomToFit cmd-handler)
-                                      :style {:cursor "pointer"}}]]
+                                      :style {:cursor "pointer"}}]
+          [:i.fa.fa-2x.fa-camera {:on-click #(>dis [::route-events/save-graph-to-file])
+                                  :style {:cursor "pointer"}}]]
          [:div#go-diagram
           ^{:key color-scheme} [gojs/diagram node-data-array linked-data-array color-scheme]]])]]))
 
