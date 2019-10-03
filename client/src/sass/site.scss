@@ -204,7 +204,6 @@ html, body, #app {
     .input {
       background: $title-bg;
       box-shadow: none;
-      border-color: $input-border;
     }
 
     .default-button {
@@ -217,6 +216,10 @@ html, body, #app {
       }
     }
 
+    .box-shodow {
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    }
+
     #load-schema-inputs {
       align-items: center;
       display: flex;
@@ -225,7 +228,6 @@ html, body, #app {
 
       .card {
         background: $panel-bg;
-        border: 1px solid $panel-border;
         color: $title-bg;
         max-width: 30%;
         min-width: 610px;
@@ -233,23 +235,26 @@ html, body, #app {
         min-height: 695px;
       }
 
-      .panel-heading {
-        background-color: $panel-heading-1;
-        border: 1px solid $panel-heading-border;
-        color: $panel-heading-2;
-        font-weight: bold;
-      }
-
-      .panel-tabs, .panel-block {
-        border: 1px solid $panel-tab-border;
-        border-top: none;
-        a {
-          color: $panel-tab-1;
+      #load-form {
+        @extend .box-shodow;
+        .panel-heading {
+          background-color: $panel-heading-1;
+          border: 1px solid $panel-heading-border;
+          color: $panel-heading-2;
           font-weight: bold;
-          border-bottom-color: $panel-tab-border;
-          &.is-active {
-            color: $panel-tab-2;
-            border-bottom-color: $panel-tab-2;
+        }
+
+        .panel-tabs, .panel-block {
+          border: none;
+          a {
+            color: $panel-tab-1;
+            font-weight: bold;
+            border-bottom: none;
+            border-bottom: 1px solid $panel-bg;
+            &.is-active {
+              color: $panel-tab-2;
+              border-bottom: 1px solid $panel-tab-2;
+            }
           }
         }
       }
@@ -327,29 +332,29 @@ html, body, #app {
           top: 5px;
           margin-bottom: 5px;
         }
-        .dropdown-content {
-          background: $sparkline-bg;
-          .dropdown-divider {
-            background: $sparkline-divider;
+        #analytic-info {
+          @extend .box-shodow;
+          .dropdown-content {
+            background: $sparkline-bg;
+            p, strong {
+              color: $sparkline-text;
+            }
+            #pull-analytics-button {
+              @extend .default-button;
+            }
           }
-          p, strong {
-            color: $sparkline-text;
-          }
-          #pull-analytics-button {
-            @extend .default-button;
-          }
+          #sparkline-graph {
+            position: relative;
+
+            *[hidden] {
+              display: none;
+            }
+
+            .sparkline {
+              stroke: $sparkline-stroke;
+              fill: $sparkline-fill;
+            }
         }
-        #sparkline-graph {
-          position: relative;
-
-          *[hidden] {
-            display: none;
-          }
-
-          .sparkline {
-            stroke: $sparkline-stroke;
-            fill: $sparkline-fill;
-          }
 
           .tooltip {
             position: absolute;
@@ -408,7 +413,6 @@ html, body, #app {
         background: $element-bg;
         padding: .5em 1em 0 1em;
         overflow: auto;
-        border: 1px solid $panel-border;
 
         a {
           color: $aside-link;
@@ -472,7 +476,6 @@ html, body, #app {
         grid-column: 3/13;
         grid-row: 1;
         background: $element-bg;
-        border: 1px solid $panel-border;
         color: $namespace-summary-fg;
         height: 100%;
         display: flex;
@@ -496,11 +499,13 @@ html, body, #app {
       }
 
       .body-panel {
+        .panel {
+          @extend .box-shodow;
+        }
         .panel-body {
           padding: 1.25em 1.5em;
           background-color: $element-bg;
           min-height: 100%;
-          border: 1px solid $panel-border;
 
           .panel-heading {
             border: 1px solid $panel-heading-border;
@@ -512,10 +517,7 @@ html, body, #app {
           .panel-block {
             color: $panel-fg;
             background-color: $element-bg;
-            border: 1px solid $panel-heading-border;
-            border-top: none;
-            font-weight: bold;
-            border-bottom-color: $panel-heading-border;
+            border: 1px solid $element-bg;
           }
         }
       }

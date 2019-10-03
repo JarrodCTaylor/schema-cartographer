@@ -78,7 +78,6 @@
                                 [:p [:strong "Count: "] entity-count]
                                 [:p [:strong "Newest: "] newest]
                                 [:p [:strong "Oldest: "] oldest]]
-                               [:hr.dropdown-divider]
                                [:div#sparkline-graph.dropdown-item
                                 [sparkline-graph sparkline-data]]]
           :else [:div.dropdown-content
@@ -249,8 +248,7 @@
         [:img {:src (case color-scheme
                       "dark" "img/dark-schema-cartographer-2.svg"
                       "light" "img/light-schema-cartographer-2.svg")}]]]
-      [:div.card-content
-       [:nav.panel
+      [:div#load-form.card-content
         [:p.panel-heading "Load Schema"]
         [:p.panel-tabs
          [:a {:class (when (= :local-server active-tab) "is-active")
@@ -281,7 +279,7 @@
                                                                          :load-schema-form
                                                                          [::route-events/get-schema]
                                                                          [::route-events/read-only false]]))}
-               "Get Schema"]]]]])]]]]))
+               "Get Schema"]]]]])]]]))
 
 (defn settings-modal []
   (let [{:keys [modal-visible? collapse-details? display-as-keywords? color-scheme]} (<sub [::route-subs/settings])]
