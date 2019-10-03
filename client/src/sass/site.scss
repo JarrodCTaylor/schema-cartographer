@@ -518,6 +518,8 @@ html, body, #app {
             color: $panel-fg;
             background-color: $element-bg;
             border: 1px solid $element-bg;
+            padding-top: 0.25em;
+            padding-bottom: 0.15em;
           }
         }
       }
