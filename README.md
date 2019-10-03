@@ -2,7 +2,7 @@
   <img src="client/resources/public/img/schema-cartographer-gh-logo.svg" alt="Nerd Fonts Logo" />
 </h1>
 
-<img width="1927" alt="application-screenshot" src="https://user-images.githubusercontent.com/4416952/65742285-2373ba00-e0b5-11e9-96d4-82a2292c1d8e.png">
+<img width="1896" alt="application-screenshot" src="https://user-images.githubusercontent.com/4416952/66171359-857c7400-e60d-11e9-8db5-8e733990df6b.png">
 
 *Schema Cartographer* provides a means to visualize and navigate the relationships that exist in your Datomic schema.
 
