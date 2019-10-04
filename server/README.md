@@ -31,7 +31,7 @@ Options:
 
 ### Example Usage
 
-clojure -m server.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" -o "ice-cream-shop-schema"
+`clojure -m server.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" -o "ice-cream-shop-schema"`
 
 The resulting schema file is saved to the `/doc` directory
 
