@@ -1,6 +1,5 @@
 (ns server.route-functions.schema.get-schema
   (:require
-    [datomic.client.api :as d]
     [server.queries :as queries]))
 
 (defn ident-namespace [value-type ident]

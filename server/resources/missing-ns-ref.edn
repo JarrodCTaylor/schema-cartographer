@@ -1,0 +1,4 @@
+[{:db/ident :employee/pieces-of-flair
+  :db/valueType {:db/ident :db.type/ref}
+  :db/cardinality {:db/ident :db.cardinality/many}
+  :db/doc "Bare minimum pieces of flair"}]

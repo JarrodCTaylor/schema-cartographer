@@ -5,6 +5,7 @@
     [clojure.pprint :as pp]
     [datomic.client.api :as d]
     [server.queries :as queries]
+    [server.annotation-audit :refer [log-schema-audit]]
     [server.route-functions.schema.get-schema :refer [schema-data]]
     [server.middleware.inject-datomic :refer [db-conn]]))
 
@@ -13,6 +14,7 @@
    ["-s" "--system SYSTEM" "Datomic cloud system name"]
    ["-d" "--db DATABASE" "Database Name"]
    ["-o" "--output FILE" "Write schema edn to FILE"]
+   ["-a" "--audit" "Audit schema annotations and log gaps. Boolean"]
    ["-h" "--help"]])
 
 (defn usage [options-summary]
@@ -37,7 +39,10 @@
 
 (defn -main [& args]
   (let [{:keys [summary]
-         {:keys [help region system db output]} :options} (parse-opts args cli-options)]
-    (if (or help (some nil? [region system db output]))
-      (println (usage summary))
-      (save-schema-edn region system db output))))
+         {:keys [help region system db output audit]} :options} (parse-opts args cli-options)]
+    (cond
+      (or help
+          (and (not audit) (nil? output))
+          (some nil? [region system db])) (println (usage summary))
+      audit (log-schema-audit region system db)
+      :else (save-schema-edn region system db output))))
