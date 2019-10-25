@@ -26,6 +26,7 @@ Options:
   -s, --system SYSTEM  Datomic cloud system name
   -d, --db DATABASE    Database Name
   -o, --output FILE    Write schema edn to FILE
+  -a, --audit          Audit schema annotations and log gaps. Boolean
   -h, --help
 ```
 
@@ -34,6 +35,12 @@ Options:
 `clojure -m server.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" -o "ice-cream-shop-schema"`
 
 The resulting schema file is saved to the `/doc` directory
+
+## Audit Schema Annotations
+
+`clojure -m server.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" --audit`
+
+The results are logged to the console.
 
 ## Running tests
 
