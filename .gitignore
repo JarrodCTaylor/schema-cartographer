@@ -8,3 +8,7 @@ client/dist/*
 pom.xml
 figwheel_server.log
 *-lock.json
+**/.shadow-cljs/*
+*.lock
+package-lock.json
+*.iml

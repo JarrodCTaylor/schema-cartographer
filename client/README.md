@@ -1,14 +1,36 @@
 # Client
 
-## Running Locally & Development
+## Development
 
-Run `clojure -Arepl script/repl.clj` and vist http://localhost:9500
+### Make sure you have shadow-cljs installed
+
+```
+npm install -g shadow-cljs
+```
+
+### Running locally
+
+* Start application `clojure -Adev`
+* App will be running at `http://localhost:9875/#/`
+* Connect to repl `9001`
+* Run `(shadow/repl :app)` from `script/repl.clj`
+
+### Run Tests
+
+``` sh
+clj -A:test
+```
+
+Then visit:
+
+`http://localhost:8021/`
+
 
 ## Sass Stylesheets (.scss)
 
 Stylesheet source files are located in `/src/sass` and are written in [Sass](http://sass-lang.com/) `.scss` syntax.
 
-Stylesheet Devlopment:
+Stylesheet Development:
 
 ``` sh
 # Install dependencies
@@ -28,16 +50,9 @@ Add necessary modules to `package.json`
 
 `$ yarn install`
 
-`$ npx webpack`
-
-### Run Tests
-
-While application is running tests are visible at:
-
-`http://localhost:9500/figwheel-extra-main/auto-testing`
-
 ### Package For Deployment
 
-- `rm -rf target/public`
-- `cd src/sass; yarn css`
-- `clojure -A:min`
+* `cd src/sass; yarn css`
+* `clojure -Amin`
+* The app will be in `resources/public/`
+

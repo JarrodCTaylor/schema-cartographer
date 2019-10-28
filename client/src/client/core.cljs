@@ -29,7 +29,7 @@
     (doto (History.)
       (gevents/listen
         EventType/NAVIGATE
-        (fn [event]
+        (fn [^js event]
           (let [uri (or (not-empty (string/replace (.-token event) #"^.*#" "")) "/")]
             (>dis [::shared-events/set-active-route (rfront/match-by-path router/routes uri)]))))
       (.setEnabled true))))
