@@ -4,6 +4,7 @@
     [clojure.string :as str]
     [re-frame.core :as rf]
     [ajax.core :as ajax]
+    [client.config :refer [api-url]]
     [client.events :as shared-events]
     [client.interceptors :refer [standard-interceptors]]))
 
@@ -74,7 +75,7 @@
                                               :cartographer-ls-region (:value region)
                                               :cartographer-ls-database-name (:value database-name)}
        :http-xhrio {:method :get
-                    :uri "http://localhost:9876/api/v1/schema"
+                    :uri (str api-url "schema")
                     :headers {"system"  (:value system)
                               "region"  (:value region)
                               "db-name" (:value database-name)}
@@ -186,7 +187,7 @@
           random-ident (->> entities selected-ns :ns-entities (remove :deprecated?) first :ident str)]
       {:db (assoc-in db [:routes :index :analytics :loading?] true)
        :http-xhrio {:method :get
-                    :uri "http://localhost:9876/api/v1/analytics"
+                    :uri (str api-url "analytics")
                     :headers {"system" (:value system)
                               "region" (:value region)
                               "db-name" (:value database-name)}

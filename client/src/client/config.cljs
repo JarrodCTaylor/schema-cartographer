@@ -5,3 +5,5 @@
 
 ;; All other `goog-define` use the following syntax:
 (goog-define alert-timeout-ms 3000)
+
+(def api-url "http://localhost:9876/api/v1/")
