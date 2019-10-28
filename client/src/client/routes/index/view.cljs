@@ -1,7 +1,6 @@
 (ns client.routes.index.view
   (:require
-    [transition-group]
-    [csstransition]
+    ["react-transition-group" :refer (CSSTransition TransitionGroup)]
     [reagent.core :as r]
     [clojure.edn :as edn]
     [client.components.gojs :as gojs]
@@ -35,10 +34,10 @@
   (let [selected-ns (<sub [::route-subs/aside-selection])]
     [:<>
      [:p.menu-label section-label]
-     [:> transition-group {:component "ul" :class "menu-list"}
+     [:> TransitionGroup {:component "ul" :class "menu-list"}
       (for [{:keys [label ns]} namespaces]
         ^{:key label}
-        [:> csstransition {:classNames "shrink-grow" :timeout 350}
+        [:> CSSTransition {:classNames "shrink-grow" :timeout 350}
          [:li
           [:a {:class (when (= selected-ns ns) "is-active")
                :on-click #(>dis [::route-events/select-ns ns])} label]]])]]))
@@ -55,7 +54,7 @@
   (>dis [::route-events/init-sparkline data])
   [:<>
    [:svg.sparkline {:width "150" :height "40" :stroke-width "3"}]
-   [:span.tooltip {:hidden "true"}]])
+   [:span.tooltip {:hidden true}]])
 
 (defn entity-ns-analytic-info []
   (let [entity-selected? (<sub [::route-subs/entity-selected?])
@@ -93,8 +92,8 @@
   (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])
         {:keys [doc label referenced-by by-way-of attrs attrs-kw preds]} (<sub [::route-subs/aside-selection-summary-info])]
     [:div#namespace-controls
-     [:> transition-group
-      [:> csstransition
+     [:> TransitionGroup
+      [:> CSSTransition
        {:key label :classNames "panel-fade" :timeout 250}
        [:div#namespace-summary.notification
         [:div#by-way-of-breadcrumbs
@@ -174,16 +173,16 @@
     [:article.namespace-details.body-panel
      [:div.panel-body
       (if entities
-        [:> transition-group
+        [:> TransitionGroup
          (for [{:keys [namespace ident] :as entity} entities]
            ^{:key (str namespace ident)}
-           [:> csstransition
+           [:> CSSTransition
             {:classNames "panel-fade" :timeout 250}
             [entity-summary entity]])]
-        [:> transition-group
+        [:> TransitionGroup
          (for [{:keys [ident namespace doc deprecated?]} idents]
            ^{:key (str namespace ident)}
-           [:> csstransition
+           [:> CSSTransition
             {:classNames "panel-fade" :timeout 250}
             [:nav.panel
              [:p.panel-heading ident (when deprecated?
@@ -195,7 +194,7 @@
   (let [node-data-array (clj->js (<sub [::route-subs/node-data-array]))
         linked-data-array (clj->js (<sub [::route-subs/linked-data-array]))
         color-scheme (<sub [::shared-subs/graph-colors])
-        cmd-handler (<sub [::route-subs/graph-command-handler])]
+        ^js cmd-handler (<sub [::route-subs/graph-command-handler])]
     [:article.relationship-graph.body-panel
      [:div.panel-body
       (when node-data-array
@@ -258,13 +257,13 @@
               :on-click #(>dis [::route-events/switch-load-schema-tab :file])}
           "File"]]
         (if (= :file active-tab)
-          [:> transition-group {:class "tab-transition"}
-           [:> csstransition
+          [:> TransitionGroup {:class "tab-transition"}
+           [:> CSSTransition
             {:key "from-file" :classNames "tab-fade" :timeout 250}
             [:div#file-upload.panel-block
              [load-schema-file-input read-schema-load-and-dispatch]]]]
-          [:> transition-group {:class "tab-transition"}
-           [:> csstransition
+          [:> TransitionGroup {:class "tab-transition"}
+           [:> CSSTransition
             {:key "from-server" :classNames "tab-fade" :timeout 250}
             [:div#local-server-block.panel-block
              [:form#local-server-form
@@ -343,8 +342,8 @@
         read-only? (<sub [::route-subs/read-only?])]
     (if schema-loaded?
       [:div.grid-container
-       (when-not read-only? [entity-ns-analytic-info])
        [settings-modal]
+       (when-not read-only? [entity-ns-analytic-info])
        [primary-nav]
        [left-aside]
        [namespace-summary]

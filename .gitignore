@@ -1,4 +1,6 @@
 client/dist/*
+client/resources/public/js/compiled/*
+client/resources/public/js/test/*
 **/.cpcache/*
 **/node_modules/*
 **/yarn.lock
@@ -8,3 +10,7 @@ client/dist/*
 pom.xml
 figwheel_server.log
 *-lock.json
+**/.shadow-cljs/*
+*.lock
+package-lock.json
+*.iml

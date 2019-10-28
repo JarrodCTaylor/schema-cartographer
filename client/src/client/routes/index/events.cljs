@@ -1,12 +1,11 @@
 (ns client.routes.index.events
   (:require
-    [sparkline]
+    ["@fnando/sparkline/dist/sparkline.commonjs2" :refer (sparkline)]
     [clojure.string :as str]
     [re-frame.core :as rf]
     [ajax.core :as ajax]
     [client.events :as shared-events]
     [client.interceptors :refer [standard-interceptors]]))
-
 
 (rf/reg-fx
   ::set-transition-height
@@ -147,7 +146,7 @@
 
 (rf/reg-fx
   ::init-sparkline-fx
-  (fn [data]
+  (fn [^js data]
     (let [svg (.querySelector js/document ".sparkline")
           data (if (= 1 (count data)) ;; At least two data points must be present for the graph to render
                  (into data data)
@@ -213,7 +212,7 @@
 (rf/reg-event-fx
   ::save-graph-to-file
   (fn [{:keys [db]} _]
-    (let [diagram (-> db :routes :index :diagram :diagram)
+    (let [^js diagram (-> db :routes :index :diagram :diagram)
           color-scheme (-> db :routes :index :settings :color-scheme)
           bg-color (-> db :routes :index :graph-colors (get color-scheme) :color-2)
           base64-img (.makeImageData diagram (clj->js {:scale 1 :background bg-color :type "image/png"}))]

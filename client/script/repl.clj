@@ -1,5 +1,4 @@
 (ns repl
-    (:require [figwheel.main.api]))
+  (:require [shadow.cljs.devtools.api :as shadow]))
 
-(figwheel.main.api/start {:mode :serve} "dev")
-(figwheel.main.api/cljs-repl "dev")
+(shadow/repl :app)
