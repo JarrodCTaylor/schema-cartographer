@@ -11,205 +11,215 @@
     [client.components.validated-input :as validated-input]
     [client.routes.index.events :as route-events]))
 
-(defn primary-nav []
-  (let [aside-filter (<sub [::route-subs/aside-filter])
-        {:keys [color-scheme]} (<sub [::route-subs/settings])]
-    [:div#primary-nav
-     [:div#logo [:img {:src (if (= "dark" color-scheme)
-                              "img/dark-schema-cartographer-1.svg"
-                              "img/light-schema-cartographer-1.svg")}]]
-     [:i#settings-icon.fa.fa-2x.fa-cog.is-pulled-right {:style {:cursor "pointer"}
-                                                        :on-click #(do
-                                                                     (>dis [::route-events/hide-analytic-info])
-                                                                     (>dis [::route-events/settings :modal-visible? true]))}]
-     [:div#ns-filter-input.control.has-icons-left
-      [:input.input {:type "text  "
-                     :placeholder "Filter"
-                     :value aside-filter
-                     :on-change #(>dis [::route-events/update-aside-filter (-> % .-target .-value)])}]
-      [:span.icon.is-small.is-left
-       [:i.fas.fa-filter]]]]))
+(defn nav []
+  (let [{:keys [color-scheme]} (<sub [::route-subs/settings])]
+    [:nav
+     [:a.logo {:href "/"}
+      [:img {:src (if (= "dark" color-scheme)
+                    "img/dark-nav-logo.svg"
+                    "img/light-nav-logo.svg") :height "56"}]]
+     [:ul.nav-links
+      [:li.nav-link [:a {:on-click #(>dis [::route-events/settings :modal-visible? true])} "Options"]]]]))
 
-(defn aside-section [section-label namespaces]
-  (let [selected-ns (<sub [::route-subs/aside-selection])]
+(defn breadcrumbs []
+  (let [{:keys [by-way-of]} (<sub [::route-subs/aside-selection-summary-info])]
+    [:div#by-way-of-breadcrumbs
+     [:ul
+      (for [{:keys [ns label]} by-way-of]
+        [:li {:key ns} [:a {:on-click #(>dis [::route-events/select-breadcrumb-ns ns])} label]])]]))
+
+(defn graph-actions
+  []
+  (let [^js cmd-handler (<sub [::route-subs/graph-command-handler])
+        selected-ns (<sub [::route-subs/selected-ns])
+        {:keys [color-scheme]} (<sub [::route-subs/settings])]
+    (when selected-ns
+      [:div#graph-actions
+       [:img {:src (if (= "dark" color-scheme) "img/zoom-in-dark.svg" "img/zoom-in-light.svg")
+              :on-click #(.increaseZoom cmd-handler)}]
+       [:img {:src (if (= "dark" color-scheme) "img/zoom-out-dark.svg" "img/zoom-out-light.svg")
+              :on-click #(.decreaseZoom cmd-handler)}]
+       [:img {:src (if (= "dark" color-scheme) "img/size-to-fit-dark.svg" "img/size-to-fit-light.svg")
+              :on-click #(.zoomToFit cmd-handler)}]
+       [:img {:src (if (= "dark" color-scheme) "img/screenshot-dark.svg" "img/screenshot-light.svg")
+              :on-click #(>dis [::route-events/save-graph-to-file])}]])))
+
+(defn secondary-nav []
+  [:div.secondary-nav
+   [breadcrumbs]
+   [graph-actions]])
+
+(defn namespace-option [section-label namespaces]
+  (let [selected-ns (<sub [::route-subs/selected-ns])]
     [:<>
      [:p.menu-label section-label]
      [:> TransitionGroup {:component "ul" :class "menu-list"}
       (for [{:keys [label ns]} namespaces]
         ^{:key label}
         [:> CSSTransition {:classNames "shrink-grow" :timeout 350}
-         [:li
-          [:a {:class (when (= selected-ns ns) "is-active")
-               :on-click #(>dis [::route-events/select-ns ns])} label]]])]]))
+         [:li {:class (when (= selected-ns ns) "is-active")
+               :on-click #(>dis [::route-events/select-ns ns])}
+          [:span.label label]]])]]))
 
-(defn left-aside []
-  (let [{:keys [entities idents]} (<sub [::route-subs/nav-schema])]
-    [:aside#aside
-     [:nav.menu
-      [:div#aside-body
-       [aside-section "Entities" entities]
-       [aside-section "Idents" idents]]]]))
+(defn namespace-tab []
+  (let [aside-filter (<sub [::route-subs/aside-filter])
+        {:keys [color-scheme]} (<sub [::route-subs/settings])
+        {:keys [entities idents]} (<sub [::route-subs/nav-schema])]
+    [:div#namespace-tab
+     [:div#ns-filter-input
+      [:i.icon [:img {:src (if (= "dark" color-scheme) "img/filter-dark.svg" "img/filter-light.svg")}]]
+      [:input.filter-input {:type "text"
+                            :value aside-filter
+                            :on-change #(>dis [::route-events/update-aside-filter (-> % .-target .-value)])}]]
+     [:div.namespaces
+      [namespace-option "ENTITIES" entities]
+      [namespace-option "IDENTS" idents]]]))
 
-(defn sparkline-graph [data]
-  (>dis [::route-events/init-sparkline data])
-  [:<>
-   [:svg.sparkline {:width "150" :height "40" :stroke-width "3"}]
-   [:span.tooltip {:hidden true}]])
-
-(defn entity-ns-analytic-info []
-  (let [entity-selected? (<sub [::route-subs/entity-selected?])
-        visible? (<sub [::route-subs/analytic-info-visible?])
-        loading? (<sub [::route-subs/analytics-loading?])
-        {:keys [entity-count oldest newest sparkline-data]} (<sub [::route-subs/analytic-info])]
-    (when entity-selected?
-      [:div#entity-ns-analytic-info.dropdown.is-right {:class (when visible? "is-active")}
-       [:div.dropdown-trigger
-        [:i#info-icon.fa.fa-2x.fa-info-circle.is-pulled-right {:on-click #(>dis [::route-events/toggle-analytic-info-visible])
-                                                               :style {:cursor "pointer"}
-                                                               :aria-haspopup "true" :aria-controls "analytic-info"}]]
-       [:div#analytic-info.dropdown-menu {:role "menu"}
-        (cond
-          (= entity-count 0) [:div.dropdown-content
-                              [:div.dropdown-item
-                               [:p [:strong "None Exist"]]]]
-          (>= entity-count 1) [:div.dropdown-content
-                               [:div.dropdown-item
-                                [:p [:strong "Count: "] entity-count]
-                                [:p [:strong "Newest: "] newest]
-                                [:p [:strong "Oldest: "] oldest]]
-                               [:div#sparkline-graph.dropdown-item
-                                [sparkline-graph sparkline-data]]]
-          :else [:div.dropdown-content
-                 [:div.dropdown-item
-                  [:button.button.is-medium.is-fullwidth {:id "pull-analytics-button"
-                                                          :class (when loading? "is-loading")
-                                                          :on-click (fn [evt]
-                                                                      (.preventDefault evt)
-                                                                      (>dis [::route-events/get-analytic-info]))}
-                   "Pull Analytics"]]])]])))
-
-(defn namespace-summary []
+(defn namespace-details-tab []
   (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])
-        {:keys [doc label referenced-by by-way-of attrs attrs-kw preds]} (<sub [::route-subs/aside-selection-summary-info])]
-    [:div#namespace-controls
+        {:keys [doc label referenced-by attrs attrs-kw preds]} (<sub [::route-subs/aside-selection-summary-info])]
+    [:div#namespace-details-tab
      [:> TransitionGroup
       [:> CSSTransition
        {:key label :classNames "panel-fade" :timeout 250}
-       [:div#namespace-summary.notification
-        [:div#by-way-of-breadcrumbs
-         [:nav.breadcrumb.has-succeeds-separator {:aria-label "breadcrumbs"}
-          [:ul
-           (for [{:keys [ns label]} by-way-of]
-             [:li {:key ns} [:a {:on-click #(>dis [::route-events/select-breadcrumb-ns ns])} label]])]]]
-        [:div
-         [:div [:span.title.is-2 label (when doc ": ")] [:span.is-size-5 doc]]]
-        [:div
-         (when (not-empty referenced-by) [:span.has-text-weight-bold.title.is-5 "Referenced By: "])
-         (for [{:keys [ns label]} referenced-by]
-           [:span.tag.is-tag-2 {:key ns
-                                :on-click #(>dis [::route-events/select-ns ns])} label])]
-        [:div
-         (when (not-empty attrs) [:span.has-text-weight-bold.title.is-5 "Required Attributes: "])
-         (for [attr (if display-as-keywords? attrs-kw attrs)]
-           [:span.tag.is-tag-3 {:key attr} attr])]
-        [:div
-         (when (not-empty preds) [:span.has-text-weight-bold.title.is-5 "Entity Predicates: "])
-         (for [attr preds]
-           [:span.tag.is-tag-3 {:key attr} attr])]]]]]))
+       [:div#namespace-summary
+        [:div [:span#namespace-label label]]
+        (when doc
+          [:div.inset
+           [:h4 "Description"]
+           [:p.inset doc]])
+        (when (not-empty referenced-by)
+          [:div.inset
+           [:h4 "Referenced By"]
+           [:ul
+            (for [{:keys [ns label]} referenced-by]
+              [:li.link {:key ns
+                         :on-click #(>dis [::route-events/select-ns ns])} label])]])
+        (when (not-empty attrs)
+          [:div.inset
+           [:h4 "Required Attributes"]
+           [:ul
+            (for [attr (if display-as-keywords? attrs-kw attrs)]
+              [:li {:key attr} attr])]])
+        (when (not-empty preds)
+          [:div.inset
+           [:h4 "Entity Predicates"]
+           [:ul
+            (for [attr preds]
+              [:li {:key attr} attr])]])]]]]))
 
-(defn entity-summary [{:keys [unique is-component? ident ident-kw cardinality doc value-type
-                              deprecated? references-namespaces attr-preds tuple-attrs no-history?]}]
+(defn entity-card [{:keys [unique is-component? ident ident-kw cardinality doc value-type
+                           deprecated? references-namespaces attr-preds tuple-attrs no-history?]}]
   (let [{:keys [collapse-details?]} (<sub [::route-subs/settings])
         component-state (r/atom {:collapsed? collapse-details?})]
     (fn [_]
       (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])]
-        [:nav.panel
-         [:p.panel-heading {:on-click #(do
-                                         (>dis [::route-events/set-transition-max-height])
-                                         (swap! component-state update :collapsed? not))
-                            :style {:cursor "pointer"}}
+        [:div.entity-card
+         [:div.entity-heading {:on-click #(do
+                                            (>dis [::route-events/set-transition-max-height])
+                                            (swap! component-state update :collapsed? not))
+                               :style {:cursor "pointer"}}
           [:span.icon-div
-           [:i.fas.chevron {:class (str "fa-chevron-right" (when-not (:collapsed? @component-state) " chevron-open"))}]] (if display-as-keywords? ident-kw ident)
+           [:img.chevron {:class (when-not (:collapsed? @component-state) " chevron-open")
+                          :src "img/chevron-right-dark.svg"
+                          :style {:height "18px" :width "18px"}}]]
+          [:span.ns-name (if display-as-keywords? ident-kw ident)]
           (when unique
-            [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Unique"} [:i.fas.fa-key.detail-icon]])
+            [:span.attr-icon {:data-tooltip-left true :data-tooltip-content "Unique"} [:img {:src "img/key.svg"}]])
           (when deprecated?
-            [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Deprecated"} [:i.fas.fa-skull.detail-icon]])
+            [:span.attr-icon {:data-tooltip-left true :data-tooltip-content "Deprecated"} [:img {:src "img/skull-dark.svg"}]])
           (when no-history?
-            [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "No History"} [:i.fas.fa-ban.detail-icon]])]
-         [:div.panel-details.collapsible {:class (when (:collapsed? @component-state) "collapsed")}
+            [:span.attr-icon {:data-tooltip-left true :data-tooltip-content "No History"} [:img {:src "img/no-history-dark.svg"}]])]
+         [:div.card-details.inset.collapsible {:class (when (:collapsed? @component-state) "collapsed")}
           (when value-type
-            [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Type:"] value-type])
+            [:div [:span.heading "Type: "] value-type])
           (when attr-preds
-            [:p.panel-block
-             [:span.has-text-weight-bold
-              {:style {:margin-right "3px"}}
-              "Attr Preds: " (for [attr attr-preds]
-                               [:span.tag.is-tag-3 {:key attr} (str attr)])]])
+            [:div
+             [:span.heading "Attr Preds: "]
+             [:ul
+              (for [attr attr-preds]
+                [:li {:key attr} (str attr)])]])
           (when tuple-attrs
-            [:p.panel-block
-             [:span.has-text-weight-bold
-              {:style {:margin-right "3px"}}
-              "Tuple Attrs: " (for [attr tuple-attrs]
-                                [:span.tag.is-tag-3 {:key attr} (str attr)])]])
+            [:div
+             [:span.heading "Tuple Attrs: "]
+             [:ul
+              (for [attr tuple-attrs]
+                [:li {:key attr} (str attr)])]])
           (when cardinality
-            [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Cardinality:"] cardinality])
+            [:div [:span.heading "Cardinality: "] cardinality])
           (when is-component?
-            [:p.panel-block [:span.has-text-weight-bold {:style {:margin-right "3px"}} "Is Component: True"]])
+            [:div [:span.heading "Is Component: "] "True"])
           (when (not-empty references-namespaces)
-            [:p.panel-block
-             [:span.has-text-weight-bold
-              {:style {:margin-right "3px"}}
-              "References: " (for [{:keys [label kw]} references-namespaces]
-                               [:span.tag.is-tag-1 {:key label
-                                                    :on-click #(>dis [::route-events/select-ns-and-push-previous kw])}
-                                label])]])
+            [:div
+             [:span.heading "References: "]
+             [:ul
+              (for [{:keys [label kw]} references-namespaces]
+                [:li.link {:key label
+                           :on-click #(>dis [::route-events/select-ns-and-push-previous kw])}
+                 label])]])
           (when doc
-            [:p.panel-block doc])]]))))
+            [:div
+             [:span.heading "Description: "]
+             [:div doc]])]]))))
 
-(defn namespace-details []
+(defn ident-card [{:keys [ident ident-kw deprecated? doc]}]
+  (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])]
+    [:div.ident-card
+     [:div.ident-heading
+      [:span.ident-name (if display-as-keywords? ident-kw ident)]
+      (when deprecated?
+        [:span.attr-icon {:data-tooltip-left true :data-tooltip-content "Deprecated"} [:img {:src "img/skull-dark.svg"}]])]
+     (when doc
+       [:div
+        [:span
+         {:style {:font-weight "bold" :margin-right "3px"}}
+         "Description: "]
+        [:div doc]])]))
+
+(defn idents-tab []
   (let [selected-ns-detail (<sub [::route-subs/aside-selection-details])
         idents (:ns-idents selected-ns-detail)
         entities (:ns-entities selected-ns-detail)]
-    [:article.namespace-details.body-panel
-     [:div.panel-body
-      (if entities
-        [:> TransitionGroup
-         (for [{:keys [namespace ident] :as entity} entities]
-           ^{:key (str namespace ident)}
-           [:> CSSTransition
-            {:classNames "panel-fade" :timeout 250}
-            [entity-summary entity]])]
-        [:> TransitionGroup
-         (for [{:keys [ident namespace doc deprecated?]} idents]
-           ^{:key (str namespace ident)}
-           [:> CSSTransition
-            {:classNames "panel-fade" :timeout 250}
-            [:nav.panel
-             [:p.panel-heading ident (when deprecated?
-                                       [:span.attr-icon.is-pulled-right {:data-tooltip-top true :data-tooltip-content "Deprecated"} [:i.fas.fa-skull.detail-icon]])]
-             (when doc [:p.panel-block doc])]])])]
-     [:div#detail-bottom.panel-body]]))
+    [:div#idents-tab
+     (if entities
+       [:> TransitionGroup
+        (for [{:keys [namespace ident] :as entity} entities]
+          ^{:key (str namespace ident)}
+          [:> CSSTransition
+           {:classNames "panel-fade" :timeout 250}
+           [entity-card entity]])]
+       [:> TransitionGroup
+        (for [ident idents]
+          ^{:key (str namespace ident)}
+          [:> CSSTransition
+           {:classNames "panel-fade" :timeout 250}
+           [ident-card ident]])])]))
 
-(defn relationship-graph []
+(defn left-panel []
+  (let [active-tab (<sub [::route-subs/left-panel-active-tab])
+        tab (fn [tab-kw tab-name] [:div.tab {:class (when (= active-tab tab-kw) "active")
+                              :on-click #(>dis [::route-events/set-left-panel-active-tab tab-kw])}
+                    [:span tab-name]])]
+    [:div.left-panel
+     [:div.tabs
+      [tab :ns "Namespaces"]
+      [tab :ns-details "NS Details"]
+      [tab :idents "Idents"]]
+     [:div.panel-contents
+      (case active-tab
+        :ns [namespace-tab]
+        :ns-details [namespace-details-tab]
+        :idents [idents-tab])]]))
+
+(defn right-panel []
   (let [node-data-array (clj->js (<sub [::route-subs/node-data-array]))
         linked-data-array (clj->js (<sub [::route-subs/linked-data-array]))
-        color-scheme (<sub [::shared-subs/graph-colors])
-        ^js cmd-handler (<sub [::route-subs/graph-command-handler])]
-    [:article.relationship-graph.body-panel
+        color-scheme (<sub [::shared-subs/graph-colors])]
+    [:div.right-panel.body-panel
      [:div.panel-body
       (when node-data-array
-        [:<>
-         [:div#relationship-graph-controls.is-pulled-right
-          [:i.fa.fa-2x.fa-search-minus {:on-click #(.decreaseZoom cmd-handler)
-                                        :style {:cursor "pointer"}}]
-          [:i.fa.fa-2x.fa-search-plus {:on-click #(.increaseZoom cmd-handler)
-                                       :style {:cursor "pointer"}}]
-          [:i.fa.fa-2x.fa-arrows-alt {:on-click #(.zoomToFit cmd-handler)
-                                      :style {:cursor "pointer"}}]
-          [:i.fa.fa-2x.fa-camera {:on-click #(>dis [::route-events/save-graph-to-file])
-                                  :style {:cursor "pointer"}}]]
-         [:div#go-diagram
-          ^{:key color-scheme} [gojs/diagram node-data-array linked-data-array color-scheme]]])]]))
+        [:div#go-diagram
+         ^{:key color-scheme} [gojs/diagram node-data-array linked-data-array color-scheme]])]]))
 
 (defn read-schema-load-and-dispatch [file-contents]
   (let [schema (-> file-contents
@@ -233,120 +243,82 @@
                       (set! (.-onload reader) #(on-load-event %))
                       (.readAsText reader file)
                       (>dis [::route-events/read-only true])))}]
-     [:span#file-input-cta.file-cta.button.is-medium
-      [:span.file-icon [:i.fas.fa-upload]]
-      [:span.file-label "Select File"]]]]])
+     [:span#load-schema-btn.button
+      [:span "Load Schema File"]]]]])
 
-(defn load-schema-inputs []
-  (let [active-tab (<sub [::route-subs/load-schema-active-tab])
-        {:keys [color-scheme]} (<sub [::route-subs/settings])]
-    [:div#load-schema-inputs
-     [:div.card.is-centered
-      [:div.card-image
-       [:figure
-        [:img {:src (case color-scheme
-                      "dark" "img/dark-schema-cartographer-2.svg"
-                      "light" "img/light-schema-cartographer-2.svg")}]]]
-      [:div#load-form.card-content
-        [:p.panel-heading "Load Schema"]
-        [:p.panel-tabs
-         [:a {:class (when (= :local-server active-tab) "is-active")
-              :on-click #(>dis [::route-events/switch-load-schema-tab :local-server])}
-          "Local Server"]
-         [:a {:class (when (= :file active-tab) "is-active")
-              :on-click #(>dis [::route-events/switch-load-schema-tab :file])}
-          "File"]]
-        (if (= :file active-tab)
-          [:> TransitionGroup {:class "tab-transition"}
-           [:> CSSTransition
-            {:key "from-file" :classNames "tab-fade" :timeout 250}
-            [:div#file-upload.panel-block
-             [load-schema-file-input read-schema-load-and-dispatch]]]]
-          [:> TransitionGroup {:class "tab-transition"}
-           [:> CSSTransition
-            {:key "from-server" :classNames "tab-fade" :timeout 250}
-            [:div#local-server-block.panel-block
-             [:form#local-server-form
-              [validated-input/text {:label "System" :route :index :form :load-schema-form :field :system}]
-              [validated-input/text {:label "Region" :route :index :form :load-schema-form :field :region}]
-              [validated-input/text {:label "Database Name" :route :index :form :load-schema-form :field :database-name}]
-              [:button.button.is-medium.is-fullwidth {:type "submit"
-                                                      :on-click (fn [evt]
-                                                                  (.preventDefault evt)
-                                                                  (>dis [::shared-events/submit-if-form-valid
-                                                                         :index
-                                                                         :load-schema-form
-                                                                         [::route-events/get-schema]
-                                                                         [::route-events/read-only false]]))}
-               "Get Schema"]]]]])]]]))
+(defn load-schema []
+  [:div#load-schema
+   [load-schema-file-input read-schema-load-and-dispatch]])
 
-(defn settings-modal []
+(defn options-modal []
   (let [{:keys [modal-visible? collapse-details? display-as-keywords? color-scheme]} (<sub [::route-subs/settings])]
-    [:div#settings-modal.modal {:class (when modal-visible? "is-active")}
-     [:div.modal-background {:on-click #(>dis [::route-events/settings :modal-visible? false])}]
-     [:div.modal-card
-      [:header.modal-card-head
-       [:p.modal-card-title "Settings"]
-       [:button.delete {:on-click #(>dis [::route-events/settings :modal-visible? false])}]]
-      [:section.modal-card-body
-       [:div.settings-section
-        [:h4.title.is-4 "Namespace Details Default State"]
-        [:div.field.has-addons
-         [:p.control
-          [:a.button
-           {:class (when collapse-details? "selected-option")
-            :on-click #(>dis [::route-events/settings :collapse-details? true])}
-           [:span "Collapsed"]]]
-         [:p.control
-          [:a.button
-           {:class (when-not collapse-details? "selected-option")
-            :on-click #(>dis [::route-events/settings :collapse-details? false])}
-           [:span "Expanded"]]]]]
-       [:div.settings-section
-        [:h4.title.is-4 "Attribute Display Style"]
-        [:div.field.has-addons
-         [:p.control
-          [:a.button
+    [:div.modal-overlay {:class (when modal-visible? "is-visible")}
+     [:div.modal
+      [:div.modal-header
+       [:h4 "Options"]
+       [:img {:src (if (= "dark" color-scheme)
+                     "img/modal-close-dark.svg"
+                     "img/modal-close-light.svg")
+              :height "24"
+              :on-click #(>dis [::route-events/settings :modal-visible? false])}]]
+      [:div.modal-body
+
+       [:div.setting
+        [:h4.title "Namespace Details Default State"]
+        [:div.split-select
+         [:div.left
+          {:class (when collapse-details? "selected-option")
+           :on-click #(>dis [::route-events/settings :collapse-details? true])}
+          [:span "Collapsed"]]
+         [:div.right
+          {:class (when-not collapse-details? "selected-option")
+           :on-click #(>dis [::route-events/settings :collapse-details? false])}
+          [:span "Expanded"]]]]
+
+       [:div.setting
+        [:h4.title "Attribute Display Style"]
+        [:div.split-select
+          [:div.left
            {:class (when display-as-keywords? "selected-option")
             :on-click #(>dis [::route-events/settings :display-as-keywords? true])}
-           [:span "Keyword"]]]
-         [:p.control
-          [:a.button
+           [:span "Keyword"]]
+          [:div.right
            {:class (when-not display-as-keywords? "selected-option")
             :on-click #(>dis [::route-events/settings :display-as-keywords? false])}
-           [:span "Pretty"]]]]]
-       [:div.settings-section
-        [:h4.title.is-4 "Color Scheme"]
-        [:div.field.has-addons
-         [:p.control
-          [:a.button
-           {:class (when (= "dark" color-scheme) "selected-option")
-            :on-click #(do
-                         (>dis [::route-events/settings :color-scheme "dark"])
-                         (>dis [::route-events/settings :background-color "#282A36"]))}
-           [:span "Dark"]]]
-         [:p.control
-          [:a.button
-           {:class (when (= "light" color-scheme) "selected-option")
-            :on-click #(do
-                         (>dis [::route-events/settings :color-scheme "light"])
-                         (>dis [::route-events/settings :background-color "#282828"]))}
-           [:span "Light"]]]]]
-       [:div.settings-section
-        [:h4.title.is-4 "Unload Schema"]
-        [:button.button.is-danger.unload-schema-button {:on-click #(>dis [::route-events/unload-schema])}
+           [:span "Pretty"]]]]
+
+       [:div.setting
+        [:h4.title "Color Scheme"]
+        [:div.split-select
+         [:div.left
+          {:class (when (= "dark" color-scheme) "selected-option")
+           :on-click #(do
+                        (>dis [::route-events/settings :color-scheme "dark"])
+                        (>dis [::route-events/settings :background-color "#282A36"]))}
+          [:span "Dark"]]
+         [:div.right
+          {:class (when (= "light" color-scheme) "selected-option")
+           :on-click #(do
+                        (>dis [::route-events/settings :color-scheme "light"])
+                        (>dis [::route-events/settings :background-color "#282828"]))}
+          [:span "Light"]]]]
+
+       [:div.setting
+        [:h4.title "Unload Schema"]
+        [:button#unload-btn.button {:on-click #(>dis [::route-events/unload-schema])}
          "Unload Schema"]]]]]))
 
 (defn template []
   (let [schema-loaded? (<sub [::route-subs/schema-loaded?])
         read-only? (<sub [::route-subs/read-only?])]
-    (if schema-loaded?
-      [:div.grid-container
-       [settings-modal]
-       (when-not read-only? [entity-ns-analytic-info])
-       [primary-nav]
-       [left-aside]
-       [namespace-summary]
-       [namespace-details]
-       [relationship-graph]]
-      [load-schema-inputs])))
+    [:div
+     [options-modal]
+     [nav]
+     (if schema-loaded?
+       [:<>
+        [secondary-nav]
+        [:div.content-grid
+         [left-panel]
+         [right-panel]]
+        [:div [:h3 "Footer"]]]
+       [load-schema])]))

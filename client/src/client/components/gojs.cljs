@@ -23,7 +23,9 @@
 
 (defn diagram [node-data-array linked-data-array {:keys [color-1 color-2 color-3 color-4 color-5]}]
   (r/create-class
-    {:reagent-render (fn [] [:div#diagramDiv {:style {:width "inherit" :height "inherit" :background-color color-2}}])
+    {:reagent-render (fn [] [:div#diagramDiv {:style {:width "inherit"
+                                                      :height "inherit"
+                                                      :background-color color-2}}])
      :component-did-mount (fn [this]
                             (let [the-diagram (make-graph-obj (.-Diagram js/go)
                                                               "diagramDiv"
@@ -39,10 +41,11 @@
                                                                 (make-graph-obj (.-Shape js/go)
                                                                                 (clj->js {:desiredSize (js/go.Size. 15 15)})
                                                                                 (js/go.Binding. "figure" "figure")
-                                                                                (js/go.Binding. "fill" "color"))
+                                                                                (js/go.Binding. "fill" "color")
+                                                                                (js/go.Binding. "stroke" "color"))
                                                                 (make-graph-obj (.-TextBlock js/go)
-                                                                                (clj->js {:stroke "#333333"
-                                                                                          :font "bold 14px sans-serif"})
+                                                                                (clj->js {:stroke "#464B52"
+                                                                                          :font "normal 14px Avenir Next, sans-serif"})
                                                                                 (js/go.Binding. "text" "attr")))]
                               (set! (.-nodeTemplate ^js/go.Diagram the-diagram)
                                     (make-graph-obj (.-Node js/go)
@@ -86,7 +89,7 @@
                                                                                     "Vertical"
                                                                                     (clj->js {:name "LIST"
                                                                                               :row 1
-                                                                                              :padding 10
+                                                                                              :padding 5
                                                                                               :background color-4
                                                                                               :alignment (.. js/go -Spot -TopLeft)
                                                                                               :defaultAlignment (.. js/go -Spot -Left)
@@ -108,7 +111,7 @@
                                                                                                 ;; From label
                                                                                                 (make-graph-obj (.-TextBlock js/go)
                                                                                                                 (clj->js {:textAlign "center",
-                                                                                                                          :font "bold 14px sans-serif",
+                                                                                                                          :font "normal 14px Avenir Next, sans-serif",
                                                                                                                           :stroke color-3,
                                                                                                                           :segmentIndex 0,
                                                                                                                           :segmentOffset (js/go.Point. js/NaN js/NaN)
@@ -117,7 +120,7 @@
                                                                                                 ;; To label
                                                                                                 (make-graph-obj (.-TextBlock js/go)
                                                                                                                 (clj->js {:textAlign "center",
-                                                                                                                          :font "bold 14px sans-serif",
+                                                                                                                          :font "normal 14px Avenir Next, sans-serif",
                                                                                                                           :stroke color-3
                                                                                                                           :segmentIndex -1,
                                                                                                                           :segmentOffset (js/go.Point. js/NaN js/NaN),

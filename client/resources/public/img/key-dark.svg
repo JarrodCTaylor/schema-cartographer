@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="18px" viewBox="0 0 15 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>key</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="32" y="151" width="449" height="850"></rect>
+        <filter x="-0.1%" y="-0.1%" width="100.4%" height="100.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+        <polygon id="path-3" points="47 182 466 182 466 407 47 407"></polygon>
+        <filter x="-0.1%" y="-0.2%" width="100.5%" height="100.9%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feComposite in="shadowOffsetOuter1" in2="SourceAlpha" operator="out" result="shadowOffsetOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+        <path d="M15.651,4.4082 C15.2028,1.7541 12.7818,-0.018 10.242,0.45 C7.7031,0.918 5.5602,2.9601 6.0075,5.6133 C6.1038,6.1848 6.3711,7.0794 6.687,7.7211 L2.0754,14.6034 C1.9062,14.8572 1.809,15.3144 1.8603,15.6195 L2.1564,17.3754 C2.2077,17.6805 2.4885,17.8857 2.7801,17.8317 L4.131,17.5824 C4.4235,17.5284 4.7934,17.2719 4.9545,17.0118 L6.7779,14.0625 L6.7932,14.0436 L8.028,13.8159 L10.1574,10.3599 C10.8576,10.4832 11.862,10.4418 12.4551,10.332 C14.9967,9.8649 16.0992,7.0623 15.651,4.4082 L15.651,4.4082 Z M13.4019,5.769 C12.7035,6.8112 11.9907,6.0759 10.9926,5.346 C9.9954,4.6161 9.0909,4.167 9.7893,3.1257 C10.4877,2.0826 11.8629,1.8297 12.8601,2.5596 C13.8573,3.2886 14.1003,4.7259 13.4019,5.769 L13.4019,5.769 Z" id="path-5"></path>
+    </defs>
+    <g id="Page-1-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Idents-(Dark)" transform="translate(-425.000000, -193.000000)">
+            <g id="key" transform="translate(424.000000, 193.000000)">
+                <mask id="mask-6" fill="white">
+                    <use xlink:href="#path-5"></use>
+                </mask>
+                <use id="Mask" fill="#464B52" fill-rule="evenodd" xlink:href="#path-5"></use>
+                <g id="_COLORS/black" mask="url(#mask-6)" fill="#464B52" fill-rule="evenodd">
+                    <rect x="0" y="0" width="18" height="18"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
