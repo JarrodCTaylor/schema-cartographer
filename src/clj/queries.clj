@@ -1,4 +1,4 @@
-(ns server.queries
+(ns clj.queries
   (:require
     [datomic.client.api :as d]))
 

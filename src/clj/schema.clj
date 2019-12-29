@@ -1,6 +1,4 @@
-(ns server.route-functions.schema.get-schema
-  (:require
-    [server.queries :as queries]))
+(ns clj.schema)
 
 (defn ident-namespace [value-type ident]
   (cond
@@ -55,7 +53,7 @@
            (when (= e-attrs ns) {:attrs (:db.entity/attrs entity-attrs)})
            (when (= e-preds ns) {:preds (:db.entity/preds entity-preds)}))))
 
-(defn schema-data [raw-schema]
+(defn data-map [raw-schema]
   (let [formatted-schema (map format-schema-attr (remove :db.schema/validates-namespace raw-schema))
         referenced-by-map (ns-referenced-by formatted-schema)
         entity-attrs (first (filter :db.entity/preds raw-schema))
@@ -69,8 +67,3 @@
             {:idents {} :entities {}}
             (vals grouped-by-namespace))))
 
-(defn response [{{:keys [db]} :datomic}]
-     (let [raw-schema (queries/schema db)
-           schema-data (schema-data raw-schema)]
-       {:status 200
-        :body {:schema schema-data}}))

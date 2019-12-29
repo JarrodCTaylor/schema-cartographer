@@ -1,6 +1,6 @@
-(ns server.unit.annotation-audit-test
+(ns clj.unit.annotation-audit-test
   (:require
-    [server.annotation-audit :as sut]
+    [clj.annotation-audit :as sut]
     [clojure.java.io :as io]
     [clojure.edn :as edn]
     [clojure.test :refer [deftest testing is]]))

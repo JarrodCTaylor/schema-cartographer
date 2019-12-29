@@ -1,10 +1,9 @@
-(ns server.annotation-audit
+(ns clj.annotation-audit
   (:require
     [clojure.pprint :refer [pprint]]
     [clojure.set :as set]
     [datomic.client.api :as d]
-    [server.middleware.inject-datomic :refer [db-conn]]
-    [server.queries :as query]))
+    [clj.queries :as query]))
 
 (defn get-schema
   "Lives as a stand alone function to allow redef'ing in tests"
@@ -34,9 +33,8 @@
     {:unannotated-idents unannotated-idents
      :missing-ns-refs missing-ns-refs}))
 
-(defn log-schema-audit [region system db-name]
-  (let [conn (db-conn region system db-name)
-        {:keys [unannotated-idents missing-ns-refs]} (audit-schema conn)]
+(defn log-schema-audit [conn]
+  (let [{:keys [unannotated-idents missing-ns-refs]} (audit-schema conn)]
     (if (some not-empty [unannotated-idents missing-ns-refs])
       (do
         (println "\n=== Gaps In Annotations ===")
