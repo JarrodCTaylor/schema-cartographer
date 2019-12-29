@@ -29,7 +29,6 @@
     {:db (-> db
              (assoc-in [:routes :index :currently-selected-ns] ns)
              (assoc-in [:routes :index :previously-selected-ns] []))
-     :dispatch [::hide-analytic-info]
      ::set-transition-height []}))
 
 (rf/reg-event-fx
@@ -57,6 +56,11 @@
   [standard-interceptors]
   (fn [db [_ filter-str]]
     (assoc-in db [:routes :index :aside-filter] filter-str)))
+
+(rf/reg-event-db
+  ::set-left-panel-active-tab
+  (fn [db [_ tab]]
+    (assoc-in db [:routes :index :left-panel-active-tab] tab)))
 
 ; region = Get/Load Schema =====================================================
 

@@ -69,9 +69,10 @@
 (s/def ::previously-selected-ns (s/coll-of keyword?))
 (s/def ::read-only? boolean?)
 (s/def ::active-tab keyword?)
+(s/def ::left-panel-active-tab keyword?)
 (s/def ::load-schema-tabs (s/keys :req-un [::active-tab]))
 (s/def ::load-schema-form ::specs/form)
-(s/def ::index-db (s/keys :req-un [::settings ::analytics ::aside-filter ::currently-selected-ns
+(s/def ::index-db (s/keys :req-un [::settings ::analytics ::aside-filter ::currently-selected-ns ::left-panel-active-tab
                                    ::previously-selected-ns ::read-only? ::load-schema-tabs ::load-schema-form ::schema]))
 ; endregion
 
@@ -80,23 +81,25 @@
                               :collapse-details? true
                               :display-as-keywords? false
                               :color-scheme "dark"
-                              :background-color "#282A36"}
+                              :background-color "#464B52"}
                    :analytics {:loading? false
                                :visible? false}
                    :aside-filter ""
+                   :left-panel-active-tab :ns
                    :currently-selected-ns nil
                    :previously-selected-ns []
                    :schema {}
-                   :graph-colors {"dark" {:color-1  "#282a36"
-                                          :color-2  "#44475a"
-                                          :color-3  "#ff79c6"
-                                          :color-4  "#f8f8f2"
-                                          :color-5  "#f1fa8c"}
-                                  "light" {:color-1  "#0A0909"
-                                           :color-2  "#CFC6BB"
-                                           :color-3  "#CC241D"
-                                           :color-4  "#E7DFD6"
-                                           :color-5  "#0A0909"}}
+                   :graph-colors {"dark" {:color-1  "#464B52" ; Header and Margin Background
+                                          :color-2  "#5E646E" ; Graph Background
+                                          :color-3  "#BBC0C7" ; Text along arrow
+                                          :color-4  "#BBC0C7" ; Box background
+                                          :color-5  "#BBC0C7" ; Arrow Color
+                                          }
+                                  "light" {:color-1  "#464B52"
+                                           :color-2  "#EDF2F7"
+                                           :color-3  "#464B52"
+                                           :color-4  "#FFFFFF"
+                                           :color-5  "#464B52"}}
                    :read-only? false
                    :load-schema-tabs {:active-tab :local-server}
                    :load-schema-form {:system (helper/empty-form-field {:error-message "You must provide a system"

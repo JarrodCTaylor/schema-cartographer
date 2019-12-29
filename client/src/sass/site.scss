@@ -1,773 +1,573 @@
+// -- Fonts
+@import url('https://fonts.googleapis.com/css?family=Crimson+Text&display=swap');
+
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(font/AvenirNextLTPro-Regular.otf) format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avenir Next';
+  src: url(font/AvenirNextLTPro-Bold.otf) format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 // --- Color Themes
 // region === Dark Theme
-$dark-1:  #282a36;
-$dark-2:  #44475a;
-$dark-3:  #6272a4;
-$dark-4:  #f8f8f2;
-$dark-5:  #33363E;
-$dark-6:  #8be9fd;
-$dark-7:  #50fa7b;
-$dark-8:  #ffb86c;
-$dark-9:  #ff79c6;
-$dark-10: #ff5555;
-$dark-11: #f1fa8c;
-$dark-app-bg: $dark-1;
-$dark-element-bg: $dark-2;
-$dark-title-bg: $dark-4;
-$dark-error-message: $dark-10;
-$dark-menu-link-hover: $dark-9;
-$dark-panel-heading-1: $dark-5;
-$dark-panel-heading-2: $dark-7;
-$dark-panel-heading-border: $dark-1;
-$dark-panel-fg: $dark-4;
-$dark-panel-tab-1: $dark-4;
-$dark-panel-tab-2: $dark-8;
-$dark-panel-tab-border: $dark-1;
-$dark-panel-border: $dark-6;
-$dark-panel-bg: $dark-2;
-$dark-button-border: $dark-1;
-$dark-button-bg: $dark-6;
-$dark-button-bg-hover: adjust-color($dark-button-bg, $hue: 15%);
-$dark-button-fg: $dark-5;
-$dark-input-border: $dark-1;
-$dark-label: $dark-4;
-$dark-icon: $dark-7;
-$dark-tag-1: $dark-6;
-$dark-tag-2: $dark-6;
-$dark-tag-2-fg: $dark-5;
-$dark-tag-3: $dark-2;
-$dark-tag-3-fg: $dark-4;
-$dark-tag-border: $dark-1;
-$dark-aside-label: $dark-7;
-$dark-aside-link: $dark-6;
-$dark-aside-link-active-bg: $dark-3;
-$dark-aside-link-active-fg: $dark-4;
-$dark-aside-link-active-hover-fg: $dark-4;
-$dark-input-bg: $dark-4;
-$dark-input-icon: $dark-5;
-$dark-namespace-summary-fg: $dark-4;
-$dark-settings-title: $dark-7;
-$dark-settings-selected-button-bg: $dark-6;
-$dark-settings-selected-button-fg: $dark-5;
-$dark-settings-button-bg: $dark-4;
-$dark-settings-unload-button-fg: $dark-1;
-$dark-settings-unload-button-bg: $dark-10;
-$dark-settings-unload-button-bg-hover: #ff3a3a;
-$dark-modal-card-head-bg: $dark-1;
-$dark-sparkline-text: $dark-7;
-$dark-sparkline-bg: $dark-5;
-$dark-sparkline-divider: $dark-8;
-$dark-sparkline-stroke: $dark-3;
-$dark-sparkline-fill: $dark-2;
-$dark-sparkline-cursor: $dark-11;
-$dark-sparkline-spot-fill: $dark-10;
-$dark-sparkline-spot-stroke: $dark-10;
+$dark-1:  #464B52;
+$dark-2:  #5E646E;
+$dark-3:  #BBC0C7;
+$dark-4:  #535861;
+$dark-5:  #494A4D;
+$dark-6:  #5192ED;
+$dark-7:  #BBC0C7;
+$dark-8:  #5E646E;
+$dark-9:  #BBC0C7;
+$dark-10: #535861;
+$dark-11: #464B52;
+$dark-12: #BBC0C7;
 // endregion
 
 // region === Light
-$light-1:  #E7DFD6;
-$light-2:  #CFC6BB;
-$light-3:  #706860;
-$light-4:  #0A0909;
-$light-5:  #B16286;
-$light-6:  #689D6A;
-$light-7:  #EDBD52;
-$light-8:  #CC241D;
-$light-9:  #076678;
-$light-app-bg: $light-1;
-$light-element-bg: $light-2;
-$light-title-bg: $light-1;
-$light-error-message: $light-8;
-$light-menu-link-hover: $light-4;
-$light-panel-heading-1: $light-4;
-$light-panel-heading-2: $light-1;
-$light-panel-heading-border: $light-4;
-$light-panel-fg: $light-4;
-$light-panel-tab-1: $light-4;
-$light-panel-tab-2: $light-9;
-$light-panel-tab-border: $light-4;
-$light-panel-border: $light-4;
-$light-panel-bg: $light-2;
-$light-button-border: $light-4;
-$light-button-bg: $light-6;
-$light-button-bg-hover: adjust-color($light-button-bg, $saturation: 10%);
-$light-button-fg: $light-4;
-$light-input-border: $light-4;
-$light-label: $light-4;
-$light-icon: $light-7;
-$light-tag-1: $light-9;
-$light-tag-2: $light-9;
-$light-tag-2-fg: $light-1;
-$light-tag-3: $light-2;
-$light-tag-3-fg: $light-4;
-$light-tag-border: $light-4;
-$light-aside-label: $light-4;
-$light-aside-link: $light-9;
-$light-aside-link-active-bg: $light-4;
-$light-aside-link-active-fg: $light-1;
-$light-aside-link-active-hover-fg: $light-1;
-$light-input-bg: $light-2;
-$light-input-icon: $light-3;
-$light-namespace-summary-fg: $light-4;
-$light-settings-title: $light-4;
-$light-settings-selected-button-bg: $light-6;
-$light-settings-selected-button-fg: $light-1;
-$light-settings-button-bg: $light-2;
-$light-settings-unload-button-fg: $light-4;
-$light-settings-unload-button-bg: $light-8;
-$light-settings-unload-button-bg-hover: adjust-color($light-8, $saturation: 15%);
-$light-modal-card-head-bg: $light-4;
-$light-sparkline-text: $light-4;
-$light-sparkline-bg: $light-1;
-$light-sparkline-divider: $light-4;
-$light-sparkline-stroke: $light-4;
-$light-sparkline-fill: $light-2;
-$light-sparkline-cursor: $light-9;
-$light-sparkline-spot-fill: $light-8;
-$light-sparkline-spot-stroke: $light-8;
+$light-1:  #D0D5DB;
+$light-2:  #464B52;
+$light-3:  #D0D5DB;
+$light-4:  #FFFFFF;
+$light-5:  #D0D5DB;
+$light-6:  #09469C;
+$light-7:  #464B52;
+$light-8:  #EDF2F7;
+$light-9:  #464B52;
+$light-10: #DFE3E8;
+$light-11: #464B52;
+$light-12: #FFFFFF;
 // endregion
 
-// Bulma customization
-$radius: 2px;
-$radius-large: 2px;
-
-@import "bulma/bulma";
+// Imports
+@import "forms";
+@import "buttons";
 @import "tool-tips";
 
 body {
-  padding-top: 8px;
+  margin: 0;
   overflow: hidden;
 }
 
 html, body, #app {
-  height: 99vh;
-  margin-left: .25rem;
-  margin-right: .25rem;
 }
 
-@mixin theme($name, $app-bg, $element-bg, $title-bg,
-             $menu-link-hover, $error-message, $panel-heading-1, $panel-heading-2, $panel-heading-border, $panel-fg, $panel-tab-1,
-             $panel-tab-2, $panel-tab-border, $panel-border, $panel-bg, $button-border, $button-bg, $button-bg-hover, $button-fg, $input-border,
-             $label, $icon, $tag-1, $tag-2, $tag-2-fg, $tag-3, $tag-3-fg, $tag-border, $aside-label, $aside-link, $aside-link-active-bg,
-             $aside-link-active-fg, $aside-link-active-hover-fg, $input-bg, $input-icon,
-             $namespace-summary-fg, $settings-title, $setting-selected-button-bg,
-             $setting-selected-button-fg, $setting-button-bg, $unload-button-fg,
-             $unload-button-bg, $unload-button-bg-hover, $modal-card-head-bg, $sparkline-text,
-             $sparkline-bg, $sparkline-divider, $sparkline-stroke, $sparkline-fill,
-             $sparkline-cursor, $sparkline-spot-fill, $sparkline-spot-stroke) {
+@mixin theme($name, $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8, $color9, $color10, $color11, $color12) {
   .#{$name} {
 
     body, #app {
-      background-color: $app-bg;
+      background-color: $color1;
+      font-family: "Avenir Next", sans-serif;
     }
 
-    #alerts {
-      position: absolute;
-      width: 100%;
-      z-index: 9999;
-      bottom: 0;
-
-      .delete {
-        margin-right: 20px;
-        top: unset;
-      }
+    h4 {
+      font-size: 16px;
     }
 
-    .error-message {
-      color: $error-message;
-      font-size: small;
+    .button {
+      @include btn($color8, $color7)
     }
 
-    .tag:not(body) {
-      margin-right: 5px;
-      color: $tag-border;
-      border: 1px solid $tag-border;
-      cursor: pointer;
-
-      &.is-tag-1 {
-        background-color: $tag-1;
-        color: $tag-2-fg;
-      }
-
-      &.is-tag-2 {
-        background-color: $tag-2;
-        color: $tag-2-fg;
-      }
-
-      &.is-tag-3 {
-        background-color: $tag-3;
-        color: $tag-3-fg;
-        cursor: default;
-      }
-    }
-
-    .input {
-      background: $title-bg;
-      box-shadow: none;
-    }
-
-    .default-button {
-      background: $button-bg;
-      border: 1px solid $input-border;
-      color: $button-fg;
-      &:hover {
-        transition: background-color 250ms ease-out;
-        background: $button-bg-hover;
-      }
-    }
-
-    .box-shodow {
-      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    }
-
-    #load-schema-inputs {
+    nav {
       align-items: center;
       display: flex;
-      height: 100%;
-      justify-content: center;
-
-      .card {
-        background: $panel-bg;
-        color: $title-bg;
-        max-width: 30%;
-        min-width: 610px;
-        padding: 10px;
-        min-height: 695px;
+      justify-content: space-between;
+      background-color: $color2;
+      height: 60px;
+      padding-left: 32px;
+      letter-spacing: 0.02em;
+      padding-right: 32px;
+      font-family: "Crimson Text", serif;
+      .logo {
+        display: inline-block;
+        margin-top: 4px;
       }
-
-      #load-form {
-        @extend .box-shodow;
-        .panel-heading {
-          background-color: $panel-heading-1;
-          border: 1px solid $panel-heading-border;
-          color: $panel-heading-2;
-          font-weight: bold;
-        }
-
-        .panel-tabs, .panel-block {
-          border: none;
+      .nav-links {
+        list-style: none;
+        display: flex;
+        .nav-link {
           a {
-            color: $panel-tab-1;
-            font-weight: bold;
-            border-bottom: none;
-            border-bottom: 1px solid $panel-bg;
-            &.is-active {
-              color: $panel-tab-2;
-              border-bottom: 1px solid $panel-tab-2;
+            display: inline-block;
+            padding: 8px 25px;
+            text-decoration: none;
+            color: $color3;
+            font-size: 18px;
+            &:hover {
+              color: lighten($color3, 30%);
+              text-decoration: underline;
+              cursor: pointer;
             }
-          }
-        }
-      }
-
-      // region ===== Tab Transition
-      .tab-transition {
-        #file-upload, #local-server-block {
-          &.tab-fade-enter {
-            opacity: 0.01;
-          }
-
-          &.tab-fade-enter.tab-fade-enter-active {
-            opacity: 1;
-            transition: opacity 250ms ease-in;
-          }
-
-          &.tab-fade-exit {
-            display: none;
-          }
-
-          &.tab-fade-exit.tab-fade-exit-active {
-            display: none;
-          }
-        }
-      }
-      // endregion
-
-      #file-upload {
-        display: flex;
-        justify-content: center;
-
-        #file-input-cta {
-          @extend .default-button;
-        }
-      }
-
-      #local-server-block {
-        display: flex;
-        justify-content: center;
-
-        #local-server-form {
-          width: 75%;
-
-          .label {
-            color: $label;
-          }
-
-          .button {
-            @extend .default-button;
-            margin-top: 20px;
           }
         }
       }
     }
 
-    .grid-container {
-      height: 100vh;
-      display: grid;
-      grid-column-gap: 20px;
-      grid-row-gap: 15px;
-      grid-auto-rows: 1fr;
-      grid-auto-columns: 1fr;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: 20% 20% 20% 20% 20%;
-
-      #entity-ns-analytic-info {
-        position: absolute;
-        right: 15px;
-        top: 10px;
-        z-index: 39;
-        i {
-          color: $namespace-summary-fg;
-          position: relative;
-          right: 10px;
-          top: 5px;
-          margin-bottom: 5px;
-        }
-        #analytic-info {
-          @extend .box-shodow;
-          .dropdown-content {
-            background: $sparkline-bg;
-            p, strong {
-              color: $sparkline-text;
+    .secondary-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: $color7;
+      margin-left: 32px;
+      margin-right: 32px;
+      height: 50px;
+      img {
+        margin-left: 15px;
+      }
+      #by-way-of-breadcrumbs {
+        ul {
+          padding: 0;
+          align-items: flex-start;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+          list-style: none;
+          li {
+            &:hover {
+              cursor: pointer;
+              text-decoration: underline;
             }
-            #pull-analytics-button {
-              @extend .default-button;
+            &::after {
+              content: "\0227B";
+              display: inline-block;
+              margin: 0 .6em;
             }
-          }
-          #sparkline-graph {
-            position: relative;
-
-            *[hidden] {
+            &:last-of-type {
+              font-weight: bold;
+            }
+            &:last-of-type::after {
               display: none;
             }
+          }
+        }
+      }
+      #graph-actions {
+        img {
+          cursor: pointer;
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
 
-            .sparkline {
-              stroke: $sparkline-stroke;
-              fill: $sparkline-fill;
+    .content-grid {
+      height: calc(100vh - 130px); // This is less the height of the other elements (nav & secondary nav)
+      margin-left: 32px;
+      margin-right: 32px;
+      display: grid;
+      grid-column-gap: 20px;
+      grid-auto-columns: 1fr;
+      grid-template-columns: 1fr 3fr;
+      .left-panel {
+        background: $color8;
+        letter-spacing: 0.02em;
+        color: $color9;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 1px 1px 0 0 rgba(0,0,0,0.50);
+        .tabs {
+          display: flex;
+          align-items: center;
+          flex-direction: row;
+          .tab {
+            flex-grow: 1;
+            font-size: 17px;
+            height: 50px;
+            background: $color10;
+            border-bottom: 1px solid $color5;
+            border-left: 1px solid $color5;
+            border-right: 1px solid $color5;
+            border-top: 2px solid $color10;
+            display: flex;
+            align-items: center;
+            span {
+              left: 15px;
+              position: relative;
             }
-        }
-
-          .tooltip {
-            position: absolute;
-            background: rgba(0, 0, 0, .7);
-            color: #fff;
-            padding: 2px 5px;
-            font-size: 12px;
-            white-space: nowrap;
-            z-index: 9999;
-          }
-
-          .sparkline--cursor {
-            stroke: $sparkline-cursor;
-          }
-
-          .sparkline--spot {
-            fill: $sparkline-spot-fill;
-            stroke: $sparkline-spot-stroke;
+            &.active {
+              background: $color8;
+              font-weight: bold;
+              border: none;
+              border-top: 3px solid $color9;
+            }
           }
         }
-      }
-
-      #primary-nav {
-        grid-column: 1/3;
-        grid-row: 1;
-        position: relative;
-
-        #logo {
-          margin-top: 8px;
-        }
-
-        #settings-icon {
-          position: absolute;
-          top: 5px;
-          right: 5px;
-        }
-
-        #ns-filter-input {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          input.input {
-            background: $input-bg;
-            color: #282828;
-          }
-          .icon {
-            color: $input-icon;
-          }
-        }
-      }
-
-      #aside {
-        grid-column: 1/3;
-        grid-row: 2/6;
-        margin-bottom: 1rem;
-        background: $element-bg;
-        padding: .5em 1em 0 1em;
-        overflow: auto;
-
-        a {
-          color: $aside-link;
-          font-weight: bold;
-        }
-
-        .menu-label {
-          color: $aside-label;
-          font-size: 1em;
-          font-weight: bold;
-        }
-
-        .menu-list {
-          li {
-            margin-top: .5em;
-
-            a {
-              &:hover {
-                color: $menu-link-hover;
-                background: $element-bg;
-                text-decoration: underline;
+        .panel-contents {
+          padding-left: 15px;
+          padding-right: 15px;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+          #namespace-tab {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            #ns-filter-input {
+              .icon {
+                position: absolute;
+                padding: 40px;
+                padding-bottom: 0;
+                margin-top: -1px;
+                left: 15px;
+                width: 22px;
+                height: 22px;
               }
-
-              &.is-active {
-                background: $aside-link-active-bg;
-                color: $aside-link-active-fg;
-                
-                &:hover {
-                  color: $aside-link-active-hover-fg;
-                  text-decoration: none;
+              .filter-input {
+                background: $color4;
+                border: 1px solid rgba(62,62,62,0.30);
+                box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+                color: $color7;
+                font-size: 14px;
+                width: 100%;
+                margin-top: 30px;
+                margin-bottom: 10px;
+                padding-left: 35px;
+              }
+            }
+            .namespaces {
+              overflow-y: auto;
+              .menu-label {
+                font-size: 16px;
+                font-weight: bold;
+                letter-spacing: 0.075em;
+              }
+              ul {
+                list-style: none;
+                margin-left: -40px;
+                li {
+                  // margin-bottom: 18px;
+                  height: 34px;
+                  font-size: 16px;
+                  padding-left: 10px;
+                  display: flex;
+                  align-items: center;
+                  &.is-active {
+                    background: $color11;
+                    font-weight: bold;
+                    color: $color12;
+                  }
+                  .label {
+                    &:hover {
+                      cursor: pointer;
+                    }
+                  }
+                }
+                .shrink-grow-enter {
+                  opacity: 0.01;
+                  height: 0;
+                }
+                .shrink-grow-enter.shrink-grow-enter-active {
+                  opacity: 1;
+                  height: 44px;
+                  transition: all 400ms ease-in;
+                }
+                .shrink-grow-exit {
+                  opacity: 1;
+                  height: 44px;
+                }
+                .shrink-grow-exit.shrink-grow-exit-active {
+                  opacity: 0.01;
+                  height: 0;
+                  transition: all 400ms ease-out;
                 }
               }
             }
           }
+          #namespace-details-tab {
+            .inset {
+              padding-left: 7px;
+            }
+            #namespace-summary {
+              font-size: 16px;
+              margin-top: 25px;
+              h4 {
+                margin-bottom: 5px;
+              }
+              p {
+                margin-top: 5px;
+              }
+              ul {
+                list-style: none;
+                margin-left: -30px;
+                margin-top: 5px;
+              }
+              li {
+                margin-bottom: 5px;
+              }
+              li::before {
+                content: "•";
+                color: $color3;
+                display: inline-block;
+                width: 15px;
+              }
+              .link {
+                color: $color6;
+                text-decoration: underline;
+                &:hover {
+                  cursor: pointer;
+                }
+              }
+              #namespace-label {
+                font-weight: bold;
+                font-size: 17px;
+              }
+            }
 
-          .shrink-grow-enter {
-            opacity: 0.01;
-            height: 0;
           }
+          #idents-tab {
+            overflow-y: auto;
+            margin-bottom: 40px; // Keep cards from falling off the bottom
+            font-size: 16px;
+            .ident-card {
+              min-height: 30px;
+              background: $color3;
+              color: $color1;
+              box-shadow: 1px 1px 0 0 rgba(0,0,0,0.50);
+              padding-left: 8px;
+              div {
+                margin: 10px;
+              }
+              .ident-heading {
+                min-height: 20px;
+                top: 8px;
+                position: relative;
+                .ident-name {
+                  position: relative;
+                  font-weight: bold;
+                  font-size: 16px;
+                }
+                .attr-icon {
+                  float: right;
+                  position: relative;
+                  margin-left: 10px;
+                  top: -4px;
+                  img {
+                    width: 16px;
+                    height: 19px;
+                  }
+                }
+              }
+            }
+            .entity-card {
+              background: $color12;
+              color: $color11;
+              box-shadow: 1px 1px 0 0 rgba(0,0,0,0.50);
+              padding-left: 8px;
+              .inset {
+                padding-left: 12px;
+              }
+              .entity-heading {
+                height: 20px;
+                top: 8px;
+                position: relative;
+                .icon-div {
+                  width: 16px;
+                  height: 16px;
+                  text-align: center;
+                  margin-right: 8px;
+                  position: relative;
+                  top: -2px;
+                  .chevron {
+                    transition: transform 250ms ease-in;
+                  }
+                  .chevron-open {
+                    transform: rotate(90deg);
+                  }
+                }
+                .ns-name {
+                  top: -6px;
+                  left: -5px;
+                  position: relative;
+                  font-weight: bold;
+                  font-size: 16px;
+                }
+                .ident-name {
+                  left: -5px;
+                  position: relative;
+                  font-weight: bold;
+                  font-size: 16px;
+                }
+                .attr-icon {
+                  float: right;
+                  position: relative;
+                  margin-left: 10px;
+                  top: -4px;
+                  img {
+                    width: 16px;
+                    height: 19px;
+                  }
+                }
+              }
+              .heading {
+                font-weight: bold;
+                margin-right: 3px;
+              }
+              div {
+                margin: 10px;
+              }
+              ul {
+                margin: 5px;
+                padding-left: 5px;
+                list-style: none;
+                li::before {
+                  content: "•";
+                  color: $color1;
+                  display: inline-block;
+                  position: relative;
+                  top: 2px;
+                  padding-right: 5px;
+                }
+                .link {
+                  color: $color6;
+                  text-decoration: underline;
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+              .collapsible {
+                overflow: hidden;
+                transition: 250ms ease-out;
+                &.collapsed {
+                  max-height: 0 !important;
+                  transition: 250ms ease-in;
+                }
+              }
+            }
 
-          .shrink-grow-enter.shrink-grow-enter-active {
-            opacity: 1;
-            height: 44px;
-            transition: all 400ms ease-in;
-          }
-
-          .shrink-grow-exit {
-            opacity: 1;
-            height: 44px;
-          }
-
-          .shrink-grow-exit.shrink-grow-exit-active {
-            opacity: 0.01;
-            height: 0;
-            transition: all 400ms ease-out;
           }
         }
       }
-
-      #namespace-controls {
-        grid-column: 3/13;
-        grid-row: 1;
-        background: $element-bg;
-        color: $namespace-summary-fg;
-        height: 100%;
-        display: flex;
-        align-items: stretch;
-        flex-direction: column;
-        justify-content: stretch;
-        
-        .title {
-          color: $namespace-summary-fg;
-        }
-
-        .breadcrumb li + li::before {
-          color: $namespace-summary-fg;
-        }
-
-        #namespace-summary {
-          background: $element-bg;
-          color: $namespace-summary-fg;
-          height: 100%;
-        }
-      }
-
-      .body-panel {
-        .panel {
-          @extend .box-shodow;
-        }
-        .panel-body {
-          padding: 1.25em 1.5em;
-          background-color: $element-bg;
-          min-height: 100%;
-
-          .panel-heading {
-            border: 1px solid $panel-heading-border;
-            font-weight: bold;
-            background-color: $panel-heading-1;
-            color: $panel-heading-2;
-          }
-
-          .panel-block {
-            color: $panel-fg;
-            background-color: $element-bg;
-            border: 1px solid $element-bg;
-            padding-top: 0.25em;
-            padding-bottom: 0.15em;
-          }
-        }
-      }
-
-      .namespace-details {
-        grid-column: 3/6;
-        grid-row: 2/6;
-        margin-bottom: 1rem;
-        overflow: auto;
-
-        .detail-icon {
-          color: $icon;
-        }
-
-        .attr-icon:nth-child(2) {
-          margin-left: 10px;
-        }
-
-        .panel-body {
-          border-bottom: none;
-        }
-
-        #detail-bottom {
-          min-height: 10%;
-          border-top: none;
-        }
-
-      }
-
-      .icon-div {
-        width: 20px;
-        height: 20px;
-        text-align: center;
-        margin-right: 8px;
-        .chevron {
-          transition: transform 250ms ease-in;
-        }
-
-        .chevron-open {
-          transform: rotate(90deg);
-        }
-      }
-
-      .collapsible {
-        overflow: hidden;
-        transition: 250ms ease-out;
-        &.collapsed {
-          max-height: 0 !important;
-          transition: 250ms ease-in;
-        }
-      }
-
-      .relationship-graph {
-        grid-column: 6/13;
-        grid-row: 2/6;
-        margin-bottom: 1rem;
-
-        #relationship-graph-controls {
-          color: $namespace-summary-fg;
-          position: absolute;
-          z-index: 3;
-          right: 16px;
-          margin-top: 10px;
-
-          i {
-            margin-right: 10px;
-          }
-        }
+      .right-panel {
+        background: $color8;
+        box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.5);
 
         .panel-body {
           height: 100%;
           padding: 0;
-        }
-      }
-
-      #go-diagram {
-        width: inherit;
-        height: inherit;
-
-        canvas {
-          outline: none;
+          #go-diagram {
+            width: inherit;
+            height: inherit;
+          }
+          canvas {
+            outline: none;
+          }
         }
       }
     }
 
-    #settings-modal {
-      .modal-card-head {
-        background: $modal-card-head-bg;
-      }
+    .modal-overlay {
+      background: $color1;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 0;
+      position: fixed;
+      right: 0;
+      text-align: center;
+      top: 0;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: all 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: -100;
+      .modal {
+        color: $color7;
+        background-color: $color8;
+        box-shadow: 1px 1px 0 0 rgba(0,0,0,0.50);
+        max-width: 500px;
+        width: 90%;
+        .modal-header {
+          border-bottom: 1px solid $color3;
+          align-items: center;
+          display: flex;
+          justify-content: space-between;
+          h4 {
+            padding-left: 20px;
+            font-size: 18px;
+          }
+          img {
+            padding-right: 20px;
+          }
 
-      .modal-card-title {
-        color: $title-bg;
+        }
+        .modal-body {
+          padding-bottom: 20px;
+          .setting {
+            .title {
+              font-size: 19px;
+              font-weight: bold;
+              letter-spacing: 0.02em;
+              margin-bottom: 15px;
+              margin-top: 25px;
+            }
+            .split-select {
+              font-size: 17px;
+              align-items: center;
+              display: flex;
+              justify-content: space-around;
+              border: 1px solid $color7;
+              border-radius: 2px;
+              height: 36px;
+              margin: auto;
+              width: 193px;
+              div {
+                padding: 9px 5px 9px 5px;
+                flex-grow: 1;
+                cursor: pointer;
+              }
+              .left {
+                border-right: 1px solid $color7;
+              }
+              .selected-option {
+                color: $color1;
+                background-color: $color7;
+                text-decoration: underline;
+                font-style: italic;
+              }
+            }
+            #unload-btn {
+              font-size: 17px;
+              width: 196px;
+              height: 40px;
+            }
+          }
+        }
       }
+      &.is-visible {
+        opacity: 0.97;
+        transform: scale(1);
+        z-index: 800;
+      }
+    }
 
-      .modal-card-body {
-        background-color: $element-bg;
+    #load-schema {
+      height: calc(100vh - 60px); // This is less the height of the other elements (nav & secondary nav)
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      #load-schema-btn {
+        width: 250px;
+        height: 40px;
+        font-size: 22px;
         text-align: center;
-      }
-
-      .title {
-        color: $settings-title;
-        margin-bottom: 1rem;
-      }
-
-      .button {
-        border: 1px solid $button-border;
-        background-color: $setting-button-bg;
-        &:hover {
-          background-color: $button-bg-hover;
-          transition: all 250ms ease-in;
-        }
-      }
-
-      .settings-section {
-        margin-bottom: 2rem;
-        .field {
-          justify-content: center;
-        }
-      }
-
-      .selected-option {
-        background-color: $setting-selected-button-bg;
-        color: $setting-selected-button-fg;
-        &:hover {
-          text-decoration: none;
-          background-color: $setting-selected-button-bg;
-        }
-      }
-
-      .unload-schema-button {
-        color: $unload-button-fg;
-        background: $unload-button-bg;
-        border: 1px solid $unload-button-fg;
-        &:hover {
-          background: $unload-button-bg-hover;
+        span {
+          position: relative;
+          top: 7px;
         }
       }
     }
   }
 }
 
-@include theme(dark,
-               $dark-app-bg,
-               $dark-element-bg,
-               $dark-title-bg,
-               $dark-menu-link-hover,
-               $dark-error-message,
-               $dark-panel-heading-1,
-               $dark-panel-heading-2,
-               $dark-panel-heading-border,
-               $dark-panel-fg,
-               $dark-panel-tab-1,
-               $dark-panel-tab-2,
-               $dark-panel-tab-border,
-               $dark-panel-border,
-               $dark-panel-bg,
-               $dark-button-border,
-               $dark-button-bg,
-               $dark-button-bg-hover,
-               $dark-button-fg,
-               $dark-input-border,
-               $dark-label,
-               $dark-icon,
-               $dark-tag-1,
-               $dark-tag-2,
-               $dark-tag-2-fg,
-               $dark-tag-3,
-               $dark-tag-3-fg,
-               $dark-tag-border,
-               $dark-aside-label,
-               $dark-aside-link,
-               $dark-aside-link-active-bg,
-               $dark-aside-link-active-fg,
-               $dark-aside-link-active-hover-fg,
-               $dark-input-bg,
-               $dark-input-icon,
-               $dark-namespace-summary-fg,
-               $dark-settings-title,
-               $dark-settings-selected-button-bg,
-               $dark-settings-selected-button-fg,
-               $dark-settings-button-bg,
-               $dark-settings-unload-button-fg,
-               $dark-settings-unload-button-bg,
-               $dark-settings-unload-button-bg-hover,
-               $dark-modal-card-head-bg,
-               $dark-sparkline-text,
-               $dark-sparkline-bg,
-               $dark-sparkline-divider,
-               $dark-sparkline-stroke,
-               $dark-sparkline-fill,
-               $dark-sparkline-cursor,
-               $dark-sparkline-spot-fill,
-               $dark-sparkline-spot-stroke
-);
-
-@include theme(light,
-               $light-app-bg,
-               $light-element-bg,
-               $light-title-bg,
-               $light-menu-link-hover,
-               $light-error-message,
-               $light-panel-heading-1,
-               $light-panel-heading-2,
-               $light-panel-heading-border,
-               $light-panel-fg,
-               $light-panel-tab-1,
-               $light-panel-tab-2,
-               $light-panel-tab-border,
-               $light-panel-border,
-               $light-panel-bg,
-               $light-button-border,
-               $light-button-bg,
-               $light-button-bg-hover,
-               $light-button-fg,
-               $light-input-border,
-               $light-label,
-               $light-icon,
-               $light-tag-1,
-               $light-tag-2,
-               $light-tag-2-fg,
-               $light-tag-3,
-               $light-tag-3-fg,
-               $light-tag-border,
-               $light-aside-label,
-               $light-aside-link,
-               $light-aside-link-active-bg,
-               $light-aside-link-active-fg,
-               $light-aside-link-active-hover-fg,
-               $light-input-bg,
-               $light-input-icon,
-               $light-namespace-summary-fg,
-               $light-settings-title,
-               $light-settings-selected-button-bg,
-               $light-settings-selected-button-fg,
-               $light-settings-button-bg,
-               $light-settings-unload-button-fg,
-               $light-settings-unload-button-bg,
-               $light-settings-unload-button-bg-hover,
-               $light-modal-card-head-bg,
-               $light-sparkline-text,
-               $light-sparkline-bg,
-               $light-sparkline-divider,
-               $light-sparkline-stroke,
-               $light-sparkline-fill,
-               $light-sparkline-cursor,
-               $light-sparkline-spot-fill,
-               $light-sparkline-spot-stroke
-);
+@include theme(dark, $dark-1, $dark-2, $dark-3, $dark-4, $dark-5, $dark-6, $dark-7, $dark-8, $dark-9, $dark-10, $dark-11, $dark-12);
+@include theme(light, $light-1, $light-2, $light-3, $light-4, $light-5, $light-6, $light-7, $light-8, $light-9, $light-10, $light-11, $light-12);
 
 .panel-fade-enter {
   opacity: 0.01;

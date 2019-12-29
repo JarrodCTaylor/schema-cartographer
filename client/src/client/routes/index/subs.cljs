@@ -46,13 +46,13 @@
        :idents (sort-by :label (filter filter-fn ident-maps))})))
 
 (rf/reg-sub
-  ::aside-selection
+  ::selected-ns
   (fn [db _]
     (-> db :routes :index :currently-selected-ns)))
 
 (rf/reg-sub
   ::entity-selected?
-  :<- [::aside-selection]
+  :<- [::selected-ns]
   (fn [selection]
     (when selection (= "db.schema.entity.namespace" (namespace selection)))))
 
@@ -78,7 +78,8 @@
                                    :label (qualified-kebab->title (name ns))}) referenced-by))
        :by-way-of (map (fn [ns]
                          {:ns ns
-                          :label (qualified-kebab->title (name ns))}) previously-selected-ns-keys)})))
+                          :label (qualified-kebab->title (name ns))})
+                       (when selected-ns (conj previously-selected-ns-keys selected-ns)))})))
 
 (rf/reg-sub
   ::aside-selection-details
@@ -105,6 +106,11 @@
     (-> db :routes :index :aside-filter)))
 
 (rf/reg-sub
+  ::left-panel-active-tab
+  (fn [db _]
+    (-> db :routes :index :left-panel-active-tab)))
+
+(rf/reg-sub
   ::graph-command-handler
   (fn [db _]
     (-> db :routes :index :diagram :command-handler)))
@@ -122,14 +128,14 @@
                (str ident)
                (-> ident name qualified-kebab->title))]
     (merge {:attr (str attr attr-type)
+            :color "#464B52"
             :iskey unique?
             :deprecated? deprecated?
             :figure (cond
                       unique? "Key2"
                       deprecated? "Skull"
                       (not attr-type) "Ident"
-                      :else "Empty")}
-           (when unique? {:color "Yellow"}))))
+                      :else "Empty")})))
 
 (defn node-data-array [display-as-keywords? {:keys [idents entities]}]
   (let [make-node (fn [schema-type]

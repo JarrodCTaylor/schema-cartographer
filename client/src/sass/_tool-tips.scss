@@ -58,10 +58,10 @@ $pos-offset: calc(100% + 15px);
   &::before {
     right:     $pos-offset;
     top:       50%;
-    transform: translate(20px, -50%);
+    transform: translate(20px, -57%);
   }
   &:hover::before {
-    transform: translate(0, -50%);
+    transform: translate(0, -57%);
   }
 }
 
@@ -71,9 +71,9 @@ $pos-offset: calc(100% + 15px);
     left:      $pos-offset;
     right:     initial;
     top:       50%;
-    transform: translate(-20px, -50%);
+    transform: translate(-20px, -57%);
   }
   &:hover::before {
-    transform: translate(0, -50%);
+    transform: translate(0, -57%);
   }
 }
