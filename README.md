@@ -1,6 +1,4 @@
-<h1 align="center">
-  <img src="client/resources/public/img/schema-cartographer-gh-logo.svg" alt="Nerd Fonts Logo" />
-</h1>
+# Schema Cartographer
 
 <img width="2290" alt="Cartographer-ScreenShot" src="https://user-images.githubusercontent.com/4416952/71586247-254b8000-2adf-11ea-9599-2ae2102e4e78.png">
 
