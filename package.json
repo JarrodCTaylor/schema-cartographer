@@ -1,0 +1,21 @@
+{
+  "name": "client",
+  "version": "1.0.0",
+  "dependencies": {
+    "@fnando/sparkline": "^0.3.10",
+    "create-react-class": "15.6.3",
+    "highlight.js": "9.15.8",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-flip-move": "3.0.3",
+    "react-highlight.js": "1.0.7",
+    "react-transition-group": "4.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarrodctaylor/schema-cartographer.git"
+  },
+  "devDependencies": {
+    "shadow-cljs": "2.8.67"
+  }
+}

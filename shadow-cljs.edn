@@ -1,0 +1,25 @@
+{:deps true
+ :source-paths ["src" "test"]
+ :dev-http {8080 "target/"}
+ :nrepl {:port 9001 :middleware []}
+ :builds {:app {:target :browser
+                :js-options {:js-provider :shadow}
+                :output-dir "resources/public/js/compiled"
+                :asset-path "/js/compiled"
+                :modules {:main {:init-fn cljs.main/main}}
+                :compiler-options {:infer-externs :auto
+                                   :externs ["externs/go.js"]}
+                :dev {:closure-defines {goog.DEBUG true
+                                        "re_frame.trace.trace_enabled_QMARK_" true}}
+                :release {:closure-defines {goog.DEBUG false}}
+                :devtools {:http-root "resources/public"
+                           :preloads [day8.re-frame-10x.preload
+                                      shadow.remote.runtime.browser]
+                           :after-load cljs.main/on-reload
+                           :http-port 9875}}
+          :test     {:target    :browser-test
+                     :test-dir  "resources/public/js/test"
+                     :ns-regexp "-test$"
+                     :closure-defines {cljs.config/alert-timeout-ms 10}
+                     :devtools  {:http-port 8021
+                                 :http-root "resources/public/js/test"}}}}
