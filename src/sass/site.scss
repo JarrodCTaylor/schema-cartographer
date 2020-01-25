@@ -28,6 +28,10 @@ $dark-9:  #BBC0C7;
 $dark-10: #535861;
 $dark-11: #464B52;
 $dark-12: #BBC0C7;
+$dark-13: #64826A;
+$dark-14: #FFFFFF;
+$dark-15: #BBC0C7;
+$dark-16: #535861;
 // endregion
 
 // region === Light
@@ -43,12 +47,17 @@ $light-9:  #464B52;
 $light-10: #DFE3E8;
 $light-11: #464B52;
 $light-12: #FFFFFF;
+$light-13: #64826A;
+$light-14: #FFFFFF;
+$light-15: #EDF2F7;
+$light-16: #464B52;
 // endregion
 
 // Imports
 @import "forms";
 @import "buttons";
-@import "tool-tips";
+@import "tippy";
+@import "modal-form";
 
 body {
   margin: 0;
@@ -58,7 +67,8 @@ body {
 html, body, #app {
 }
 
-@mixin theme($name, $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8, $color9, $color10, $color11, $color12) {
+@mixin theme($name, $color1, $color2, $color3, $color4, $color5, $color6, $color7, $color8,
+             $color9, $color10, $color11, $color12, $color13, $color14, $color15, $color16) {
   .#{$name} {
 
     body, #app {
@@ -71,7 +81,49 @@ html, body, #app {
     }
 
     .button {
-      @include btn($color8, $color7)
+      @include btn($color8, $color7);
+    }
+
+    .react-select-style-prefix__multi-value {
+      margin-top: 2px !important;
+      margin-bottom: 2px !important;
+    }
+
+    #alerts {
+      display: flex;
+      position: absolute;
+      flex-direction: column;
+      font-weight: bold;
+      right: 32px;
+      z-index: 999;
+      top: 30px;
+      &:hover {
+        cursor: pointer;
+      }
+      .notification {
+        margin-top: 15px;
+        padding: 20px;
+        text-align: center;
+        border: 1px solid black;
+        box-shadow: 1px 6px 9px 0 rgba(0, 0, 0, 0.18), 0 6px 15px 0 rgba(0, 0, 0, 0.15);
+        &.is-success {
+          background: $color13;
+          color: $color14;
+        }
+      }
+    }
+
+    .action-button {
+      @include btn($color7, $color8);
+      box-shadow: 0 4px 4px 0 rgba(0,0,0,0.16), 0 4px 10px 0 rgba(0,0,0,0.12);
+      padding: 5px 0 0 0;
+      height: 40px;
+      &:hover {
+        box-shadow: 1px 6px 9px 0 rgba(0, 0, 0, 0.18), 0 6px 15px 0 rgba(0, 0, 0, 0.15);
+        background-color: lighten($color7, 5%);
+        border-color: lighten($color8, 5%);
+        color: lighten($color8, 5%);
+      }
     }
 
     nav {
@@ -204,10 +256,12 @@ html, body, #app {
           display: flex;
           flex-direction: column;
           overflow: hidden;
+          height: 100%;
           #namespace-tab {
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            height: 100%;
             #ns-filter-input {
               .icon {
                 position: absolute;
@@ -326,12 +380,46 @@ html, body, #app {
             font-size: 16px;
             .ident-card {
               min-height: 30px;
+              color: $color11;
               background: $color3;
-              color: $color1;
               box-shadow: 1px 1px 0 0 rgba(0,0,0,0.50);
               padding-left: 8px;
+              .detail {
+                .heading {
+                  font-weight: bold;
+                  margin-right: 3px;
+                }
+                div {
+                  margin-top: 10px;
+                }
+                ul {
+                  margin: 5px;
+                  padding-left: 5px;
+                  list-style: none;
+                  li::before {
+                    content: "•";
+                    color: $color3;
+                    display: inline-block;
+                    position: relative;
+                    top: 2px;
+                    padding-right: 5px;
+                  }
+                  .link {
+                    color: $color6;
+                    text-decoration: underline;
+                    &:hover {
+                      cursor: pointer;
+                    }
+                  }
+                }
+              }
               div {
                 margin: 10px;
+              }
+              .card-details {
+                margin-top: 25px;
+                bottom: 5px;
+                position: relative;
               }
               .ident-heading {
                 min-height: 20px;
@@ -443,6 +531,26 @@ html, body, #app {
 
           }
         }
+        #action-buttons {
+          align-self: flex-end;
+          .schema-action-btn:nth-child(2) {
+            margin-left: 10px;
+          }
+          .schema-action-btn:nth-child(3) {
+            margin-left: 10px;
+          }
+        }
+        .schema-action-btn {
+          align-self: flex-end;
+          border-radius: 4px;
+          left: -15px;
+          margin-top: -40px;
+          max-width: 40px;
+          min-height: 40px;
+          min-width: 40px;
+          position: relative;
+          top: -15px;
+        }
       }
       .right-panel {
         background: $color8;
@@ -471,12 +579,14 @@ html, body, #app {
       left: 0;
       position: fixed;
       right: 0;
-      text-align: center;
       top: 0;
       opacity: 0;
       transform: scale(0.5);
       transition: all 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       z-index: -100;
+      &.centered {
+        text-align: center;
+      }
       .modal {
         color: $color7;
         background-color: $color8;
@@ -532,16 +642,55 @@ html, body, #app {
                 font-style: italic;
               }
             }
-            #unload-btn {
+            #unload-btn #export-btn {
               font-size: 17px;
               width: 196px;
               height: 40px;
             }
           }
+          #new-ns-form {
+            @include modal-form-base-styles($color4, $color7, $color15, $color16);
+          }
+          #new-entity-ident-form {
+            @include modal-form-base-styles($color4, $color7, $color15, $color16);
+            .two-column-row {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              grid-column-gap: 30px;
+            }
+          }
+          #new-ident-form {
+            @include modal-form-base-styles($color4, $color7, $color15, $color16);
+          }
+          #edit-ns-form {
+            @include modal-form-base-styles($color4, $color7, $color15, $color16);
+          }
+          #edit-ident-form {
+            @include modal-form-base-styles($color4, $color7, $color15, $color16);
+            ul {
+              margin-top: 5px;
+              margin-bottom: 5px;
+            }
+          }
+          #delete-ns-form {
+            @include modal-form-base-styles($color4, $color7, $color15, $color16);
+            #delete-notices {
+              color: #F06E5B;
+              p {
+                margin-bottom: 0;
+              }
+              ul {
+                margin-top: 5px;
+              }
+              div:last-of-type {
+                margin-bottom: -15px;
+              }
+            }
+          }
         }
       }
       &.is-visible {
-        opacity: 0.97;
+        opacity: 0.99;
         transform: scale(1);
         z-index: 800;
       }
@@ -552,6 +701,17 @@ html, body, #app {
       display: flex;
       align-items: center;
       justify-content: center;
+      #create-empty-schema-btn {
+        width: 316px;
+        height: 44px;
+        font-size: 22px;
+        text-align: center;
+        margin-right: 12px;
+        span {
+          position: relative;
+          top: 7px;
+        }
+      }
       #load-schema-btn {
         width: 250px;
         height: 40px;
@@ -566,8 +726,8 @@ html, body, #app {
   }
 }
 
-@include theme(dark, $dark-1, $dark-2, $dark-3, $dark-4, $dark-5, $dark-6, $dark-7, $dark-8, $dark-9, $dark-10, $dark-11, $dark-12);
-@include theme(light, $light-1, $light-2, $light-3, $light-4, $light-5, $light-6, $light-7, $light-8, $light-9, $light-10, $light-11, $light-12);
+@include theme(dark, $dark-1, $dark-2, $dark-3, $dark-4, $dark-5, $dark-6, $dark-7, $dark-8, $dark-9, $dark-10, $dark-11, $dark-12, $dark-13, $dark-14, $dark-15, $dark-16);
+@include theme(light, $light-1, $light-2, $light-3, $light-4, $light-5, $light-6, $light-7, $light-8, $light-9, $light-10, $light-11, $light-12, $light-13, $light-14, $light-15, $light-16);
 
 .panel-fade-enter {
   opacity: 0.01;
@@ -585,3 +745,4 @@ html, body, #app {
 .panel-fade-exit.panel-fade-exit-active {
   display: none;
 }
+
