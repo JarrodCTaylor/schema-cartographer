@@ -37,12 +37,14 @@
                                                                           :cardinality :db.cardinality/one
                                                                           :doc "Unique id assigned to each licensed retailer"
                                                                           :namespace :db.schema.entity.namespace/licensed-retailer
+                                                                          :references-namespaces []
                                                                           :value-type :db.type/uuid}
                                                                          {:ident :licensed-retailer/address
                                                                           :attribute? true
                                                                           :cardinality :db.cardinality/one
                                                                           :doc "Street address of a specific licensed retailer location"
                                                                           :namespace :db.schema.entity.namespace/licensed-retailer
+                                                                          :references-namespaces []
                                                                           :value-type :db.type/string}
                                                                          {:references-namespaces [:db.schema.entity.namespace/employee]
                                                                           :ident :licensed-retailer/employees
@@ -68,6 +70,7 @@
                                                              :cardinality :db.cardinality/one
                                                              :doc "Unique id assigned to each sale"
                                                              :namespace :db.schema.entity.namespace/sale
+                                                             :references-namespaces []
                                                              :value-type :db.type/uuid}
                                                             {:references-namespaces [:db.schema.ident.namespace/ice-cream-flavor]
                                                              :ident :sale/flavor
@@ -92,12 +95,14 @@
                                                               :cardinality :db.cardinality/one
                                                               :doc "Unique id assigned to each store"
                                                               :namespace :db.schema.entity.namespace/store
+                                                              :references-namespaces []
                                                               :value-type :db.type/uuid}
                                                              {:ident :store/address
                                                               :attribute? true
                                                               :cardinality :db.cardinality/one
                                                               :doc "Street address of a specific store location"
                                                               :namespace :db.schema.entity.namespace/store
+                                                              :references-namespaces []
                                                               :value-type :db.type/string}
                                                              {:is-component? true
                                                               :references-namespaces [:db.schema.entity.namespace/employee]
@@ -113,6 +118,7 @@
                                                               :ident :store/capricious-accounting-department-id
                                                               :namespace :db.schema.entity.namespace/store
                                                               :no-history? true
+                                                              :references-namespaces []
                                                               :value-type :db.type/string}]}
             :db.schema.entity.namespace/employee {:namespace :db.schema.entity.namespace/employee
                                                   :doc "An entity representing an individual employee"
@@ -125,6 +131,7 @@
                                                                  :cardinality :db.cardinality/one
                                                                  :doc "Employee's first name"
                                                                  :namespace :db.schema.entity.namespace/employee
+                                                                 :references-namespaces []
                                                                  :value-type :db.type/string}
                                                                 {:ident :employee/last-name
                                                                  :attribute? true
@@ -132,6 +139,7 @@
                                                                  :doc "Employee's last name"
                                                                  :namespace :db.schema.entity.namespace/employee
                                                                  :value-type :db.type/string
+                                                                 :references-namespaces []
                                                                  :attr-preds ['i-am-not-real.attr-preds/user-name? 'i-am-not-real.attr-preds/valid-last-name?]}
                                                                 {:unique :db.unique/identity
                                                                  :ident :employee/name
@@ -139,5 +147,6 @@
                                                                  :cardinality :db.cardinality/one
                                                                  :doc "Employee's must have a unique combination of first and last names."
                                                                  :namespace :db.schema.entity.namespace/employee
+                                                                 :references-namespaces []
                                                                  :value-type :db.type/tuple
                                                                  :tuple-attrs [:employee/first-name :employee/last-name]}]}}}

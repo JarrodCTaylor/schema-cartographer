@@ -1,0 +1,41 @@
+@mixin react-select-base-style($color4, $color7, $color15, $color16) {
+  background: $color4;
+  border: 1px solid rgba(62,62,62,0.30);
+  box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+  border-radius: 2px;
+  font-size: 14px;
+  width: 100%;
+  margin-left: 10px;
+  // Is an improvement when there is more than one item selected in a multi select. However makes things worse when only one is selected
+  //.react-select-style-prefix__value-container--is-multi.react-select-style-prefix__value-container--has-value .react-select-style-prefix__multi-value { // > div:nth-child(1) {
+  //  margin-top: 8px !important;
+  //}
+  .react-select-style-prefix__value-container--is-multi.react-select-style-prefix__value-container--has-value {
+    .react-select-style-prefix__multi-value {
+      background-color: $color15 !important;
+    }
+    .react-select-style-prefix__multi-value__label, .react-select-style-prefix__multi-value__remove {
+      color: $color16;
+    }
+    .react-select-style-prefix__multi-value__remove:hover {
+      background-color: #F06E5B;
+    }
+  }
+  .react-select-style-prefix__value-container {
+    padding-top: 0;
+    padding-bottom: 0;
+    &>div {
+      color: $color7;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .react-select-style-prefix__single-value {
+      color: $color7;
+    }
+    div:nth-last-of-type(3) {
+      margin-bottom: -5px !important;
+    }
+  }
+}

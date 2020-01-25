@@ -1,0 +1,35 @@
+@import "react-select-mixins";
+
+@mixin modal-form-base-styles($color4, $color7, $color15, $color16) {
+  padding: 0 40px 0 20px;
+  .react-select-style-prefix__control {
+    @include react-select-base-style($color4, $color7, $color15, $color16);
+  }
+  .field {
+    .label {
+      margin-top: 20px;
+      margin-bottom: 5px;
+    }
+    .input {
+      background: $color4;
+      border: 1px solid rgba(62,62,62,0.30);
+      box-shadow: inset 0 1px 3px 0 rgba(0,0,0,0.50);
+      color: $color7;
+      font-size: 14px;
+      width: 100%;
+      margin-left: 10px;
+    }
+    .error-message {
+      padding-top: 5px;
+      display: block;
+      padding-left: 10px;
+      font-size: small;
+      color: #F06E5B;
+    }
+  }
+  .button {
+    margin-top: 20px;
+    width: 100%;
+    margin-left: 10px;
+  }
+}
