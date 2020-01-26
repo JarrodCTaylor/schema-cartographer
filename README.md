@@ -57,7 +57,7 @@ bin/kaocha clj-unit
 
 # Client
 
-A statically hosted version of the application can be found at [c-132.com/schema-cartographer](https://c-132.com/schema-cartographer)
+A statically hosted version of the application can be found at [https://c-132.com/schema-cartographer](https://c-132.com/schema-cartographer)
 
 ## Running locally
 
