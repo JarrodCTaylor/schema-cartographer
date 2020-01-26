@@ -2,16 +2,101 @@
 
 <img width="2290" alt="Cartographer-ScreenShot" src="https://user-images.githubusercontent.com/4416952/71586247-254b8000-2adf-11ea-9599-2ae2102e4e78.png">
 
-*Schema Cartographer* provides a means to visualize and navigate the relationships that exist in your Datomic schema.
-
+*Schema Cartographer* provides a means to visualize, navigate, create, edit and share the relationships that exist in your Datomic schema.
 
 # Table Of Contents
-* [Convention & Schema Annotations](https://github.com/JarrodCTaylor/schema-cartographer#conventions--schema-annotations)
-* [Basic Example](https://github.com/JarrodCTaylor/schema-cartographer#basic-example)
-* [Complete Example Schema](https://github.com/JarrodCTaylor/schema-cartographer#complete-example-schema)
 * [Usage CLJ](https://github.com/JarrodCTaylor/schema-cartographer#clj)
-* [Usage CLJS](https://github.com/JarrodCTaylor/schema-cartographer#cljs)
+* [Usage CLJS](https://github.com/JarrodCTaylor/schema-cartographer#Client)
+* [Convention & Schema Annotations](https://github.com/JarrodCTaylor/schema-cartographer#conventions--schema-annotations)
+    * [Basic Example](https://github.com/JarrodCTaylor/schema-cartographer#basic-example)
+    * [Complete Example Schema](https://github.com/JarrodCTaylor/schema-cartographer#complete-example-schema)
 * [License](https://github.com/JarrodCTaylor/schema-cartographer#copyright-and-license)
+
+# CLI
+
+## Output Schema File
+
+To generate a schema file loadable by the application, the following script is provided:
+
+``` sh
+clojure -m server.core -h
+Schema Cartographer Server:
+Usage: clojure -Alocal-server
+
+Schema Cartographer Schema Export:
+Usage: clojure -m server.core [options]
+
+Options:
+  -r, --region REGION  Region where Datomic cloud is located
+  -s, --system SYSTEM  Datomic cloud system name
+  -d, --db DATABASE    Database Name
+  -o, --output FILE    Write schema edn to FILE
+  -a, --audit          Audit schema annotations and log gaps. Boolean
+  -h, --help
+```
+
+### Example Usage
+
+    clojure -m cli.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" -o "ice-cream-shop-schema"
+
+The resulting schema file is saved to the `/doc` directory
+
+## Audit Schema Annotations
+
+To ensure your schema is properly annotated run the audit script. This will identify missing namespaces, references, etc.
+
+    clojure -m cli.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" --audit
+
+The results are logged to the console.
+
+## Running tests
+
+``` sh
+bin/kaocha clj-unit
+```
+
+# Client
+
+A statically hosted version of the application can be found at [c-132.com/schema-cartographer](https://c-132.com/schema-cartographer)
+
+## Running locally
+
+* Install application deps: `yarn install`
+* Install sass:             `(cd src/sass && yarn install && yarn css)`
+* Start application:        `clojure -Acljs-dev`
+* App will be running at    `http://localhost:9875/#/`
+
+## Run Tests
+
+    clj -A:cljs-test
+
+Then visit:
+
+    http://localhost:8021/
+
+## Sass Stylesheets (.scss)
+
+Stylesheet source files are located in `/src/sass` and are written in [Sass](http://sass-lang.com/) `.scss` syntax.
+
+Stylesheet Development:
+
+``` sh
+# Install dependencies
+cd src/sass
+yarn install
+
+# Compile CSS once, while in /sass dir
+yarn css
+
+# Compile and watch, while in /sass dir
+yarn watch:css
+```
+
+## Package For Deployment
+
+* `(cd src/sass && yarn css)`
+* `clojure -Acljs-min`
+* The app will be in `resources/public/`
 
 # Conventions & Schema Annotations
 
@@ -55,16 +140,16 @@ We can then conclude all elements with a `:db/ident` having a keyword with the n
 {:db/ident :db.schema.entity.namespace/store
 :db/doc   "An entity representing an individual ice cream store"}
 ;; == The following elements all have idents with a keyword namespace of 'store' and will be grouped together
-{:db/ident       :store/id
+{:db/ident      :store/id
 :db/valueType   :db.type/uuid
 :db/cardinality :db.cardinality/one
 :db/unique      :db.unique/identity
 :db/doc         "Unique id assigned to each store"}
-{:db/ident       :store/address
+{:db/ident      :store/address
 :db/valueType   :db.type/string
 :db/cardinality :db.cardinality/one
 :db/doc         "Street address of a specific store location"}
-{:db/ident       :store/employees
+{:db/ident      :store/employees
 :db/valueType   :db.type/ref
 :db/cardinality :db.cardinality/many
 :db/doc         "Employees who may work at a given store"
@@ -89,96 +174,6 @@ We can then conclude all elements with a `:db/ident` having a keyword with the n
 # Complete Example Schema
 
 Create a connection to a new Datomic database and transact the following [example schema](https://github.com/JarrodCTaylor/schema-cartographer/blob/master/resources/complete-example-schema.clj). This will provide a complete fully annotated schema suitable to experiment with the application and for use as a reference.
-
-# CLI
-
-## Output Schema File
-
-To generate a schema file loadable by the application, the following script is provided:
-
-``` sh
-clojure -m server.core -h
-Schema Cartographer Server:
-Usage: clojure -Alocal-server
-
-Schema Cartographer Schema Export:
-Usage: clojure -m server.core [options]
-
-Options:
-  -r, --region REGION  Region where Datomic cloud is located
-  -s, --system SYSTEM  Datomic cloud system name
-  -d, --db DATABASE    Database Name
-  -o, --output FILE    Write schema edn to FILE
-  -a, --audit          Audit schema annotations and log gaps. Boolean
-  -h, --help
-```
-
-### Example Usage
-
-`clojure -m server.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" -o "ice-cream-shop-schema"`
-
-The resulting schema file is saved to the `/doc` directory
-
-## Audit Schema Annotations
-
-To ensure your schema is properly annotated run the audit script. This will identify missing namespaces, references, etc.
-
-`clojure -m server.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" --audit`
-
-The results are logged to the console.
-
-## Running tests
-
-``` sh
-bin/kaocha clj-unit
-```
-
-# Client
-
-A hosted version of the application can be found at [c-132.com/schema-cartographer](https://c-132.com/schema-cartographer)
-
-### Running locally
-
-* `yarn install`
-* cd `/src/sass`
-* `yarn install`
-* `yarn css`
-* Start application `clojure -Acljs-dev`
-* App will be running at `http://localhost:9875/#/`
-
-### Run Tests
-
-``` sh
-clj -A:cljs-test
-```
-
-Then visit:
-
-`http://localhost:8021/`
-
-## Sass Stylesheets (.scss)
-
-Stylesheet source files are located in `/src/sass` and are written in [Sass](http://sass-lang.com/) `.scss` syntax.
-
-Stylesheet Development:
-
-``` sh
-# Install dependencies
-cd src/sass
-yarn install
-
-# Compile CSS once, while in /sass dir
-yarn css
-
-# Compile and watch, while in /sass dir
-yarn watch:css
-```
-
-### Package For Deployment
-
-* `cd src/sass; yarn css`
-* `clojure -Amin`
-* The app will be in `resources/public/`
 
 ## Copyright and License
 
