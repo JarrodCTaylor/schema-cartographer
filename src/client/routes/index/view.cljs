@@ -620,7 +620,8 @@
                            deprecated? references-namespaces attr-preds tuple-attrs no-history? replaced-by]}]
   (let [{:keys [collapse-details?]} (<sub [::route-subs/settings])
         component-state (r/atom {:collapsed? collapse-details?})]
-    (fn [{:keys [doc deprecated? replaced-by]}]
+    (fn [{:keys [unique is-component? ident ident-kw cardinality doc value-type
+                 deprecated? references-namespaces attr-preds tuple-attrs no-history? replaced-by]}]
       (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])]
         [:div.entity-card
          [:div.entity-heading {:on-click #(do

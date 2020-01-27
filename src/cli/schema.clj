@@ -14,13 +14,13 @@
     :db.attr/keys [preds]
     :db.schema/keys [also-see replaced-by references-namespaces deprecated?]}]
   (merge {:ident ident
-          :attribute? (boolean valueType)}
+          :attribute? (boolean valueType)
+          :deprecated? (boolean deprecated?)}
          (when doc {:doc doc})
          (when cardinality {:cardinality (:db/ident cardinality)})
          (when valueType {:value-type (:db/ident valueType)})
          (when-let [namespace (ident-namespace valueType ident)] {:namespace namespace})
          (when unique {:unique (:db/ident unique)})
-         (when deprecated? {:deprecated? deprecated?})
          (when-let [replaced-with (or replaced-by also-see)] {:replaced-by (map :db/ident replaced-with)})
          (when (boolean valueType) {:references-namespaces (map :db/ident references-namespaces)})
          (when isComponent {:is-component? isComponent})

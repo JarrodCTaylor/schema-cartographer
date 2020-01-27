@@ -51,9 +51,7 @@ The results are logged to the console.
 
 ## Running tests
 
-``` sh
-bin/kaocha clj-unit
-```
+    bin/kaocha clj-unit
 
 # Client
 
