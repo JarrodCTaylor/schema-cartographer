@@ -902,19 +902,19 @@
         [:button#unload-btn.button {:on-click #(>dis [::route-events/unload-schema])}
          "Unload Schema"]]
        [:div.setting
-        [:h4.title "Export Schema Transactions" [tip
+        [:h4.title "Download Schema Transactions" [tip
                                                  [:img {:src (if (= "dark" color-scheme) "img/info-dark.svg" "img/info-light.svg")
                                                         :style {:height "15px" :top "2px" :position "relative" :left "5px" :margin-top "-5px"}}]
                                                  "EDN file containing the Datomic transactions to recreate the schema" "top"]]
         [:button#export-btn.button {:on-click #(>dis [::route-events/export-schema-txs])}
-         "Download Transactions"]]
+         "Download"]]
        [:div.setting
         [:h4.title "Download Schema File" [tip
                                            [:img {:src (if (= "dark" color-scheme) "img/info-dark.svg" "img/info-light.svg")
                                                   :style {:height "15px" :top "2px" :position "relative" :left "5px" :margin-top "-5px"}}]
                                            "EDN file that can be loaded into the schema cartographer application" "top"]]
         [:button#export-btn.button {:on-click #(>dis [::route-events/export-schema-file])}
-         "Download Schema"]]]]]))
+         "Download"]]]]]))
 
 (defn template []
   (let [schema-loaded? (<sub [::route-subs/schema-loaded?])]

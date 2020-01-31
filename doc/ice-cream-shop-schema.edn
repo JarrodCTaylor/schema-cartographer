@@ -5,9 +5,11 @@
                               :referenced-by (:db.schema.entity.namespace/sale),
                               :ns-idents ({:ident :cone-type/sugar,
                                            :attribute? false,
+                                           :deprecated? false
                                            :namespace :db.schema.ident.namespace/cone-type}
                                           {:ident :cone-type/cake,
                                            :attribute? false,
+                                           :deprecated? false
                                            :namespace :db.schema.ident.namespace/cone-type}
                                           {:ident :cone-type/gravy,
                                            :attribute? false,
@@ -16,6 +18,7 @@
                                            :replaced-by (:cone-type/cake)}
                                           {:ident :cone-type/waffle,
                                            :attribute? false,
+                                           :deprecated? false
                                            :namespace :db.schema.ident.namespace/cone-type})},
                              :ice-cream-flavor
                              {:namespace :db.schema.ident.namespace/ice-cream-flavor,
@@ -23,14 +26,17 @@
                               :referenced-by (:db.schema.entity.namespace/sale),
                               :ns-idents ({:ident :ice-cream-flavor/vanilla,
                                            :attribute? false,
+                                           :deprecated? false
                                            :namespace
                                            :db.schema.ident.namespace/ice-cream-flavor}
                                           {:ident :ice-cream-flavor/strawberry,
                                            :attribute? false,
+                                           :deprecated? false
                                            :namespace
                                            :db.schema.ident.namespace/ice-cream-flavor}
                                           {:ident :ice-cream-flavor/chocolate,
                                            :attribute? false,
+                                           :deprecated? false
                                            :namespace
                                            :db.schema.ident.namespace/ice-cream-flavor})}},
  :entities
@@ -40,6 +46,7 @@
                                :referenced-by (:db.schema.entity.namespace/sale),
                                :ns-entities ({:ident :licensed-retailer/employees,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Employees who may work at a given licensed retailer location",
                                               :cardinality :db.cardinality/many,
                                               :value-type :db.type/ref,
@@ -47,6 +54,7 @@
                                               :references-namespaces (:db.schema.entity.namespace/employee)}
                                              {:ident :licensed-retailer/id,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Unique id assigned to each licensed retailer",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
@@ -55,6 +63,7 @@
                                               :unique :db.unique/identity}
                                              {:ident :licensed-retailer/address,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Street address of a specific licensed retailer location",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
@@ -66,6 +75,7 @@
                                :referenced-by nil,
                                :ns-entities ({:ident :sale/flavor,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "A reference to ice-cream-flavor ident",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/ref,
@@ -73,6 +83,7 @@
                                               :references-namespaces (:db.schema.ident.namespace/ice-cream-flavor)}
                                              {:ident :sale/cone,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "A reference to cone ident",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/ref,
@@ -80,6 +91,7 @@
                                               :references-namespaces (:db.schema.ident.namespace/cone-type)}
                                              {:ident :sale/id,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Unique id assigned to each sale",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
@@ -88,6 +100,7 @@
                                               :unique :db.unique/identity}
                                              {:ident :sale/location,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "A reference to a store or licensed retailer entity",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/ref,
@@ -101,6 +114,7 @@
                                :ns-entities ({:ident
                                               :store/capricious-accounting-id,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "An id that is subject to change based on the whims of the accounting department. No history is retained.",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
@@ -109,6 +123,7 @@
                                               :no-history? true}
                                              {:ident :store/address,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Street address of a specific store location",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/string,
@@ -116,6 +131,7 @@
                                               :namespace :db.schema.entity.namespace/store}
                                              {:ident :store/id,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Unique id assigned to each store",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/uuid,
@@ -124,6 +140,7 @@
                                               :unique :db.unique/identity}
                                              {:ident :store/employees,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Employees who may work at a given store",
                                               :cardinality :db.cardinality/many,
                                               :value-type :db.type/ref,
@@ -137,6 +154,7 @@
                                                 :db.schema.entity.namespace/licensed-retailer),
                                :ns-entities ({:ident :employee/name,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Employee's must have a unique combination of first and last names.",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
@@ -146,6 +164,7 @@
                                               :tuple-attrs [:employee/first-name :employee/last-name]}
                                              {:ident :employee/last-name,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Employee's last name",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
@@ -154,6 +173,7 @@
                                               :attr-preds [i-am-not-real.attr-preds/valid-last-name?]}
                                              {:ident :employee/first-name,
                                               :attribute? true,
+                                              :deprecated? false
                                               :doc "Employee's first name",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()

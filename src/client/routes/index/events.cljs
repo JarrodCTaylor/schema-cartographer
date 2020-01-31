@@ -113,8 +113,8 @@
 
 ; region ---- Schema map conversion --------------------------------------------
 (defn ident->tx [{:keys [namespace doc ns-idents]}]
-  (into [{:db/ident namespace
-          :db/doc doc}]
+  (into [(merge {:db/ident namespace}
+                (when doc {:db/doc doc}))]
         (mapv (fn [{:keys [ident doc replaced-by deprecated?]}]
                 (merge {:db/ident ident}
                        (when doc {:db/doc doc})
@@ -126,8 +126,8 @@
 
 (defn entity->tx [{:keys [namespace doc ns-entities attrs preds]}]
   (into []
-        (sequence cat [[{:db/ident namespace
-                         :db/doc doc}]
+        (sequence cat [[(merge {:db/ident namespace}
+                               (when doc {:db/doc doc}))]
                        (when (or attrs preds)
                          [(merge {:db/ident (keyword (name namespace) "validate")
                                   :db.schema/validates-namespace {:db/ident namespace}}
@@ -186,7 +186,8 @@
                               :db/cardinality :db.cardinality/one
                               :db/doc "DOCUMENTATION ONLY. Used to indicate which specific :db/idents are intended to be validated by :db.type/ref"}]
           schema (-> db :routes :index :schema schema-map->datomic-txs)]
-      {::download-edn-file [[(with-out-str (cljs.pprint/pprint (into annotation-idents schema)))] "schema-txs.edn"]})))
+      {::download-edn-file [[(with-out-str (cljs.pprint/pprint {:annotation-idents annotation-idents
+                                                                :db-schema-idents schema}))] "schema-txs.edn"]})))
 
 (rf/reg-event-fx
   ::export-schema-file
