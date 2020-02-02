@@ -22,7 +22,8 @@
               :where [?e :db/ident ?element]]
             db)
        (map first)
-       (filter #(re-matches #"^(db.schema|(?!db))(?!fressian).+" (-> % :db/ident namespace)))))
+       (filter #(re-matches #"^(db.schema|(?!db))(?!fressian).+" (or (-> % :db/ident namespace)
+                                                                     "")))))
 
 (defn attr-tx-instances [db a]
   (->> (d/q '[:find ?txInstant
