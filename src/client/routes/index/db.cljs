@@ -42,20 +42,20 @@
 ;; (s/def ::preds (s/coll-of symbol?))
 (s/def ::entity-detail (s/keys :req-un [::ident ::attribute? ::namespace]
                                :opt-un [::doc ::cardinality ::value-type ::unique ::deprecated? ::replaced-by ::references-namespaces ::is-component? ::no-history? ::tuple-attrs]))
-(s/def ::ns-entities (s/coll-of ::entity-detail))
-(s/def ::entity-namespace (s/keys :req-un [::namespace ::ns-entities]
+(s/def ::ns-attrs (s/coll-of ::entity-detail))
+(s/def ::entity-namespace (s/keys :req-un [::namespace ::ns-attrs]
                                   :opt-un [::doc ::referenced-by ::attrs]))
 (s/def ::entities (s/every-kv keyword? ::entity-namespace))
-;; --- idents
-(s/def ::ident-detail (s/keys :req-un [::ident ::attribute? ::namespace]
+;; --- attrs
+(s/def ::attr-detail (s/keys :req-un [::ident ::attribute? ::namespace]
                               :opt-un [::deprecated? ::replaced-by]))
-(s/def ::ns-idents (s/coll-of ::ident-detail))
-(s/def ::ident-namespace (s/keys :req-un [::namespace ::ns-idents]
+(s/def ::ns-attrs (s/coll-of ::attr-detail))
+(s/def ::attr-namespace (s/keys :req-un [::namespace ::ns-attrs]
                                  :opt-un [::doc ::referenced-by]))
-(s/def ::idents (s/every-kv keyword? ::ident-namespace))
+(s/def ::enumerations (s/every-kv keyword? ::attr-namespace))
 (s/def ::schema (s/or
                   :empty empty?
-                  :populated (s/keys :opt-un [::entities ::idents])))
+                  :populated (s/keys :opt-un [::entities ::enumerations])))
 ; endregion
 
 (s/def ::aside-filter string?)
@@ -94,10 +94,10 @@
                                   :color-5 "#464B52"}}
           :modal-visibility-state {:new-ns false
                                    :delete-ns false
-                                   :delete-ident false
+                                   :delete-attr false
                                    :edit-ns false
-                                   :new-ident false
-                                   :new-entity-ident false}
+                                   :new-attr false
+                                   :new-entity-attr false}
           :new-ns-form {:type (helper/empty-form-field {:required? true
                                                         :validator-fn :shared/non-empty-string
                                                         :error-message "Select new namespace type"})
@@ -106,51 +106,51 @@
                                                              :required? true})
                         :doc (helper/empty-form-field {:validator-fn :shared/non-empty-string
                                                        :required? false})}
-          :new-entity-ident-form {:ident (helper/empty-form-field {:validator-fn :shared/ident
-                                                                   :error-message "Provide a valid ident value [a-zA-Z0-9:-_?!] that doesn't yet exist"
-                                                                   :required? true})
-                                  :doc (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                 :required? false})
-                                  :cardinality (helper/empty-form-field {:validator-fn :new-entity-ident-form/cardinality
-                                                                         :error-message "A cardinality must be specified"
-                                                                         :required? true})
-                                  :value-type (helper/empty-form-field {:validator-fn :new-entity-ident-form/value-type
-                                                                        :error-message "A value type must be specified"
+          :new-entity-attr-form {:attr (helper/empty-form-field {:validator-fn :shared/attr
+                                                                  :error-message "Provide a valid attr value [a-zA-Z0-9:-_?!] that doesn't yet exist"
+                                                                  :required? true})
+                                 :doc (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                :required? false})
+                                 :cardinality (helper/empty-form-field {:validator-fn :new-entity-attr-form/cardinality
+                                                                        :error-message "A cardinality must be specified"
                                                                         :required? true})
-                                  :tuple-attrs (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                         :error-message "Does the ident need to be unique?"
-                                                                         :required? false})
-                                  :ref-namespaces (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                            :required? false})
-                                  :deprecated (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                        :error-message "Mark ident as deprecated?"
+                                 :value-type (helper/empty-form-field {:validator-fn :new-entity-attr-form/value-type
+                                                                       :error-message "A value type must be specified"
+                                                                       :required? true})
+                                 :tuple-attrs (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                        :error-message "Does the attr need to be unique?"
                                                                         :required? false})
-                                  :replaced-by (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                         :error-message "Idents that have replaced the deprecation"
-                                                                         :required? false})
-                                  :unique (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                    :error-message "Does the ident need to be unique?"
-                                                                    :required? false})
-                                  :is-component (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                          :error-message "Does the ident a component?"
-                                                                          :required? false})
-                                  :no-history (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                        :error-message "Does the ident not track history?"
+                                 :ref-namespaces (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                           :required? false})
+                                 :deprecated (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                       :error-message "Mark attr as deprecated?"
+                                                                       :required? false})
+                                 :replaced-by (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                        :error-message "Attrs that have replaced the deprecation"
                                                                         :required? false})
+                                 :unique (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                   :error-message "Does the attr need to be unique?"
+                                                                   :required? false})
+                                 :is-component (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                         :error-message "Does the attr a component?"
+                                                                         :required? false})
+                                 :no-history (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                       :error-message "Does the attr not track history?"
+                                                                       :required? false})
 
-                                  :attr-preds (helper/empty-form-field {:validator-fn :shared/non-required-fully-qualified-symbols
-                                                                        :error-message "Preds much be fully qualified symbols separated by a space"
-                                                                        :required? false})}
-          :new-ident-form {:ident (helper/empty-form-field {:validator-fn :shared/ident
-                                                            :error-message "Provide a valid ident value [a-zA-Z0-9:-_?!] that doesn't yet exist"
+                                 :attr-preds (helper/empty-form-field {:validator-fn :shared/non-required-fully-qualified-symbols
+                                                                       :error-message "Preds much be fully qualified symbols separated by a space"
+                                                                       :required? false})}
+          :new-attr-form {:attr (helper/empty-form-field {:validator-fn :shared/attr
+                                                            :error-message "Provide a valid attr value [a-zA-Z0-9:-_?!] that doesn't yet exist"
                                                             :required? true})
                            :doc (helper/empty-form-field {:validator-fn :shared/non-empty-string
                                                           :required? false})
                            :deprecated (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                 :error-message "Mark ident as deprecated?"
+                                                                 :error-message "Mark attr as deprecated?"
                                                                  :required? false})
                            :replaced-by (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                  :error-message "Idents that have replaced the deprecation"
+                                                                  :error-message "Attrs that have replaced the deprecation"
                                                                   :required? false})}
           :edit-ns-form {:doc (helper/empty-form-field {:validator-fn :shared/non-empty-string
                                                         :required? false})
@@ -160,23 +160,23 @@
                          :entity-preds (helper/empty-form-field {:validator-fn :shared/non-required-fully-qualified-symbols #_:shared/fully-qualified-symbols
                                                                  :error-message "Preds much be fully qualified symbols separated by a space"
                                                                  :required? false})}
-          :edit-ident-form {:ident (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                             :error-message "Provide a valid ident value [a-zA-Z0-9:-_?!] that doesn't yet exist"
+          :edit-attr-form {:attr (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                             :error-message "Provide a valid attr value [a-zA-Z0-9:-_?!] that doesn't yet exist"
                                                              :required? true})
                             :doc (helper/empty-form-field {:validator-fn :shared/non-empty-string
                                                            :required? false})
                             :ref-namespaces (helper/empty-form-field {:validator-fn :shared/non-empty-string
                                                                       :required? false})
                             :deprecated (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                  :error-message "Mark ident as deprecated?"
+                                                                  :error-message "Mark attr as deprecated?"
                                                                   :required? false})
                             :replaced-by (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                   :error-message "Idents that have replaced the deprecation"
+                                                                   :error-message "Attrs that have replaced the deprecation"
                                                                    :required? false})}
           :delete-ns-form {:namespaces (helper/empty-form-field {:validator-fn :shared/non-empty-string
                                                                  :error-message "Select at least one Namespace to delete"
                                                                  :required? true})}
-          :delete-ident-form {:idents (helper/empty-form-field {:validator-fn :shared/non-empty-string
-                                                                 :error-message "Select at least one Ident to delete"
-                                                                 :required? true})}})
+          :delete-attr-form {:enumerations (helper/empty-form-field {:validator-fn :shared/non-empty-string
+                                                                      :error-message "Select at least one Attr to delete"
+                                                                      :required? true})}})
 ; endregion

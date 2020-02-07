@@ -1,21 +1,21 @@
-[;; ---- Idents
- {:db/ident :db.schema.ident.namespace/cone-type
+[;; ---- Enumerations
+ {:cartographer/enumeration :cone-type
   :db/doc "Ice cream cone options currently available in store."}
  {:db/ident :cone-type/sugar}
  {:db/ident :cone-type/cake}
- {:db.schema/deprecated? true
-  :db.schema/replaced-by [{:db/ident :cone-type/cake}]
+ {:cartographer/deprecated? true
+  :cartographer/replaced-by [{:db/ident :cone-type/cake}]
   :db/ident :cone-type/gravy}
  {:db/ident :cone-type/waffle}
- {:db/ident :db.schema.ident.namespace/ice-cream-flavor
+ {:cartographer/enumeration :ice-cream-flavor
   :db/doc "Ice cream flavor options currently available in store."}
  {:db/ident :ice-cream-flavor/vanilla}
  {:db/ident :ice-cream-flavor/strawberry}
  {:db/ident :ice-cream-flavor/chocolate}
  ;; -- Entities
  ;;; -- Licensed Retailer
- {:db/ident :db.schema.entity.namespace/licensed-retailer
-  :db/doc "An business who is licensed to sell our branded ice cream cones"}
+ {:cartographer/entity :licensed-retailer
+  :db/doc "A ns for attrs of entities representing a business who is licensed to sell our branded ice cream cones"}
  {:db/ident :licensed-retailer/id
   :db/valueType {:db/ident :db.type/uuid}
   :db/cardinality {:db/ident :db.cardinality/one}
@@ -28,11 +28,11 @@
  {:db/ident :licensed-retailer/employees
   :db/valueType {:db/ident :db.type/ref}
   :db/cardinality {:db/ident :db.cardinality/many}
-  :db.schema/references-namespaces [{:db/ident :db.schema.entity.namespace/employee}]
+  :cartographer/references-namespaces [{:cartographer/entity :employee}]
   :db/doc "Employees who may work at a given licensed retailer location"}
  ;;; -- Store
- {:db/ident :db.schema.entity.namespace/store
-  :db/doc "An entity representing an individual ice cream store"}
+ {:cartographer/entity :store
+  :db/doc "A ns for attrs of entities representing individual ice cream stores"}
  {:db/ident :store/id
   :db/valueType {:db/ident :db.type/uuid}
   :db/cardinality {:db/ident :db.cardinality/one}
@@ -45,14 +45,14 @@
  {:db/ident :sale/location
   :db/valueType {:db/ident :db.type/ref}
   :db/cardinality {:db/ident :db.cardinality/one}
-  :db.schema/references-namespaces [{:db/ident :db.schema.entity.namespace/licensed-retailer}
-                                    {:db/ident :db.schema.entity.namespace/store}]
+  :cartographer/references-namespaces [{:cartographer/entity :licensed-retailer}
+                                       {:cartographer/entity :store}]
   :db/doc "A reference to a store or licensed retailer entity"}
  {:db/ident :store/employees
   :db/valueType {:db/ident :db.type/ref}
   :db/isComponent true
   :db/cardinality {:db/ident :db.cardinality/many}
-  :db.schema/references-namespaces [{:db/ident :db.schema.entity.namespace/employee}]
+  :cartographer/references-namespaces [{:cartographer/entity :employee}]
   :db/doc "Employees who may work at a given store"}
  {:db/ident :store/capricious-accounting-department-id
   :db/valueType {:db/ident :db.type/string}
@@ -60,8 +60,8 @@
   :db/noHistory true
   :db/doc "An id that is subject to change based on the whims of the accounting department. No history is retained."}
  ;;; -- Employee
- {:db/ident :db.schema.entity.namespace/employee
-  :db/doc "An entity representing an individual employee"}
+ {:cartographer/entity :employee
+  :db/doc "A ns for attrs of entities representing a individual employee"}
  {:db/ident :employee/first-name
   :db/valueType {:db/ident :db.type/string}
   :db/cardinality {:db/ident :db.cardinality/one}
@@ -69,7 +69,7 @@
  {:db/ident :employee/last-name
   :db/valueType {:db/ident :db.type/string}
   :db/cardinality {:db/ident :db.cardinality/one}
-  :db.attr/preds ['i-am-not-real.attr-preds/user-name? 'i-am-not-real.attr-preds/valid-last-name?]
+  :db.attr/preds ['i-am-not-real.attr-preds/valid-last-name?]
   :db/doc "Employee's last name"}
  {:db/ident :employee/name
   :db/valueType {:db/ident :db.type/tuple}
@@ -78,12 +78,12 @@
   :db/tupleAttrs [:employee/first-name :employee/last-name]
   :db/doc "Employee's must have a unique combination of first and last names."}
  {:db/ident :employee/validate
-  :db.schema/validates-namespace {:db/ident :db.schema.entity.namespace/employee}
+  :cartographer/validates-namespace {:cartographer/entity :employee}
   :db.entity/attrs [:employee/first-name :employee/last-name]
   :db.entity/preds ['i-am-not-real.entity-preds/valid-employee-name?]}
  ;;; -- Sale
- {:db/ident :db.schema.entity.namespace/sale
-  :db/doc "An entity representing a single ice cream cone sale"}
+ {:cartographer/entity :sale
+  :db/doc "A ns for attrs of entities representing a single ice cream cone sale"}
  {:db/ident :sale/id
   :db/valueType {:db/ident :db.type/uuid}
   :db/cardinality {:db/ident :db.cardinality/one}
@@ -92,10 +92,10 @@
  {:db/ident :sale/flavor
   :db/valueType {:db/ident :db.type/ref}
   :db/cardinality {:db/ident :db.cardinality/one}
-  :db.schema/references-namespaces [{:db/ident :db.schema.ident.namespace/ice-cream-flavor}]
+  :cartographer/references-namespaces [{:cartographer/enumeration :ice-cream-flavor}]
   :db/doc "A reference to ice-cream-flavor ident"}
  {:db/ident :sale/cone
   :db/valueType {:db/ident :db.type/ref}
   :db/cardinality {:db/ident :db.cardinality/one}
-  :db.schema/references-namespaces [{:db/ident :db.schema.ident.namespace/cone-type}]
+  :cartographer/references-namespaces [{:cartographer/enumeration :cone-type}]
   :db/doc "A reference to cone ident"}]

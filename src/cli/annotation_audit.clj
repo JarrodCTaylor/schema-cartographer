@@ -11,43 +11,40 @@
   (query/schema (d/db conn)))
 
 (defn audit-schema [conn]
-  (let [ns-str "db\\.schema\\.(?:entity|ident)\\.namespace"
-        schema (get-schema conn)
-        idents (->> schema
-                    (map :db/ident)
-                    (map (fn [ident] {:ns (namespace ident) :kw (name ident) :ident ident})))
-        filter-idents #(->> idents
-                            (filter (fn [{:keys [ns]}] (re-matches %1 ns)))
-                            (map %2)
-                            set)
-        defined-namespaces (filter-idents (re-pattern ns-str) :kw)
-        actual-namespaces (filter-idents (re-pattern (str "^((?!" ns-str ").)*$")) :ns)
-        unannotated-ns (set/difference actual-namespaces defined-namespaces)
-        unannotated-idents (select-keys (group-by :ns idents) (map name unannotated-ns))
+  (let [schema (get-schema conn)
+        defined-namespaces (->> schema
+                                (map #(select-keys % [:cartographer/enumeration :cartographer/entity]))
+                                (map vals)
+                                (remove nil?)
+                                (map first)
+                                (map name)
+                                set)
+        actual-namespaces (->> schema (map :db/ident) (remove nil?) (map (fn [attr] {:ns (namespace attr) :kw (name attr) :ident attr})) set)
+        unannotated-ns (set/difference (->> actual-namespaces (map :ns) set) defined-namespaces)
+        unannotated-attrs (select-keys (group-by :ns actual-namespaces) unannotated-ns)
         missing-ns-refs (->> schema
-                             (filter (fn [{:keys [db/valueType db.schema/references-namespaces]}]
+                             (filter (fn [{:keys [db/valueType cartographer/references-namespaces]}]
                                        (and (= {:db/ident :db.type/ref} valueType)
                                             (nil? references-namespaces))))
                              (map :db/ident)
                              sort)]
-    {:unannotated-idents unannotated-idents
+    {:unannotated-attrs unannotated-attrs
      :missing-ns-refs missing-ns-refs}))
 
 (defn log-schema-audit [conn]
-  (let [{:keys [unannotated-idents missing-ns-refs]} (audit-schema conn)]
-    (if (some not-empty [unannotated-idents missing-ns-refs])
+  (let [{:keys [unannotated-attrs missing-ns-refs]} (audit-schema conn)]
+    (if (some not-empty [unannotated-attrs missing-ns-refs])
       (do
         (println "\n=== Gaps In Annotations ===")
-        (when unannotated-idents
-          (println "\n--- idents without a namespace ---")
-          (doseq [[the-ns idents] unannotated-idents]
+        (when unannotated-attrs
+          (println "\n--- Attrs without a namespace ---")
+          (doseq [[the-ns attrs] unannotated-attrs]
             (println " " the-ns)
-            (doseq [ident idents]
-              (println "  " (:ident ident)))))
+            (doseq [attr attrs]
+              (println "  " (:ident attr)))))
         (when missing-ns-refs
-          (println "\n--- ref type with no annotated references ---")
+          (println "\n--- valueType ref with no annotated references ---")
           (doseq [ident missing-ns-refs]
             (println " " ident)))
         (println "\n"))
       (println "\n === Congrats! Your schema is fully annotated ===\n"))))
-

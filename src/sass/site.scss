@@ -374,7 +374,7 @@ html, body, #app {
             }
 
           }
-          #idents-tab {
+          #attrs-tab {
             overflow-y: auto;
             margin-bottom: 40px; // Keep cards from falling off the bottom
             font-size: 16px;
@@ -651,7 +651,7 @@ html, body, #app {
           #new-ns-form {
             @include modal-form-base-styles($color4, $color7, $color15, $color16);
           }
-          #new-entity-ident-form {
+          #new-entity-attr-form {
             @include modal-form-base-styles($color4, $color7, $color15, $color16);
             .two-column-row {
               display: grid;
@@ -659,13 +659,13 @@ html, body, #app {
               grid-column-gap: 30px;
             }
           }
-          #new-ident-form {
+          #new-attr-form {
             @include modal-form-base-styles($color4, $color7, $color15, $color16);
           }
           #edit-ns-form {
             @include modal-form-base-styles($color4, $color7, $color15, $color16);
           }
-          #edit-ident-form {
+          #edit-attr-form {
             @include modal-form-base-styles($color4, $color7, $color15, $color16);
             ul {
               margin-top: 5px;
