@@ -6,16 +6,17 @@
     [clojure.test :refer [deftest testing is]]))
 
 (deftest test-ns-referenced-by
-  (let [raw-schema (-> (io/resource "raw-schema.edn") slurp edn/read-string)
-        formatted-schema (map sut/format-schema-attr raw-schema)
-        expected-response {:db.schema.entity.namespace/store [:db.schema.entity.namespace/sale]
-                           :db.schema.entity.namespace/licensed-retailer [:db.schema.entity.namespace/sale]
-                           :db.schema.entity.namespace/employee [:db.schema.entity.namespace/store
-                                                                 :db.schema.entity.namespace/licensed-retailer]
-                           :db.schema.ident.namespace/cone-type [:db.schema.entity.namespace/sale]
-                           :db.schema.ident.namespace/ice-cream-flavor [:db.schema.entity.namespace/sale]}
-        actual-response (sut/ns-referenced-by formatted-schema)]
-    (is (= expected-response actual-response))))
+  (binding [*print-namespace-maps* false]
+    (let [raw-schema (-> (io/resource "raw-schema.edn") slurp edn/read-string)
+          formatted-schema (map sut/format-schema-attr raw-schema)
+          expected-response {:cartographer.entity/store [:cartographer.entity/sale]
+                             :cartographer.entity/licensed-retailer [:cartographer.entity/sale]
+                             :cartographer.entity/employee [:cartographer.entity/store
+                                                            :cartographer.entity/licensed-retailer]
+                             :cartographer.enumeration/cone-type [:cartographer.entity/sale]
+                             :cartographer.enumeration/ice-cream-flavor [:cartographer.entity/sale]}
+          actual-response (sut/ns-referenced-by formatted-schema)]
+      (is (= expected-response actual-response)))))
 
 (deftest test-schema-data-is-properly-formatted
   (binding [*print-namespace-maps* false]

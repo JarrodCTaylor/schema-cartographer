@@ -64,7 +64,7 @@
               :on-click #(>dis [::route-events/set-modal-visibility :new-ns false])}]]
       [:div.modal-body
        [:form#new-ns-form
-        [validated-input/select-box {:color-scheme color-scheme :label "Type" :route :index :form :new-ns-form :field :type :options [{:value "entity" :label "Entity"} {:value "ident" :label "Ident"}]}]
+        [validated-input/select-box {:color-scheme color-scheme :label "Type" :route :index :form :new-ns-form :field :type :options [{:value "entity" :label "Entity"} {:value "attr" :label "Enumeration"}]}]
         [validated-input/text {:label "Namespace"
                                :route :index
                                :form :new-ns-form
@@ -139,7 +139,7 @@
 (defn namespace-tab []
   (let [aside-filter (<sub [::route-subs/aside-filter])
         {:keys [color-scheme]} (<sub [::route-subs/settings])
-        {:keys [entities idents]} (<sub [::route-subs/nav-schema])]
+        {:keys [entities enumerations]} (<sub [::route-subs/nav-schema])]
     [:div#namespace-tab
      [:div#ns-filter-input
       [:i.icon [:img {:src (if (= "dark" color-scheme) "img/filter-dark.svg" "img/filter-light.svg")}]]
@@ -148,7 +148,7 @@
                             :on-change #(>dis [::route-events/update-aside-filter (-> % .-target .-value)])}]]
      [:div.namespaces
       [namespace-option "ENTITIES" entities]
-      [namespace-option "IDENTS" idents]]]))
+      [namespace-option "ENUMERATIONS" enumerations]]]))
 ; endregion
 
 ; region === Name Space Details Tab
@@ -242,39 +242,39 @@
 
 ; endregion
 
-; region === Idents Tab
-(defn create-new-ident-modal []
-  (let [modal-visible? (<sub [::route-subs/modal-visible? :new-ident])
+; region === Attrs Tab
+(defn create-new-attr-modal []
+  (let [modal-visible? (<sub [::route-subs/modal-visible? :new-attr])
         {:keys [color-scheme]} (when modal-visible? (<sub [::route-subs/settings]))
-        deprecated (when modal-visible? (<sub [::shared-subs/form-field :index :new-ident-form :deprecated]))
+        deprecated (when modal-visible? (<sub [::shared-subs/form-field :index :new-attr-form :deprecated]))
         ns-options (when modal-visible? (<sub [::route-subs/ns-options]))]
     [:div.modal-overlay {:class (when modal-visible? "is-visible")}
      [:div.modal
       [:div.modal-header
-       [:h4 "Add Ident"]
+       [:h4 "Add Attr"]
        [:img {:src (if (= "dark" color-scheme)
                      "img/modal-close-dark.svg"
                      "img/modal-close-light.svg")
               :height "24"
-              :on-click #(>dis [::route-events/set-modal-visibility :new-ident false])}]]
+              :on-click #(>dis [::route-events/set-modal-visibility :new-attr false])}]]
       [:div.modal-body
-       [:form#new-ident-form
-        [validated-input/text {:label "Ident"
+       [:form#new-attr-form
+        [validated-input/text {:label "Attr"
                                :route :index
-                               :form :new-ident-form
-                               :field :ident
+                               :form :new-attr-form
+                               :field :attr
                                :color-scheme color-scheme
                                :tool-tip "Text will be turned into an appropriately formatted and namespaced keyword. Must not already exist in the currently selected namespace. Examples: \"first-name\" or \"Song Title\""}]
         [validated-input/text {:label "Doc String"
                                :color-scheme color-scheme
                                :route :index
-                               :form :new-ident-form
+                               :form :new-attr-form
                                :tool-tip "The optional doc specifies a documentation string, and can be any string value."
                                :field :doc}]
         [validated-input/select-box {:color-scheme color-scheme
                                      :label "Deprecated"
                                      :route :index
-                                     :form :new-ident-form
+                                     :form :new-attr-form
                                      :field :deprecated
                                      :tool-tip "Documentation Only. Instead of removing schema this boolean flag indicates the field has been deprecated."
                                      :options [{:value false :label "False"} {:value true :label "True"}]}]
@@ -282,7 +282,7 @@
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Replaced By"
                                        :route :index
-                                       :form :new-ident-form
+                                       :form :new-attr-form
                                        :field :replaced-by
                                        :is-multi true
                                        :tool-tip "Documentation Only. Used to document what fields is intended to be the replacement for one that was deprecated."
@@ -292,46 +292,46 @@
                                      (.preventDefault evt)
                                      (>dis [::shared-events/submit-if-form-valid
                                             :index
-                                            :new-ident-form
-                                            [::route-events/add-new-ident]]))}
-         "Add Ident"]]]]]))
+                                            :new-attr-form
+                                            [::route-events/add-new-attr]]))}
+         "Add Attr"]]]]]))
 
-(defn create-new-entity-ident-modal []
-  (let [modal-visible? (<sub [::route-subs/modal-visible? :new-entity-ident])
+(defn create-new-entity-attr-modal []
+  (let [modal-visible? (<sub [::route-subs/modal-visible? :new-entity-attr])
         {:keys [color-scheme]} (when modal-visible? (<sub [::route-subs/settings]))
-        value-type (when modal-visible? (<sub [::shared-subs/form-field :index :new-entity-ident-form :value-type]))
-        cardinality (when modal-visible? (<sub [::shared-subs/form-field :index :new-entity-ident-form :cardinality]))
-        deprecated (when modal-visible? (<sub [::shared-subs/form-field :index :new-entity-ident-form :deprecated]))
-        ns-ident-options (when modal-visible? (<sub [::route-subs/ns-ident-options]))
+        value-type (when modal-visible? (<sub [::shared-subs/form-field :index :new-entity-attr-form :value-type]))
+        cardinality (when modal-visible? (<sub [::shared-subs/form-field :index :new-entity-attr-form :cardinality]))
+        deprecated (when modal-visible? (<sub [::shared-subs/form-field :index :new-entity-attr-form :deprecated]))
+        ns-ident-options (when modal-visible? (<sub [::route-subs/ns-attr-options]))
         ns-options (when modal-visible? (<sub [::route-subs/ns-options]))]
     [:div.modal-overlay {:class (when modal-visible? "is-visible")}
      [:div.modal
       [:div.modal-header
-       [:h4 "Add Ident"]
+       [:h4 "Add Attr"]
        [:img {:src (if (= "dark" color-scheme)
                      "img/modal-close-dark.svg"
                      "img/modal-close-light.svg")
               :height "24"
-              :on-click #(>dis [::route-events/set-modal-visibility :new-entity-ident false])}]]
+              :on-click #(>dis [::route-events/set-modal-visibility :new-entity-attr false])}]]
       [:div.modal-body
-       [:form#new-entity-ident-form
-        [validated-input/text {:label "Ident"
+       [:form#new-entity-attr-form
+        [validated-input/text {:label "Attr"
                                :route :index
-                               :form :new-entity-ident-form
-                               :field :ident
+                               :form :new-entity-attr-form
+                               :field :attr
                                :color-scheme color-scheme
                                :tool-tip "Text will be turned into an appropriately formatted and namespaced keyword. Must not already exist in the currently selected namespace. Examples: \"first-name\" or \"Song Title\""}]
         [validated-input/text {:label "Doc String"
                                :color-scheme color-scheme
                                :route :index
-                               :form :new-entity-ident-form
+                               :form :new-entity-attr-form
                                :tool-tip "The optional doc specifies a documentation string, and can be any string value."
                                :field :doc}]
         [:div.two-column-row
          [validated-input/select-box {:color-scheme color-scheme
                                       :label "Cardinality"
                                       :route :index
-                                      :form :new-entity-ident-form
+                                      :form :new-entity-attr-form
                                       :field :cardinality
                                       :tool-tip "Specifies whether an attribute associates a single value or a set of values with an entity"
                                       :options (if (contains? #{{"value" "composite-tuple" "label" "Composite Tuple"}
@@ -343,7 +343,7 @@
          [validated-input/select-box {:color-scheme color-scheme
                                       :label "Value Type"
                                       :route :index
-                                      :form :new-entity-ident-form
+                                      :form :new-entity-attr-form
                                       :field :value-type
                                       :tool-tip "The :db/valueType attribute specifies the type of value that can be associated with an attribute."
                                       :options [{:value "bigdec" :label "Big Decimal"}
@@ -366,7 +366,7 @@
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "References Namespaces"
                                        :route :index
-                                       :form :new-entity-ident-form
+                                       :form :new-entity-attr-form
                                        :field :ref-namespaces
                                        :is-multi true
                                        :tool-tip "What namespaces are expected to be referenced by this ident"
@@ -375,26 +375,26 @@
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Tuple Attributes"
                                        :route :index
-                                       :form :new-entity-ident-form
+                                       :form :new-entity-attr-form
                                        :field :tuple-attrs
                                        :is-multi true
                                        :on-change (fn [evt]
                                                     (let [selections (js->clj evt)]
                                                       (when (<= (count selections) 8)
-                                                        (>dis [::shared-events/set-form-field-value :index :new-entity-ident-form :tuple-attrs selections]))))
+                                                        (>dis [::shared-events/set-form-field-value :index :new-entity-attr-form :tuple-attrs selections]))))
                                        :tool-tip "Composite tuples are derived from other attributes of the same entity. Composite tuple types have a :db/tupleAttrs attribute, whose value is 2-8 keywords naming other attributes."
                                        :options ns-ident-options}])
         (when (= {"value" "fixed-length-tuple" "label" "Fixed Length Tuple"} (:value value-type))
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Tuple Attributes"
                                        :route :index
-                                       :form :new-entity-ident-form
+                                       :form :new-entity-attr-form
                                        :field :tuple-attrs
                                        :is-multi true
                                        :on-change (fn [evt]
                                                     (let [selections (js->clj evt)]
                                                       (when (<= (count selections) 8)
-                                                        (>dis [::shared-events/set-form-field-value :index :new-entity-ident-form :tuple-attrs selections]))))
+                                                        (>dis [::shared-events/set-form-field-value :index :new-entity-attr-form :tuple-attrs selections]))))
                                        :tool-tip "Heterogeneous fixed length tuples have a :db/tupleTypes attribute, whose value is a vector of 2-8 scalar value types."
                                        :options [{:value "bigdec" :label "Big Decimal"}
                                                  {:value "bigint" :label "Big Integer"}
@@ -412,7 +412,7 @@
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Tuple Attributes"
                                        :route :index
-                                       :form :new-entity-ident-form
+                                       :form :new-entity-attr-form
                                        :field :tuple-attrs
                                        :tool-tip "Homogeneous variable length tuples have a :db/tupleType attribute, whose value is a keyword naming a scalar value type."
                                        :options [{:value "bigdec" :label "Big Decimal"}
@@ -431,7 +431,7 @@
          [validated-input/select-box {:color-scheme color-scheme
                                       :label "Unique"
                                       :route :index
-                                      :form :new-entity-ident-form
+                                      :form :new-entity-attr-form
                                       :field :unique
                                       :tool-tip "In order to add a uniqueness constraint to an attribute, both of the following must be true: 1) The attribute must have a :db/cardinality of :db.cardinality/one. 2) If there are values present for that attribute, they must be unique in the set of current database assertions."
                                       :options (if (= {"value" "many" "label" "Many"} (:value cardinality))
@@ -441,7 +441,7 @@
          [validated-input/select-box {:color-scheme color-scheme
                                       :label "Is Component"
                                       :route :index
-                                      :form :new-entity-ident-form
+                                      :form :new-entity-attr-form
                                       :field :is-component
                                       :tool-tip "The optional :db/isComponent attribute specifies that an attribute whose :db/valueType is :db.type/ref refers to a sub-component of the entity to which the attribute is applied. When you retract an entity with :db.fn/retractEntity, all sub-components are also retracted."
                                       :options (if (= {"value" "ref" "label" "Reference"} (:value value-type))
@@ -452,7 +452,7 @@
          [validated-input/select-box {:color-scheme color-scheme
                                       :label "No History"
                                       :route :index
-                                      :form :new-entity-ident-form
+                                      :form :new-entity-attr-form
                                       :field :no-history
                                       :tool-tip "The purpose of :db/noHistory is to conserve storage, not to make semantic guarantees about removing information. The effect of :db/noHistory happens in the background, and some amount of history may be visible even for attributes with :db/noHistory set to true. db/noHistory is often used for high churn attributes along with attributes that you do not require a history of."
                                       :options [{:value false :label "False"}
@@ -460,7 +460,7 @@
          [validated-input/select-box {:color-scheme color-scheme
                                       :label "Deprecated"
                                       :route :index
-                                      :form :new-entity-ident-form
+                                      :form :new-entity-attr-form
                                       :field :deprecated
                                       :tool-tip "Documentation Only. Instead of removing schema this boolean flag indicates the field has been deprecated."
                                       :options [{:value false :label "False"} {:value true :label "True"}]}]]
@@ -468,14 +468,14 @@
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Replaced By"
                                        :route :index
-                                       :form :new-entity-ident-form
+                                       :form :new-entity-attr-form
                                        :field :replaced-by
                                        :is-multi true
                                        :tool-tip "Documentation Only. Used to document what fields is intended to be the replacement for one that was deprecated."
                                        :options ns-options}])
         [validated-input/text {:label "Attribute Predicates"
                                :route :index
-                               :form :new-entity-ident-form
+                               :form :new-entity-attr-form
                                :field :attr-preds
                                :color-scheme color-scheme
                                :tool-tip "<p>
@@ -495,126 +495,126 @@
                                      (.preventDefault evt)
                                      (>dis [::shared-events/submit-if-form-valid
                                             :index
-                                            :new-entity-ident-form
-                                            [::route-events/add-new-entity-ident]]))}
-         "Add Ident"]]]]]))
+                                            :new-entity-attr-form
+                                            [::route-events/add-new-entity-attr]]))}
+         "Add Attr"]]]]]))
 
-(defn edit-ident-modal []
-  (let [modal-visible? (<sub [::route-subs/modal-visible? :edit-ident])
+(defn edit-attr-modal []
+  (let [modal-visible? (<sub [::route-subs/modal-visible? :edit-attr])
         {:keys [color-scheme]} (when modal-visible? (<sub [::route-subs/settings]))
-        deprecated (when modal-visible? (<sub [::shared-subs/form-field :index :edit-ident-form :deprecated]))
-        already-deprecated? (when modal-visible? (<sub [::route-subs/ident-already-deprecated?]))
-        {:keys [replaced-by-options existing-replaced-by]} (when modal-visible? (<sub [::route-subs/edit-ident-replaced-by-options]))
-        ident-options (when modal-visible? (<sub [::route-subs/ns-ident-options]))
-        ref-options (when modal-visible? (<sub [::route-subs/edit-ident-ref-options]))
-        {:keys [is-ref-type? existing-references-namespaces]} (when modal-visible? (<sub [::route-subs/selected-ident-to-edit-ref-info]))
-        ident-selected? (when modal-visible? (<sub [::route-subs/edit-ident-selected?]))]
+        deprecated (when modal-visible? (<sub [::shared-subs/form-field :index :edit-attr-form :deprecated]))
+        already-deprecated? (when modal-visible? (<sub [::route-subs/attr-already-deprecated?]))
+        {:keys [replaced-by-options existing-replaced-by]} (when modal-visible? (<sub [::route-subs/edit-attr-replaced-by-options]))
+        ident-options (when modal-visible? (<sub [::route-subs/ns-attr-options]))
+        ref-options (when modal-visible? (<sub [::route-subs/edit-attr-ref-options]))
+        {:keys [is-ref-type? existing-references-namespaces]} (when modal-visible? (<sub [::route-subs/selected-attr-to-edit-ref-info]))
+        attr-selected? (when modal-visible? (<sub [::route-subs/edit-attr-selected?]))]
     [:div.modal-overlay {:class (when modal-visible? "is-visible")}
      [:div.modal
       [:div.modal-header
-       [:h4 "Edit Ident"]
+       [:h4 "Edit Attr"]
        [:img {:src (if (= "dark" color-scheme)
                      "img/modal-close-dark.svg"
                      "img/modal-close-light.svg")
               :height "24"
-              :on-click #(>dis [::route-events/set-modal-visibility :edit-ident false])}]]
+              :on-click #(>dis [::route-events/set-modal-visibility :edit-attr false])}]]
       [:div.modal-body
-       [:form#edit-ident-form
+       [:form#edit-attr-form
         [validated-input/select-box {:color-scheme color-scheme
-                                     :label "Ident Select"
+                                     :label "Attr Select"
                                      :route :index
-                                     :form :edit-ident-form
-                                     :field :ident
-                                     :tool-tip "Select ident from current namespace to edit"
+                                     :form :edit-attr-form
+                                     :field :attr
+                                     :tool-tip "Select attr from current namespace to edit"
                                      :on-change #(do
-                                                   (>dis [::shared-events/set-form-field-value :index :edit-ident-form :ident (js->clj %)])
-                                                   (>dis [::route-events/set-edit-ident-values]))
+                                                   (>dis [::shared-events/set-form-field-value :index :edit-attr-form :attr (js->clj %)])
+                                                   (>dis [::route-events/set-edit-attr-values]))
                                      :options ident-options}]
-        (when ident-selected?
+        (when attr-selected?
           [validated-input/text {:label "Doc String"
                                  :color-scheme color-scheme
                                  :route :index
-                                 :form :edit-ident-form
+                                 :form :edit-attr-form
                                  :tool-tip "The optional doc specifies a documentation string, and can be any string value."
                                  :field :doc}])
         (when is-ref-type?
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "References Namespaces"
                                        :route :index
-                                       :form :edit-ident-form
+                                       :form :edit-attr-form
                                        :field :ref-namespaces
                                        :is-multi true
-                                       :tool-tip "What namespaces are expected to be referenced by this ident"
+                                       :tool-tip "What namespaces are expected to be referenced by this attr"
                                        :options ref-options
                                        :additional-dom (when existing-references-namespaces
                                                          [:ul
                                                           (for [ref existing-references-namespaces]
                                                             ^{:key ref} [:li ref])])}])
 
-        (when ident-selected?
+        (when attr-selected?
           (if already-deprecated?
             [:div.field
-             [:label.label "Ident has been Deprecated"]]
+             [:label.label "Attr has been Deprecated"]]
             [validated-input/select-box {:color-scheme color-scheme
                                          :label "Deprecated"
                                          :route :index
-                                         :form :edit-ident-form
+                                         :form :edit-attr-form
                                          :field :deprecated
                                          :tool-tip "Documentation Only. Instead of removing schema this boolean flag indicates the field has been deprecated."
                                          :options [{:value false :label "False"} {:value true :label "True"}]}]))
-        (when (and ident-selected? (= {"value" true "label" "True"} (js->clj (:value deprecated))))
+        (when (and attr-selected? (= {"value" true "label" "True"} (js->clj (:value deprecated))))
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Replaced By"
                                        :route :index
-                                       :form :edit-ident-form
+                                       :form :edit-attr-form
                                        :field :replaced-by
                                        :is-multi true
                                        :additional-dom (when existing-replaced-by
                                                          [:ul
                                                           (for [ident existing-replaced-by]
                                                             ^{:key ident} [:li ident])])
-                                       :tool-tip "Documentation Only. Used to document what fields is intended to be the replacement for one that was deprecated."
+                                       :tool-tip "Documentation Only. Used to document what field(s) is intended to be the replacement for one that was deprecated."
                                        :options replaced-by-options}])
-        (when ident-selected?
+        (when attr-selected?
           [:button.button {:type "submit"
                            :on-click (fn [evt]
                                        (.preventDefault evt)
                                        (>dis [::shared-events/submit-if-form-valid
                                               :index
-                                              :edit-ident-form
-                                              [::route-events/edit-ident]]))}
-           "Edit Ident"])]]]]))
+                                              :edit-attr-form
+                                              [::route-events/edit-attr]]))}
+           "Edit Attr"])]]]]))
 
-(defn delete-ident-modal []
-  (let [modal-visible? (<sub [::route-subs/modal-visible? :delete-ident])
+(defn delete-attr-modal []
+  (let [modal-visible? (<sub [::route-subs/modal-visible? :delete-attr])
         {:keys [color-scheme]} (when modal-visible? (<sub [::route-subs/settings]))
-        ident-options (when modal-visible? (<sub [::route-subs/added-idents]))]
+        ident-options (when modal-visible? (<sub [::route-subs/added-enumerations]))]
     [:div.modal-overlay {:class (when modal-visible? "is-visible")}
      [:div.modal
       [:div.modal-header
-       [:h4 "Delete Ident(s)"]
+       [:h4 "Delete Attrs(s)"]
        [:img {:src (if (= "dark" color-scheme)
                      "img/modal-close-dark.svg"
                      "img/modal-close-light.svg")
               :height "24"
-              :on-click #(>dis [::route-events/set-modal-visibility :delete-ident false])}]]
+              :on-click #(>dis [::route-events/set-modal-visibility :delete-attr false])}]]
       [:div.modal-body
        [:form#new-ns-form
         [validated-input/select-box {:color-scheme color-scheme
-                                     :label "Ident(s)"
+                                     :label "Attrs(s)"
                                      :route :index
-                                     :form :delete-ident-form
+                                     :form :delete-attr-form
                                      :is-multi true
-                                     :field :idents
+                                     :field :enumerations
                                      :options ident-options}]
         [:button.button {:type "submit"
                          :on-click (fn [evt]
                                      (.preventDefault evt)
                                      (>dis [::shared-events/submit-if-form-valid
                                             :index
-                                            :delete-ident-form
-                                            [::route-events/delete-idents]]))}
-         "Delete Idents"]]]]]))
+                                            :delete-attr-form
+                                            [::route-events/delete-attrs]]))}
+         "Delete Attrs"]]]]]))
 
 (defn entity-card [{:keys [unique is-component? ident ident-kw cardinality doc value-type
                            deprecated? references-namespaces attr-preds tuple-attrs no-history? replaced-by]}]
@@ -679,7 +679,7 @@
                            :on-click #(>dis [::route-events/select-ns-and-push-previous kw])}
                  (if display-as-keywords? (str kw) label)])]])]]))))
 
-(defn ident-card [{:keys [ident ident-kw deprecated? doc replaced-by]}]
+(defn attr-card [{:keys [ident ident-kw deprecated? doc replaced-by]}]
   (let [{:keys [display-as-keywords?]} (<sub [::route-subs/settings])]
     [:div.ident-card
      [:div.ident-heading
@@ -697,37 +697,30 @@
            [:span.heading "Replaced By: "]
            [:ul
             (for [{:keys [label kw]} replaced-by]
-              [:li.link {:key label
-                         :on-click #(>dis [::route-events/select-ns-and-push-previous kw])}
+              [:li {:key label}
                (if display-as-keywords? (str kw) label)])]])])]))
 
-(defn idents-tab []
+(defn attrs-tab []
   (let [selected-ns-detail (<sub [::route-subs/aside-selection-details])
-        idents (:ns-idents selected-ns-detail)
-        entities (:ns-entities selected-ns-detail)]
-    [:div#idents-tab
-     (if entities
-       [:> TransitionGroup
-        (for [{:keys [namespace ident] :as entity} entities]
-          ^{:key (str namespace ident)}
-          [:> CSSTransition
-           {:classNames "panel-fade" :timeout 250}
-           [entity-card entity]])]
-       [:> TransitionGroup
-        (for [ident idents]
-          ^{:key (str namespace ident)}
-          [:> CSSTransition
-           {:classNames "panel-fade" :timeout 250}
-           [ident-card ident]])])]))
+        attrs (:ns-attrs selected-ns-detail)
+        entity? (<sub [::route-subs/entity-selected?])]
+    :namespace :cartographer.enumeration/cone-type
+    [:div#attrs-tab
+     [:> TransitionGroup
+      (for [attr attrs]
+        ^{:key attr}
+        [:> CSSTransition
+         {:classNames "panel-fade" :timeout 250}
+         [(if entity? entity-card attr-card) attr]])]]))
 ; endregion
 
 (defn left-panel []
   (let [active-tab (<sub [::route-subs/left-panel-active-tab])
         entity-selected? (<sub [::route-subs/entity-selected?])
-        ident-selected? (<sub [::route-subs/ident-selected?])
+        attr-selected? (<sub [::route-subs/attr-selected?])
         {:keys [color-scheme]} (<sub [::route-subs/settings])
         {:keys [doc referenced-by attrs attrs-kw preds]} (<sub [::route-subs/aside-selection-summary-info])
-        {:keys [ns-have-been-added? idents-have-been-added?]} (<sub [::route-subs/schema-added-in-app?])
+        {:keys [ns-have-been-added? attrs-have-been-added?]} (<sub [::route-subs/schema-added-in-app?])
         tab (fn [tab-kw tab-name] [:div.tab {:class (when (= active-tab tab-kw) "active")
                                              :on-click #(>dis [::route-events/set-left-panel-active-tab tab-kw])}
                                    [:span tab-name]])]
@@ -735,12 +728,12 @@
      [:div.tabs
       [tab :ns "Namespaces"]
       [tab :ns-details "NS Details"]
-      [tab :idents "Idents"]]
+      [tab :enumerations "Attrs"]]
      [:div.panel-contents
       (case active-tab
         :ns [namespace-tab]
         :ns-details [namespace-details-tab]
-        :idents [idents-tab])]
+        :enumerations [attrs-tab])]
      (cond
        (= :ns active-tab) [:div#action-buttons
                            (when ns-have-been-added?
@@ -763,44 +756,44 @@
                                                                         (>dis [::route-events/set-modal-visibility :edit-ns true]))}
                                                           [:img {:style {:height "15px" :width "15px"}
                                                                  :src (if (= "dark" color-scheme) "img/edit-dark.svg" "img/edit-light.svg")}]]
-       (and entity-selected? (= :idents active-tab)) [:div#action-buttons
-                                                      (when idents-have-been-added?
+       (and entity-selected? (= :enumerations active-tab)) [:div#action-buttons
+                                                      (when attrs-have-been-added?
                                                         [:button.schema-action-btn.action-button
                                                          {:on-click #(do
-                                                                       (>dis [::shared-events/reset-and-clear-form-field-values :index :delete-ident-form {}])
-                                                                       (>dis [::route-events/set-modal-visibility :delete-ident true]))}
+                                                                       (>dis [::shared-events/reset-and-clear-form-field-values :index :delete-attr-form {}])
+                                                                       (>dis [::route-events/set-modal-visibility :delete-attr true]))}
                                                          [:img {:style {:height "15px" :width "15px"}
                                                                 :src (if (= "dark" color-scheme) "img/delete-dark.svg" "img/delete-light.svg")}]])
                                                       [:button.schema-action-btn.action-button
                                                        {:on-click #(do
-                                                                     (>dis [::shared-events/reset-and-clear-form-field-values :index :edit-ident-form {}])
-                                                                     (>dis [::route-events/set-modal-visibility :edit-ident true]))}
+                                                                     (>dis [::shared-events/reset-and-clear-form-field-values :index :edit-attr-form {}])
+                                                                     (>dis [::route-events/set-modal-visibility :edit-attr true]))}
                                                        [:img {:style {:height "15px" :width "15px"}
                                                               :src (if (= "dark" color-scheme) "img/edit-dark.svg" "img/edit-light.svg")}]]
                                                       [:button.schema-action-btn.action-button
                                                        {:on-click #(do
-                                                                     (>dis [::shared-events/reset-and-clear-form-field-values :index :new-entity-ident-form {}])
-                                                                     (>dis [::route-events/set-modal-visibility :new-entity-ident true]))}
+                                                                     (>dis [::shared-events/reset-and-clear-form-field-values :index :new-entity-attr-form {}])
+                                                                     (>dis [::route-events/set-modal-visibility :new-entity-attr true]))}
                                                        [:img {:style {:height "15px" :width "15px"}
                                                               :src (if (= "dark" color-scheme) "img/plus-dark.svg" "img/plus-light.svg")}]]]
-       (and ident-selected? (= :idents active-tab)) [:div#action-buttons
-                                                     (when idents-have-been-added?
+       (and attr-selected? (= :enumerations active-tab)) [:div#action-buttons
+                                                     (when attrs-have-been-added?
                                                        [:button.schema-action-btn.action-button
                                                         {:on-click #(do
-                                                                      (>dis [::shared-events/reset-and-clear-form-field-values :index :delete-ident-form {}])
-                                                                      (>dis [::route-events/set-modal-visibility :delete-ident true]))}
+                                                                      (>dis [::shared-events/reset-and-clear-form-field-values :index :delete-attr-form {}])
+                                                                      (>dis [::route-events/set-modal-visibility :delete-attr true]))}
                                                         [:img {:style {:height "15px" :width "15px"}
                                                                :src (if (= "dark" color-scheme) "img/delete-dark.svg" "img/delete-light.svg")}]])
                                                      [:button.schema-action-btn.action-button
                                                       {:on-click #(do
-                                                                    (>dis [::shared-events/reset-and-clear-form-field-values :index :edit-ident-form {}])
-                                                                    (>dis [::route-events/set-modal-visibility :edit-ident true]))}
+                                                                    (>dis [::shared-events/reset-and-clear-form-field-values :index :edit-attr-form {}])
+                                                                    (>dis [::route-events/set-modal-visibility :edit-attr true]))}
                                                       [:img {:style {:height "15px" :width "15px"}
                                                              :src (if (= "dark" color-scheme) "img/edit-dark.svg" "img/edit-light.svg")}]]
                                                      [:button.schema-action-btn.action-button
                                                       {:on-click #(do
-                                                                    (>dis [::shared-events/reset-and-clear-form-field-values :index :new-ident-form {:deprecated {"value" false "label" "False"}}])
-                                                                    (>dis [::route-events/set-modal-visibility :new-ident true]))}
+                                                                    (>dis [::shared-events/reset-and-clear-form-field-values :index :new-attr-form {:deprecated {"value" false "label" "False"}}])
+                                                                    (>dis [::route-events/set-modal-visibility :new-attr true]))}
                                                       [:img {:style {:height "15px" :width "15px"}
                                                              :src (if (= "dark" color-scheme) "img/plus-dark.svg" "img/plus-light.svg")}]]])]))
 
@@ -921,12 +914,12 @@
     [:div
      [options-modal]
      [create-new-ns-modal]
-     [create-new-entity-ident-modal]
-     [create-new-ident-modal]
+     [create-new-entity-attr-modal]
+     [create-new-attr-modal]
      [edit-ns-modal]
-     [edit-ident-modal]
+     [edit-attr-modal]
      [delete-ns-modal]
-     [delete-ident-modal]
+     [delete-attr-modal]
      [nav]
      (if schema-loaded?
        [:<>

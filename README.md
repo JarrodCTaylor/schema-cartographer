@@ -1,6 +1,6 @@
 # Schema Cartographer
 
-<img width="2290" alt="Cartographer-ScreenShot" src="https://user-images.githubusercontent.com/4416952/71586247-254b8000-2adf-11ea-9599-2ae2102e4e78.png">
+<img width="2189" alt="cartographer-screenshot" src="https://user-images.githubusercontent.com/4416952/74056316-66b93000-49a7-11ea-90b5-72199edca388.png">
 
 *Schema Cartographer* provides a means to visualize, navigate, create, edit and share the relationships that exist in your Datomic schema.
 
@@ -102,68 +102,76 @@ Per the [documentation](https://docs.datomic.com/cloud/best.html#annotate-schema
 Those useful annotations can enable many things. This particular application uses annotations to build a visualization of the structure and relationships between
 schema elements.
 
-By creating idents that are designated as a `namespace`. We can provide documentation related to the intended usage and attributes of the group of entities that
+By creating attrs that are designated as a `entity` or `enumeration` grouping. We can provide documentation related to the intended usage and attributes of the group that
 have `:db/ident`'s which share the same namespace. This information can be leveraged to create a very traditional feeling relational data like visualization of the schema.
 
 The annotations used by the application are:
 
 ``` clojure
-(def annotation-schema-tx [{:db/ident :db.schema/deprecated?
-                            :db/valueType :db.type/boolean
-                            :db/cardinality :db.cardinality/one
-                            :db/doc "DOCUMENTATION ONLY. Boolean flag indicating the field has been deprecated."}
-                           {:db/ident :db.schema/replaced-by
-                            :db/valueType :db.type/ref
-                            :db/cardinality :db.cardinality/many
-                            :db/doc "DOCUMENTATION ONLY. Used to document when a deprecated field is replaced by another."}
-                           {:db/ident :db.schema/references-namespaces
-                            :db/valueType :db.type/ref
-                            :db/cardinality :db.cardinality/many
-                            :db/doc "DOCUMENTATION ONLY. Used to indicate which specific :db/idents are intended to be referenced by :db.type/ref"}
-                           {:db/ident :db.schema/validates-namespace
-                            :db/valueType :db.type/ref
-                            :db/cardinality :db.cardinality/one
-                            :db/doc "DOCUMENTATION ONLY. Used to indicate which specific :db/idents are intended to be validated by :db.type/ref"} ])
+(def annotation-schema-tx [{:db/ident :cartographer/entity
+                            :db/valueType :db.type/keyword
+                            :db/cardinality :db.cardinality/one
+                            :db/doc "Creating an entity with this attr will cause its value to be considered an entity-grouping namespace in the application."}
+                           {:db/ident :cartographer/enumeration
+                            :db/valueType :db.type/keyword
+                            :db/cardinality :db.cardinality/one
+                            :db/doc "Creating an entity with this attr will cause its value to be considered an enumeration-grouping namespace in the application."}
+                           {:db/ident :cartographer/deprecated?
+                            :db/valueType :db.type/boolean
+                            :db/cardinality :db.cardinality/one
+                            :db/doc "Boolean flag indicating the field has been deprecated."}
+                           {:db/ident :cartographer/replaced-by
+                            :db/valueType :db.type/ref
+                            :db/cardinality :db.cardinality/many
+                            :db/doc "Used to document when a deprecated field is replaced by other."}
+                           {:db/ident :cartographer/references-namespaces
+                            :db/valueType :db.type/ref
+                            :db/cardinality :db.cardinality/many
+                            :db/doc "Used to indicate which specific :cartographer/entity or :cartographer/enumeration are intended to be referenced by :db.type/ref"}
+                           {:db/ident :cartographer/validates-namespace
+                            :db/valueType :db.type/ref
+                            :db/cardinality :db.cardinality/one
+                            :db/doc "Used to indicate which specific :cartographer/entity is intended to be validated by :db.type/ref"}])
 ```
 
 ## Basic Example
 
 ### Defining An Entity
 
-By adhering to a convention of assigning a `:db/ident` a value of a keyword with a namespace of `:db.schema.entity.namespace` and a name of `store`.
-We can then conclude all elements with a `:db/ident` having a keyword with the namespace `store` will be grouped together in the application.
+By adhering to a convention of creating a `:cartographer/entity` with a value of `:store`.
+We can then conclude all attrs with a `:db/ident` having a keyword with the namespace `store` will be grouped together in the application.
 
 ``` clojure
-;; == Create a 'namespace' of 'store'
-{:db/ident :db.schema.entity.namespace/store
-:db/doc   "An entity representing an individual ice cream store"}
+;; == Create a 'grouping' of 'store'
+{:cartographer/entity :store
+ :db/doc              "An entity representing an individual ice cream store"}
 ;; == The following elements all have idents with a keyword namespace of 'store' and will be grouped together
-{:db/ident      :store/id
-:db/valueType   :db.type/uuid
-:db/cardinality :db.cardinality/one
-:db/unique      :db.unique/identity
-:db/doc         "Unique id assigned to each store"}
-{:db/ident      :store/address
-:db/valueType   :db.type/string
-:db/cardinality :db.cardinality/one
-:db/doc         "Street address of a specific store location"}
-{:db/ident      :store/employees
-:db/valueType   :db.type/ref
-:db/cardinality :db.cardinality/many
-:db/doc         "Employees who may work at a given store"
-:db.schema/references-namespaces ["employee"]} ;; Specifies a specific entity that is referenced
+{:db/ident       :store/id
+ :db/valueType   :db.type/uuid
+ :db/cardinality :db.cardinality/one
+ :db/unique      :db.unique/identity
+ :db/doc         "Unique id assigned to each store"}
+{:db/ident       :store/address
+ :db/valueType   :db.type/string
+ :db/cardinality :db.cardinality/one
+ :db/doc         "Street address of a specific store location"}
+{:db/ident       :store/employees
+ :db/valueType   :db.type/ref
+ :db/cardinality :db.cardinality/many
+ :db/doc         "Employees who may work at a given store"
+ :cartographer/references-namespaces ["employee"]} ;; Specifies a specific entity that is referenced
 ```
 
-### Defining An Ident
+### Defining An Enumeration
 
-By adhering to a convention of assigning a `:db/ident` a value of a keyword with a namespace of `:db.schema.ident.namespace` and a name of `ice-cream-flavor`.
-We can then conclude all elements with a `:db/ident` having a keyword with the namespace `ice-cream-flavor` will be grouped together in the application.
+By adhering to a convention of creating a `:cartographer/enumeration` with a value of `:ice-cream-flavor`.
+We can then conclude all attrs with a `:db/ident` having a keyword with the namespace `ice-cream-flavor` will be grouped together in the application.
 
 ``` clojure
-;; == Create a 'namespace' of 'ice-cream-flavor'
-{:db/ident :db.schema.ident.namespace/ice-cream-flavor
-:db/doc   "Ice cream flavor options, currently available in store."}
-;; == The following ident all have idents with a keyword namespace of 'ice-cream-flavor' and will be grouped together
+;; == Create a 'grouping' of 'ice-cream-flavor'
+{:cartographer/enumeration :ice-cream-flavor
+ :db/doc   "Ice cream flavor options, currently available in store."}
+;; == The following enumerations all have idents with a keyword namespace of 'ice-cream-flavor' and will be grouped together
 {:db/ident :ice-cream-flavor/strawberry}
 {:db/ident :ice-cream-flavor/chocolate}
 {:db/ident :ice-cream-flavor/vanilla}

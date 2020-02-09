@@ -39,6 +39,6 @@
   (let [ns (try (namespace the-ns)
                 (catch js/Error _ nil))]
     (case ns
-      "db.schema.ident.namespace" [:idents :ns-idents]
-      "db.schema.entity.namespace" [:entities :ns-entities]
+      "cartographer.entity" :entities
+      "cartographer.enumeration" :enumerations
       nil)))

@@ -10,7 +10,7 @@
            ;  bin/kaocha clj-unit
            ; -------------------------------------------------------------------
            :clj-test {:extra-paths ["test"]
-                      :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-565"}}}
+                      :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-581"}}}
 
            ;; ====
            ;  clojure -Acljs-test

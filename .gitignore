@@ -13,3 +13,5 @@ figwheel_server.log
 package-lock.json
 *.iml
 resources/public/js/
+out/production/*
+out/test/*

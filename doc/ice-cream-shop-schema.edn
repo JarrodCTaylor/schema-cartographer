@@ -1,57 +1,57 @@
-{:idents
- #:db.schema.ident.namespace{:cone-type
-                             {:namespace :db.schema.ident.namespace/cone-type,
+{:enumerations
+ #:cartographer.enumeration{:cone-type
+                             {:namespace :cartographer.enumeration/cone-type,
                               :doc "Ice cream cone options, currently available in store.",
-                              :referenced-by (:db.schema.entity.namespace/sale),
-                              :ns-idents ({:ident :cone-type/sugar,
+                              :referenced-by (:cartographer.entity/sale),
+                              :ns-attrs ({:ident :cone-type/sugar,
                                            :attribute? false,
                                            :deprecated? false
-                                           :namespace :db.schema.ident.namespace/cone-type}
+                                           :namespace :cartographer.enumeration/cone-type}
                                           {:ident :cone-type/cake,
                                            :attribute? false,
                                            :deprecated? false
-                                           :namespace :db.schema.ident.namespace/cone-type}
+                                           :namespace :cartographer.enumeration/cone-type}
                                           {:ident :cone-type/gravy,
                                            :attribute? false,
-                                           :namespace :db.schema.ident.namespace/cone-type,
+                                           :namespace :cartographer.enumeration/cone-type,
                                            :deprecated? true,
                                            :replaced-by (:cone-type/cake)}
                                           {:ident :cone-type/waffle,
                                            :attribute? false,
                                            :deprecated? false
-                                           :namespace :db.schema.ident.namespace/cone-type})},
+                                           :namespace :cartographer.enumeration/cone-type})},
                              :ice-cream-flavor
-                             {:namespace :db.schema.ident.namespace/ice-cream-flavor,
+                             {:namespace :cartographer.enumeration/ice-cream-flavor,
                               :doc "Ice cream flavor options, currently available in store.",
-                              :referenced-by (:db.schema.entity.namespace/sale),
-                              :ns-idents ({:ident :ice-cream-flavor/vanilla,
+                              :referenced-by (:cartographer.entity/sale),
+                              :ns-attrs ({:ident :ice-cream-flavor/vanilla,
                                            :attribute? false,
                                            :deprecated? false
                                            :namespace
-                                           :db.schema.ident.namespace/ice-cream-flavor}
+                                           :cartographer.enumeration/ice-cream-flavor}
                                           {:ident :ice-cream-flavor/strawberry,
                                            :attribute? false,
                                            :deprecated? false
                                            :namespace
-                                           :db.schema.ident.namespace/ice-cream-flavor}
+                                           :cartographer.enumeration/ice-cream-flavor}
                                           {:ident :ice-cream-flavor/chocolate,
                                            :attribute? false,
                                            :deprecated? false
                                            :namespace
-                                           :db.schema.ident.namespace/ice-cream-flavor})}},
+                                           :cartographer.enumeration/ice-cream-flavor})}},
  :entities
- #:db.schema.entity.namespace{:licensed-retailer
-                              {:namespace :db.schema.entity.namespace/licensed-retailer,
+ #:cartographer.entity{:licensed-retailer
+                              {:namespace :cartographer.entity/licensed-retailer,
                                :doc "An business who is licensed to sell our branded ice cream cones",
-                               :referenced-by (:db.schema.entity.namespace/sale),
-                               :ns-entities ({:ident :licensed-retailer/employees,
+                               :referenced-by (:cartographer.entity/sale),
+                               :ns-attrs ({:ident :licensed-retailer/employees,
                                               :attribute? true,
                                               :deprecated? false
                                               :doc "Employees who may work at a given licensed retailer location",
                                               :cardinality :db.cardinality/many,
                                               :value-type :db.type/ref,
-                                              :namespace :db.schema.entity.namespace/licensed-retailer,
-                                              :references-namespaces (:db.schema.entity.namespace/employee)}
+                                              :namespace :cartographer.entity/licensed-retailer,
+                                              :references-namespaces (:cartographer.entity/employee)}
                                              {:ident :licensed-retailer/id,
                                               :attribute? true,
                                               :deprecated? false
@@ -59,7 +59,7 @@
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/uuid,
-                                              :namespace :db.schema.entity.namespace/licensed-retailer,
+                                              :namespace :cartographer.entity/licensed-retailer,
                                               :unique :db.unique/identity}
                                              {:ident :licensed-retailer/address,
                                               :attribute? true,
@@ -68,27 +68,27 @@
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/string,
-                                              :namespace :db.schema.entity.namespace/licensed-retailer})},
+                                              :namespace :cartographer.entity/licensed-retailer})},
                               :sale
-                              {:namespace :db.schema.entity.namespace/sale,
+                              {:namespace :cartographer.entity/sale,
                                :doc "An entity representing a single ice cream cone sale",
                                :referenced-by nil,
-                               :ns-entities ({:ident :sale/flavor,
+                               :ns-attrs ({:ident :sale/flavor,
                                               :attribute? true,
                                               :deprecated? false
                                               :doc "A reference to ice-cream-flavor ident",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/ref,
-                                              :namespace :db.schema.entity.namespace/sale,
-                                              :references-namespaces (:db.schema.ident.namespace/ice-cream-flavor)}
+                                              :namespace :cartographer.entity/sale,
+                                              :references-namespaces (:cartographer.enumeration/ice-cream-flavor)}
                                              {:ident :sale/cone,
                                               :attribute? true,
                                               :deprecated? false
                                               :doc "A reference to cone ident",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/ref,
-                                              :namespace :db.schema.entity.namespace/sale,
-                                              :references-namespaces (:db.schema.ident.namespace/cone-type)}
+                                              :namespace :cartographer.entity/sale,
+                                              :references-namespaces (:cartographer.enumeration/cone-type)}
                                              {:ident :sale/id,
                                               :attribute? true,
                                               :deprecated? false
@@ -96,7 +96,7 @@
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/uuid,
-                                              :namespace :db.schema.entity.namespace/sale,
+                                              :namespace :cartographer.entity/sale,
                                               :unique :db.unique/identity}
                                              {:ident :sale/location,
                                               :attribute? true,
@@ -104,14 +104,14 @@
                                               :doc "A reference to a store or licensed retailer entity",
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/ref,
-                                              :namespace :db.schema.entity.namespace/sale,
-                                              :references-namespaces (:db.schema.entity.namespace/licensed-retailer
-                                                                       :db.schema.entity.namespace/store)})},
+                                              :namespace :cartographer.entity/sale,
+                                              :references-namespaces (:cartographer.entity/licensed-retailer
+                                                                       :cartographer.entity/store)})},
                               :store
-                              {:namespace :db.schema.entity.namespace/store,
+                              {:namespace :cartographer.entity/store,
                                :doc "An entity representing an individual ice cream store",
-                               :referenced-by (:db.schema.entity.namespace/sale),
-                               :ns-entities ({:ident
+                               :referenced-by (:cartographer.entity/sale),
+                               :ns-attrs ({:ident
                                               :store/capricious-accounting-id,
                                               :attribute? true,
                                               :deprecated? false
@@ -119,7 +119,7 @@
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/string,
-                                              :namespace :db.schema.entity.namespace/store,
+                                              :namespace :cartographer.entity/store,
                                               :no-history? true}
                                              {:ident :store/address,
                                               :attribute? true,
@@ -128,7 +128,7 @@
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/string,
                                               :references-namespaces ()
-                                              :namespace :db.schema.entity.namespace/store}
+                                              :namespace :cartographer.entity/store}
                                              {:ident :store/id,
                                               :attribute? true,
                                               :deprecated? false
@@ -136,7 +136,7 @@
                                               :cardinality :db.cardinality/one,
                                               :value-type :db.type/uuid,
                                               :references-namespaces ()
-                                              :namespace :db.schema.entity.namespace/store,
+                                              :namespace :cartographer.entity/store,
                                               :unique :db.unique/identity}
                                              {:ident :store/employees,
                                               :attribute? true,
@@ -144,22 +144,22 @@
                                               :doc "Employees who may work at a given store",
                                               :cardinality :db.cardinality/many,
                                               :value-type :db.type/ref,
-                                              :namespace :db.schema.entity.namespace/store,
-                                              :references-namespaces (:db.schema.entity.namespace/employee),
+                                              :namespace :cartographer.entity/store,
+                                              :references-namespaces (:cartographer.entity/employee),
                                               :is-component? true})},
                               :employee
-                              {:namespace :db.schema.entity.namespace/employee,
+                              {:namespace :cartographer.entity/employee,
                                :doc "An entity representing an individual employee",
-                               :referenced-by (:db.schema.entity.namespace/store
-                                                :db.schema.entity.namespace/licensed-retailer),
-                               :ns-entities ({:ident :employee/name,
+                               :referenced-by (:cartographer.entity/store
+                                                :cartographer.entity/licensed-retailer),
+                               :ns-attrs ({:ident :employee/name,
                                               :attribute? true,
                                               :deprecated? false
                                               :doc "Employee's must have a unique combination of first and last names.",
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/tuple,
-                                              :namespace :db.schema.entity.namespace/employee,
+                                              :namespace :cartographer.entity/employee,
                                               :unique :db.unique/identity,
                                               :tuple-attrs [:employee/first-name :employee/last-name]}
                                              {:ident :employee/last-name,
@@ -169,7 +169,7 @@
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/string,
-                                              :namespace :db.schema.entity.namespace/employee,
+                                              :namespace :cartographer.entity/employee,
                                               :attr-preds [i-am-not-real.attr-preds/valid-last-name?]}
                                              {:ident :employee/first-name,
                                               :attribute? true,
@@ -178,6 +178,6 @@
                                               :cardinality :db.cardinality/one,
                                               :references-namespaces ()
                                               :value-type :db.type/string,
-                                              :namespace :db.schema.entity.namespace/employee}),
+                                              :namespace :cartographer.entity/employee}),
                                :attrs [:employee/first-name :employee/last-name],
                                :preds [i-am-not-real.entity-preds/valid-employee-name?]}}}

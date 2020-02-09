@@ -2,43 +2,51 @@
   (:require
     [datomic.client.api :as d]))
 
-(def annotation-schema-tx [{:db/ident :db.schema/deprecated?
+(def annotation-schema-tx [{:db/ident :cartographer/entity
+                            :db/valueType :db.type/keyword
+                            :db/cardinality :db.cardinality/one
+                            :db/doc "Creating an entity with this attr will cause its value to be considered an entity-grouping namespace in the application."}
+                           {:db/ident :cartographer/enumeration
+                            :db/valueType :db.type/keyword
+                            :db/cardinality :db.cardinality/one
+                            :db/doc "Creating an entity with this attr will cause its value to be considered an enumeration-grouping namespace in the application."}
+                           {:db/ident :cartographer/deprecated?
                             :db/valueType :db.type/boolean
                             :db/cardinality :db.cardinality/one
-                            :db/doc "DOCUMENTATION ONLY. Boolean flag indicating the field has been deprecated."}
-                           {:db/ident :db.schema/replaced-by
+                            :db/doc "Boolean flag indicating the field has been deprecated."}
+                           {:db/ident :cartographer/replaced-by
                             :db/valueType :db.type/ref
                             :db/cardinality :db.cardinality/many
-                            :db/doc "DOCUMENTATION ONLY. Used to document when a deprecated field is replaced by other."}
-                           {:db/ident :db.schema/references-namespaces
+                            :db/doc "Used to document when a deprecated field is replaced by other."}
+                           {:db/ident :cartographer/references-namespaces
                             :db/valueType :db.type/ref
                             :db/cardinality :db.cardinality/many
-                            :db/doc "DOCUMENTATION ONLY. Used to indicate which specific :db/idents are intended to be referenced by :db.type/ref"}
-                           {:db/ident :db.schema/validates-namespace
+                            :db/doc "Used to indicate which specific :cartographer/entity or :cartographer/enumeration are intended to be referenced by :db.type/ref"}
+                           {:db/ident :cartographer/validates-namespace
                             :db/valueType :db.type/ref
                             :db/cardinality :db.cardinality/one
-                            :db/doc "DOCUMENTATION ONLY. Used to indicate which specific :db/idents are intended to be validated by :db.type/ref"}])
+                            :db/doc "Used to indicate which specific :cartographer/entity is intended to be validated by :db.type/ref"}])
 
-(def ice-cream-shop-schema [;; --- Flavor Idents -------------------------------
+(def ice-cream-shop-schema [;; --- Flavor Enumerations -------------------------
                             {:db/id    "ice-cream-flavor"
-                             :db/ident :db.schema.ident.namespace/ice-cream-flavor
+                             :cartographer/enumeration :ice-cream-flavor
                              :db/doc   "Ice cream flavor options, currently available in store."}
                             {:db/ident :ice-cream-flavor/strawberry}
                             {:db/ident :ice-cream-flavor/chocolate}
                             {:db/ident :ice-cream-flavor/vanilla}
-                            ;; --- Cone Idents ---------------------------------
+                            ;; --- Cone Enumerations ---------------------------
                             {:db/id    "cone-type"
-                             :db/ident :db.schema.ident.namespace/cone-type
+                             :cartographer/enumeration :cone-type
                              :db/doc   "Ice cream cone options, currently available in store."}
                             {:db/ident :cone-type/waffle}
                             {:db/ident :cone-type/sugar}
                             {:db/id "cake" :db/ident :cone-type/cake}
                             {:db/ident :cone-type/gravy
-                             :db.schema/deprecated? true
-                             :db.schema/replaced-by ["cake"]}
+                             :cartographer/deprecated? true
+                             :cartographer/replaced-by ["cake"]}
                             ;; --- Employee ------------------------------------
                             {:db/id    "employee"
-                             :db/ident :db.schema.entity.namespace/employee
+                             :cartographer/entity :employee
                              :db/doc   "An entity representing an individual employee"}
                             {:db/ident       :employee/first-name
                              :db/valueType   :db.type/string
@@ -56,13 +64,13 @@
                              :db/unique      :db.unique/identity
                              :db/doc         "Employee's must have a unique combination of first and last names."}
                             {:db/ident       :employee/validate
-                             :db.schema/validates-namespace "employee"
+                             :cartographer/validates-namespace "employee"
                              :db.entity/attrs [:employee/first-name :employee/last-name]
                              :db.entity/preds 'i-am-not-real.entity-preds/valid-employee-name?}
                             ;; --- Stores --------------------------------------
-                            {:db/id    "store"
-                             :db/ident :db.schema.entity.namespace/store
-                             :db/doc   "An entity representing an individual ice cream store"}
+                            {:db/id          "store"
+                             :cartographer/entity :store
+                             :db/doc         "An entity representing an individual ice cream store"}
                             {:db/id          "store-id"
                              :db/ident       :store/id
                              :db/valueType   :db.type/uuid
@@ -78,7 +86,7 @@
                              :db/isComponent true
                              :db/cardinality :db.cardinality/many
                              :db/doc         "Employees who may work at a given store"
-                             :db.schema/references-namespaces ["employee"]}
+                             :cartographer/references-namespaces ["employee"]}
                             {:db/ident       :store/capricious-accounting-id
                              :db/valueType   :db.type/string
                              :db/cardinality :db.cardinality/one
@@ -86,7 +94,7 @@
                              :db/doc         "An id that is subject to change based on the whims of the accounting department. No history is retained."}
                             ;; --- License Retailer ----------------------------
                             {:db/id    "licensed retailer"
-                             :db/ident :db.schema.entity.namespace/licensed-retailer
+                             :cartographer/entity :licensed-retailer
                              :db/doc   "An business who is licensed to sell our branded ice cream cones"}
                             {:db/id          "licensed-retailer-id"
                              :db/ident       :licensed-retailer/id
@@ -102,9 +110,9 @@
                              :db/valueType   :db.type/ref
                              :db/cardinality :db.cardinality/many
                              :db/doc         "Employees who may work at a given licensed retailer location"
-                             :db.schema/references-namespaces ["employee"]}
+                             :cartographer/references-namespaces ["employee"]}
                             ;; --- Sales ---------------------------------------
-                            {:db/ident :db.schema.entity.namespace/sale
+                            {:cartographer/entity :sale
                              :db/doc "An entity representing a single ice cream cone sale"}
                             {:db/ident       :sale/id
                              :db/valueType   :db.type/uuid
@@ -115,17 +123,17 @@
                              :db/valueType   :db.type/ref
                              :db/cardinality :db.cardinality/one
                              :db/doc         "A reference to ice-cream-flavor ident"
-                             :db.schema/references-namespaces ["ice-cream-flavor"]}
+                             :cartographer/references-namespaces ["ice-cream-flavor"]}
                             {:db/ident       :sale/cone
                              :db/valueType   :db.type/ref
                              :db/cardinality :db.cardinality/one
                              :db/doc         "A reference to cone ident"
-                             :db.schema/references-namespaces ["cone-type"]}
+                             :cartographer/references-namespaces ["cone-type"]}
                             {:db/ident       :sale/location
                              :db/valueType   :db.type/ref
                              :db/cardinality :db.cardinality/one
                              :db/doc         "A reference to a store or licensed retailer entity"
-                             :db.schema/references-namespaces ["store" "licensed retailer"]}])
+                             :cartographer/references-namespaces ["store" "licensed retailer"]}])
 
 (comment
   (d/transact conn {:tx-data annotation-schema-tx})
