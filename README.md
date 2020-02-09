@@ -20,9 +20,6 @@ To generate a schema file loadable by the application, the following script is p
 
 ``` sh
 clojure -m server.core -h
-Schema Cartographer Server:
-Usage: clojure -Alocal-server
-
 Schema Cartographer Schema Export:
 Usage: clojure -m server.core [options]
 
