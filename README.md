@@ -19,7 +19,7 @@
 To generate a schema file loadable by the application, the following script is provided:
 
 ``` sh
-clojure -m server.core -h
+clojure -m cli.core -h
 Schema Cartographer Schema Export:
 Usage: clojure -m server.core [options]
 
