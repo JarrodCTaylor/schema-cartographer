@@ -107,10 +107,12 @@ The annotations used by the application are:
 ``` clojure
 (def annotation-schema-tx [{:db/ident :cartographer/entity
                             :db/valueType :db.type/keyword
+                            :db/unique :db.unique/identity
                             :db/cardinality :db.cardinality/one
                             :db/doc "Creating an entity with this attr will cause its value to be considered an entity-grouping namespace in the application."}
                            {:db/ident :cartographer/enumeration
                             :db/valueType :db.type/keyword
+                            :db/unique :db.unique/identity
                             :db/cardinality :db.cardinality/one
                             :db/doc "Creating an entity with this attr will cause its value to be considered an enumeration-grouping namespace in the application."}
                            {:db/ident :cartographer/deprecated?
