@@ -24,17 +24,20 @@ Schema Cartographer Schema Export:
 Usage: clojure -m server.core [options]
 
 Options:
-  -r, --region REGION  Region where Datomic cloud is located
-  -s, --system SYSTEM  Datomic cloud system name
-  -d, --db DATABASE    Database Name
-  -o, --output FILE    Write schema edn to FILE
-  -a, --audit          Audit schema annotations and log gaps. Boolean
+  -c  --client-file CLIENT-FILE Filename containing edn client args
+  -r, --region REGION           Region where Datomic cloud is located
+  -s, --system SYSTEM           Datomic cloud system name
+  -d, --db DATABASE             Database Name
+  -o, --output FILE             Write schema edn to FILE
+  -a, --audit                   Audit schema annotations and log gaps. Boolean
   -h, --help
 ```
 
 ### Example Usage
 
     clojure -m cli.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" -o "ice-cream-shop-schema"
+    # Or providing a client-file
+    clojure -m cli.core -c "doc/client-file.edn" -d "ice-cream-shop" -o "ice-cream-shop-schema"
 
 The resulting schema file is saved to the `/doc` directory
 
@@ -43,6 +46,8 @@ The resulting schema file is saved to the `/doc` directory
 To ensure your schema is properly annotated run the audit script. This will identify missing namespaces, references, etc.
 
     clojure -m cli.core -r "us-east-1" -s "my-system" -d "ice-cream-shop" --audit
+    # Or providing a client-file
+    clojure -m cli.core -c "doc/client-file.edn" -d "ice-cream-shop" --audit
 
 The results are logged to the console.
 
