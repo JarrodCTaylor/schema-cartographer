@@ -5,14 +5,8 @@
     [datomic.client.api :as d]
     [cli.queries :as query]))
 
-(defn get-schema
-  "Lives as a stand alone function to allow redef'ing in tests"
-  [conn]
-  (query/schema (d/db conn)))
-
-(defn audit-schema [conn]
-  (let [schema (get-schema conn)
-        defined-namespaces (->> schema
+(defn audit-schema [schema]
+  (let [defined-namespaces (->> schema
                                 (map #(select-keys % [:cartographer/enumeration :cartographer/entity]))
                                 (map vals)
                                 (remove nil?)
@@ -32,7 +26,8 @@
      :missing-ns-refs missing-ns-refs}))
 
 (defn log-schema-audit [conn]
-  (let [{:keys [unannotated-attrs missing-ns-refs]} (audit-schema conn)]
+  (let [schema (query/schema (d/db conn))
+        {:keys [unannotated-attrs missing-ns-refs]} schema]
     (if (some not-empty [unannotated-attrs missing-ns-refs])
       (do
         (println "\n=== Gaps In Annotations ===")

@@ -9,10 +9,10 @@
   (binding [*print-namespace-maps* false]
     (let [raw-schema (-> (io/resource "raw-schema.edn") slurp edn/read-string)
           formatted-schema (map sut/format-schema-attr raw-schema)
-          expected-response {:cartographer.entity/store [:cartographer.entity/sale]
-                             :cartographer.entity/licensed-retailer [:cartographer.entity/sale]
-                             :cartographer.entity/employee [:cartographer.entity/store
-                                                            :cartographer.entity/licensed-retailer]
+          expected-response {:cartographer.entity/store [:cartographer.entity/sale :cartographer.entity/store]
+                             :cartographer.entity/licensed-retailer [:cartographer.entity/sale :cartographer.entity/store]
+                             :cartographer.entity/employee [:cartographer.entity/licensed-retailer
+                                                            :cartographer.entity/store]
                              :cartographer.enumeration/cone-type [:cartographer.entity/sale]
                              :cartographer.enumeration/ice-cream-flavor [:cartographer.entity/sale]}
           actual-response (sut/ns-referenced-by formatted-schema)]

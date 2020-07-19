@@ -1,67 +1,20 @@
 [;; ---- Enumerations
  {:cartographer/enumeration :cone-type
-  :db/doc "Ice cream cone options currently available in store."}
+  :db/doc "Ice cream cone options, currently available in store."}
+ {:db/ident :cone-type/waffle}
  {:db/ident :cone-type/sugar}
  {:db/ident :cone-type/cake}
  {:cartographer/deprecated? true
   :cartographer/replaced-by [{:db/ident :cone-type/cake}]
   :db/ident :cone-type/gravy}
- {:db/ident :cone-type/waffle}
  {:cartographer/enumeration :ice-cream-flavor
-  :db/doc "Ice cream flavor options currently available in store."}
- {:db/ident :ice-cream-flavor/vanilla}
+  :db/doc "Ice cream flavor options, currently available in store."}
  {:db/ident :ice-cream-flavor/strawberry}
  {:db/ident :ice-cream-flavor/chocolate}
- ;; -- Entities
- ;;; -- Licensed Retailer
- {:cartographer/entity :licensed-retailer
-  :db/doc "A ns for attrs of entities representing a business who is licensed to sell our branded ice cream cones"}
- {:db/ident :licensed-retailer/id
-  :db/valueType {:db/ident :db.type/uuid}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/unique {:db/ident :db.unique/identity}
-  :db/doc "Unique id assigned to each licensed retailer"}
- {:db/ident :licensed-retailer/address
-  :db/valueType {:db/ident :db.type/string}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/doc "Street address of a specific licensed retailer location"}
- {:db/ident :licensed-retailer/employees
-  :db/valueType {:db/ident :db.type/ref}
-  :db/cardinality {:db/ident :db.cardinality/many}
-  :cartographer/references-namespaces [{:cartographer/entity :employee}]
-  :db/doc "Employees who may work at a given licensed retailer location"}
- ;;; -- Store
- {:cartographer/entity :store
-  :db/doc "A ns for attrs of entities representing individual ice cream stores"}
- {:db/ident :store/id
-  :db/valueType {:db/ident :db.type/uuid}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/unique {:db/ident :db.unique/identity}
-  :db/doc "Unique id assigned to each store"}
- {:db/ident :store/address
-  :db/valueType {:db/ident :db.type/string}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/doc "Street address of a specific store location"}
- {:db/ident :sale/location
-  :db/valueType {:db/ident :db.type/ref}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :cartographer/references-namespaces [{:cartographer/entity :licensed-retailer}
-                                       {:cartographer/entity :store}]
-  :db/doc "A reference to a store or licensed retailer entity"}
- {:db/ident :store/employees
-  :db/valueType {:db/ident :db.type/ref}
-  :db/isComponent true
-  :db/cardinality {:db/ident :db.cardinality/many}
-  :cartographer/references-namespaces [{:cartographer/entity :employee}]
-  :db/doc "Employees who may work at a given store"}
- {:db/ident :store/capricious-accounting-department-id
-  :db/valueType {:db/ident :db.type/string}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/noHistory true
-  :db/doc "An id that is subject to change based on the whims of the accounting department. No history is retained."}
+ {:db/ident :ice-cream-flavor/vanilla}
  ;;; -- Employee
  {:cartographer/entity :employee
-  :db/doc "A ns for attrs of entities representing a individual employee"}
+  :db/doc "An entity representing an individual employee"}
  {:db/ident :employee/first-name
   :db/valueType {:db/ident :db.type/string}
   :db/cardinality {:db/ident :db.cardinality/one}
@@ -81,9 +34,55 @@
   :cartographer/validates-namespace {:cartographer/entity :employee}
   :db.entity/attrs [:employee/first-name :employee/last-name]
   :db.entity/preds ['i-am-not-real.entity-preds/valid-employee-name?]}
+ ;;; -- Store
+ {:cartographer/entity :store
+  :db/doc "An entity representing an individual ice cream store"}
+ {:db/ident :store/id
+  :db/valueType {:db/ident :db.type/uuid}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/unique {:db/ident :db.unique/identity}
+  :db/doc "Unique id assigned to each store"}
+ {:db/ident :store/address
+  :db/valueType {:db/ident :db.type/string}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/doc "Street address of a specific store location"}
+ {:db/ident :store/employees
+  :db/valueType {:db/ident :db.type/ref}
+  :db/isComponent true
+  :db/cardinality {:db/ident :db.cardinality/many}
+  :cartographer/references-namespaces [{:cartographer/entity :employee}]
+  :db/doc "Employees who may work at a given store"}
+ {:db/ident :store/capricious-accounting-id
+  :db/valueType {:db/ident :db.type/string}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/noHistory true
+  :db/doc "An id that is subject to change based on the whims of the accounting department. No history is retained."}
+ {:db/ident :store/location
+  :db/valueType {:db/ident :db.type/ref}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/doc "A reference to a store or licensed retailer entity"
+  :cartographer/references-namespaces [{:cartographer/entity :store}
+                                       {:cartographer/entity :licensed-retailer}]}
+ ;;; -- Licensed Retailer
+ {:cartographer/entity :licensed-retailer
+  :db/doc "An business who is licensed to sell our branded ice cream cones"}
+ {:db/ident :licensed-retailer/id
+  :db/valueType {:db/ident :db.type/uuid}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/unique {:db/ident :db.unique/identity}
+  :db/doc "Unique id assigned to each licensed retailer"}
+ {:db/ident :licensed-retailer/address
+  :db/valueType {:db/ident :db.type/string}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/doc "Street address of a specific licensed retailer location"}
+ {:db/ident :licensed-retailer/employees
+  :db/valueType {:db/ident :db.type/ref}
+  :db/cardinality {:db/ident :db.cardinality/many}
+  :cartographer/references-namespaces [{:cartographer/entity :employee}]
+  :db/doc "Employees who may work at a given licensed retailer location"}
  ;;; -- Sale
  {:cartographer/entity :sale
-  :db/doc "A ns for attrs of entities representing a single ice cream cone sale"}
+  :db/doc "An entity representing a single ice cream cone sale"}
  {:db/ident :sale/id
   :db/valueType {:db/ident :db.type/uuid}
   :db/cardinality {:db/ident :db.cardinality/one}
@@ -98,4 +97,10 @@
   :db/valueType {:db/ident :db.type/ref}
   :db/cardinality {:db/ident :db.cardinality/one}
   :cartographer/references-namespaces [{:cartographer/enumeration :cone-type}]
-  :db/doc "A reference to cone ident"}]
+  :db/doc "A reference to cone ident"}
+ {:db/ident :sale/location
+  :db/valueType {:db/ident :db.type/ref}
+  :db/cardinality {:db/ident :db.cardinality/one}
+  :db/doc "A reference to a store or licensed retailer entity"
+  :cartographer/references-namespaces [{:cartographer/entity :store}
+                                       {:cartographer/entity :licensed-retailer}]}]
