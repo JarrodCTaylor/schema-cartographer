@@ -1,16 +1,17 @@
 {:paths ["src" "resources"]
 
  :deps {org.clojure/clojure       {:mvn/version "1.10.1"}
-        org.clojure/clojurescript {:mvn/version "1.10.520"}
-        org.clojure/test.check    {:mvn/version "0.10.0-alpha3"}
-        org.clojure/tools.cli     {:mvn/version "0.4.2"}
-        com.datomic/client-cloud  {:mvn/version "0.8.78"}}
+        org.clojure/clojurescript {:mvn/version "1.10.773"}
+        org.clojure/test.check    {:mvn/version "1.1.0"}
+        org.clojure/tools.cli     {:mvn/version "1.0.194"}
+        com.datomic/client-cloud  {:mvn/version "0.8.101"}}
 
  :aliases {;; ====
            ;  bin/kaocha clj-unit
            ; -------------------------------------------------------------------
            :clj-test {:extra-paths ["test"]
-                      :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-581"}}}
+                      :extra-deps {lambdaisland/kaocha {:mvn/version "0.0-581"}
+                                   com.datomic/dev-local {:mvn/version "0.9.180"}}}
 
            ;; ====
            ;  clojure -Acljs-test

@@ -4,6 +4,8 @@
 
 *Schema Cartographer* provides a means to visualize, navigate, create, edit and share the relationships that exist in your Datomic schema.
 
+![Clojure CI](https://github.com/JarrodCTaylor/schema-cartographer/workflows/Clojure%20CI/badge.svg)
+
 # Table Of Contents
 * [Usage CLJ](https://github.com/JarrodCTaylor/schema-cartographer#clj)
 * [Usage CLJS](https://github.com/JarrodCTaylor/schema-cartographer#Client)
@@ -52,6 +54,8 @@ To ensure your schema is properly annotated run the audit script. This will iden
 The results are logged to the console.
 
 ## Running tests
+
+Running tests requires [dev-local](https://docs.datomic.com/cloud/dev-local.html) to be installed locally.
 
     bin/kaocha clj-unit
 

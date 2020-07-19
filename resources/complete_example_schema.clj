@@ -29,23 +29,23 @@
                             :db/cardinality :db.cardinality/one
                             :db/doc "Used to indicate which specific :cartographer/entity is intended to be validated by :db.type/ref"}])
 
-(def ice-cream-shop-schema [;; --- Flavor Enumerations -------------------------
-                            {:db/id    "ice-cream-flavor"
-                             :cartographer/enumeration :ice-cream-flavor
-                             :db/doc   "Ice cream flavor options, currently available in store."}
-                            {:db/ident :ice-cream-flavor/strawberry}
-                            {:db/ident :ice-cream-flavor/chocolate}
-                            {:db/ident :ice-cream-flavor/vanilla}
-                            ;; --- Cone Enumerations ---------------------------
-                            {:db/id    "cone-type"
+(def ice-cream-shop-schema [;; --- Cone Enumerations ---------------------------
+                            {:db/id "cone-type"
                              :cartographer/enumeration :cone-type
-                             :db/doc   "Ice cream cone options, currently available in store."}
+                             :db/doc  "Ice cream cone options, currently available in store."}
                             {:db/ident :cone-type/waffle}
                             {:db/ident :cone-type/sugar}
                             {:db/id "cake" :db/ident :cone-type/cake}
                             {:db/ident :cone-type/gravy
                              :cartographer/deprecated? true
                              :cartographer/replaced-by ["cake"]}
+                            ;; --- Flavor Enumerations -------------------------
+                            {:db/id    "ice-cream-flavor"
+                             :cartographer/enumeration :ice-cream-flavor
+                             :db/doc   "Ice cream flavor options, currently available in store."}
+                            {:db/ident :ice-cream-flavor/strawberry}
+                            {:db/ident :ice-cream-flavor/chocolate}
+                            {:db/ident :ice-cream-flavor/vanilla}
                             ;; --- Employee ------------------------------------
                             {:db/id    "employee"
                              :cartographer/entity :employee
@@ -89,6 +89,17 @@
                              :db/cardinality :db.cardinality/many
                              :db/doc         "Employees who may work at a given store"
                              :cartographer/references-namespaces ["employee"]}
+                            {:db/ident       :store/location
+                             :db/valueType   :db.type/ref
+                             :db/cardinality :db.cardinality/one
+                             :cartographer/references-namespaces ["licensed retailer" "store"]
+                             :db/doc          "A reference to a store or licensed retailer entity"}
+                            {:db/ident       :store/employees
+                             :db/valueType   :db.type/ref
+                             :db/cardinality :db.cardinality/many
+                             :db/isComponent true
+                             :cartographer/references-namespaces ["employee"]
+                             :db/doc         "Employees who may work at a given store"}
                             {:db/ident       :store/capricious-accounting-id
                              :db/valueType   :db.type/string
                              :db/cardinality :db.cardinality/one
