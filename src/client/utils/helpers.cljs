@@ -3,6 +3,7 @@
     [clojure.string :as str]
     [re-frame.core :as rf]
     [reagent.core :as r]
+    [reagent.dom :refer [dom-node]]
     ["tippy.js" :default tippy]))
 
 (defn remove-matching-uuid [elements uuid]
@@ -23,7 +24,7 @@
 (defn tip [el content placement]
   (r/create-class {:reagent-render (fn [] el)
                    :component-did-mount (fn [this]
-                                          (tippy (r/dom-node this) (clj->js {:content content
+                                          (tippy (dom-node this) (clj->js {:content content
                                                                              :placement placement})))}))
 
 (defn title->kebab

@@ -5,13 +5,17 @@
     [clojure.edn :as edn]
     [clojure.set :as set]
     [cljs.test :refer-macros [deftest testing is]]
+    [client.config :as config]
     [client.utils.form-field-validators]
+    [client.test-resources.ci-globals :refer [global-stubs]]
     [client.test-resources.schema-data :refer [schema]]
     [client.test-resources.datomic-txs :refer [txs]]
     [client.test-resources.verbose-is-equal :refer [is=]]
     [client.events :as shared-events]
     [client.routes.index.events :as sut-events]
     [client.routes.index.subs :as sut-subs]))
+
+(when config/ci (global-stubs))
 
 (deftest node-data-array-subscription
   (rf-test/run-test-sync
@@ -21,8 +25,8 @@
                                           {:attr "First Name: String" :iskey false :deprecated? nil :figure "Empty" :color "#464B52"}
                                           {:attr "Last Name: String"  :iskey false :deprecated? nil :figure "Empty" :color "#464B52"}]}
                                  {:key "Store"
-                                  :items [{:attr "Id: Uuid"                                    :iskey true   :deprecated? nil :figure "Key2" :color "#464B52"}
-                                          {:attr "Address: String"                             :iskey false  :deprecated? nil :figure "Empty" :color "#464B52"}
+                                  :items [{:attr "Id: Uuid" :iskey true   :deprecated? nil :figure "Key2" :color "#464B52"}
+                                          {:attr "Address: String" :iskey false  :deprecated? nil :figure "Empty" :color "#464B52"}
                                           {:attr "Capricious Accounting Department Id: String" :iskey false  :deprecated? nil :figure "Empty" :color "#464B52"}
                                           {:attr "Employees: Ref"                              :iskey false  :deprecated? nil :figure "Empty" :color "#464B52"}]}]
           second-expected-result [{:key "Cone Type: Enumerations"

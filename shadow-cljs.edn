@@ -22,4 +22,8 @@
                      :ns-regexp "-test$"
                      :closure-defines {client.config/alert-timeout-ms 10}
                      :devtools  {:http-port 8021
-                                 :http-root "resources/public/js/test"}}}}
+                                 :http-root "resources/public/js/test"}}
+          :ci {:target :node-test
+               :output-to "target/test.js"
+               :ns-regexp "-test$"
+               :closure-defines {client.config/ci true}}}}
