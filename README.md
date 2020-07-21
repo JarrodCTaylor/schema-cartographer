@@ -5,6 +5,7 @@
 *Schema Cartographer* provides a means to visualize, navigate, create, edit and share the relationships that exist in your Datomic schema.
 
 ![Clojure CI](https://github.com/JarrodCTaylor/schema-cartographer/workflows/Clojure%20CI/badge.svg)
+![ClojureScript CI](https://github.com/JarrodCTaylor/schema-cartographer/workflows/ClojureScript%20CI/badge.svg)
 
 # Table Of Contents
 * [Usage CLJ](https://github.com/JarrodCTaylor/schema-cartographer#clj)

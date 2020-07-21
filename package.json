@@ -4,8 +4,8 @@
   "dependencies": {
     "create-react-class": "15.6.3",
     "highlight.js": "9.15.8",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
+    "react": "16.13.0",
+    "react-dom": "16.13.0",
     "react-flip-move": "3.0.3",
     "react-highlight.js": "1.0.7",
     "react-select": "^3.0.8",
@@ -17,6 +17,8 @@
     "url": "git+https://github.com/jarrodctaylor/schema-cartographer.git"
   },
   "devDependencies": {
-    "shadow-cljs": "2.8.67"
+    "shadow-cljs": "2.8.67",
+    "xmlhttprequest": "^1.8.0",
+    "node-localstorage": "^2.1.6"
   }
 }

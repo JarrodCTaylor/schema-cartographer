@@ -1,0 +1,22 @@
+name: ClojureScript CI
+
+on: [push]
+
+jobs:
+  build:
+    name: ClojureScript Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11.0.3'
+      - uses: DeLaGuardo/setup-clojure@2.0
+        with:
+          tools-deps: '1.10.1.507'
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+      - name: run tests
+        run: 'clojure -Aci && node ./target/test.js'
