@@ -13,8 +13,7 @@
                                         "re_frame.trace.trace_enabled_QMARK_" true}}
                 :release {:closure-defines {goog.DEBUG false}}
                 :devtools {:http-root "resources/public"
-                           :preloads [day8.re-frame-10x.preload
-                                      shadow.remote.runtime.browser]
+                           :preloads [shadow.cljs.devtools.client.browser]
                            :after-load client.core/on-reload
                            :http-port 9875}}
           :test     {:target    :browser-test
