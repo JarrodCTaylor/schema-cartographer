@@ -12,7 +12,7 @@
 * [Usage CLJS](https://github.com/JarrodCTaylor/schema-cartographer#Client)
 * [Convention & Schema Annotations](https://github.com/JarrodCTaylor/schema-cartographer#conventions--schema-annotations)
     * [Basic Example](https://github.com/JarrodCTaylor/schema-cartographer#basic-example)
-    * [Complete Example Schema](https://github.com/JarrodCTaylor/schema-cartographer/blob/master/resources/complete_example_schema.clj)
+    * [Complete Example Schema](https://github.com/JarrodCTaylor/schema-cartographer#complete-example-schema)
 * [License](https://github.com/JarrodCTaylor/schema-cartographer#copyright-and-license)
 
 # CLI
