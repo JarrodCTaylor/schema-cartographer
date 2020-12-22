@@ -18,10 +18,10 @@
            ; -------------------------------------------------------------------
            :cljs-test {:extra-paths ["test"]
                        :extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                                     thheller/shadow-cljs        {:mvn/version "2.10.16"}
+                                     thheller/shadow-cljs        {:mvn/version "2.11.6"}
                                      metosin/reitit              {:mvn/version "0.5.5"}
                                      expound                     {:mvn/version "0.8.5"}
-                                     re-frame                    {:mvn/version "1.0.0"}
+                                     re-frame                    {:mvn/version "1.1.1"}
                                      reagent                     {:mvn/version "1.0.0-alpha2"}
                                      day8.re-frame/test          {:mvn/version "0.1.5"}
                                      day8.re-frame/async-flow-fx {:mvn/version "0.1.0"}
@@ -30,10 +30,10 @@
 
            :ci {:extra-paths ["test"]
                 :extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                              thheller/shadow-cljs        {:mvn/version "2.10.16"}
+                              thheller/shadow-cljs        {:mvn/version "2.11.6"}
                               metosin/reitit              {:mvn/version "0.5.5"}
                               expound                     {:mvn/version "0.8.5"}
-                              re-frame                    {:mvn/version "1.0.0"}
+                              re-frame                    {:mvn/version "1.1.1"}
                               reagent                     {:mvn/version "1.0.0-alpha2"}
                               day8.re-frame/test          {:mvn/version "0.1.5"}
                               day8.re-frame/async-flow-fx {:mvn/version "0.1.0"}
@@ -43,10 +43,10 @@
            ;  Min production build
            ;  clojure -Acljs-min
            :cljs-min {:extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                                    thheller/shadow-cljs        {:mvn/version "2.10.16"}
+                                    thheller/shadow-cljs        {:mvn/version "2.11.6"}
                                     metosin/reitit              {:mvn/version "0.5.5"}
                                     expound                     {:mvn/version "0.8.5"}
-                                    re-frame                    {:mvn/version "1.0.0"}
+                                    re-frame                    {:mvn/version "1.1.1"}
                                     reagent                     {:mvn/version "1.0.0-alpha2"}}
                       :main-opts ["-m" "shadow.cljs.devtools.cli" "release" "app"]}
 
@@ -55,12 +55,11 @@
            :cljs-dev {:extra-paths ["test"]
                       :main-opts   ["-m" "shadow.cljs.devtools.cli" "watch" "app"]
                       :extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                                    thheller/shadow-cljs        {:mvn/version "2.10.16"}
+                                    thheller/shadow-cljs        {:mvn/version "2.11.6"}
                                     metosin/reitit              {:mvn/version "0.5.5"}
                                     expound                     {:mvn/version "0.8.5"}
-                                    re-frame                    {:mvn/version "1.0.0"}
+                                    re-frame                    {:mvn/version "1.1.1"}
                                     reagent                     {:mvn/version "1.0.0-alpha2"}
-                                    day8.re-frame/re-frame-10x  {:mvn/version "0.4.4"}
                                     day8.re-frame/async-flow-fx {:mvn/version "0.1.0"}
                                     day8.re-frame/test          {:mvn/version "0.1.5"}
                                     binaryage/devtools          {:mvn/version "1.0.2"}}}}}

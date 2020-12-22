@@ -5,7 +5,7 @@
     [goog.events :as gevents]
     [goog.history.EventType :as EventType]
     [re-frame.core :as rf]
-    [reagent.core :as reagent]
+    [reagent.dom :as reagent]
     [reitit.frontend :as rfront]
 
     [client.components.alerts :refer [alert-display]]
