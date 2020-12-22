@@ -334,7 +334,7 @@
                                       :form :new-entity-attr-form
                                       :field :cardinality
                                       :tool-tip "Specifies whether an attribute associates a single value or a set of values with an entity"
-                                      :options (if (contains? #{{"value" "composite-tuple" "label" "Composite Tuple"}
+                                      :options (if (contains? #{{"value" "tuple" "label" "Composite Tuple"}
                                                                 {"value" "fixed-length-tuple" "label" "Fixed Length Tuple"}
                                                                 {"value" "variable-length-tuple" "label" "Variable Length Tuple"}} (:value value-type))
                                                  [{:value "one" :label "One"}]
@@ -357,7 +357,7 @@
                                                 {:value "ref" :label "Reference"}
                                                 {:value "string" :label "String"}
                                                 {:value "symbol" :label "Symbol"}
-                                                {:value "composite-tuple" :label "Composite Tuple"}
+                                                {:value "tuple" :label "Composite Tuple"}
                                                 {:value "fixed-length-tuple" :label "Fixed Length Tuple"}
                                                 {:value "variable-length-tuple" :label "Variable Length Tuple"}
                                                 {:value "uuid" :label "UUID"}
@@ -371,7 +371,7 @@
                                        :is-multi true
                                        :tool-tip "What namespaces are expected to be referenced by this ident"
                                        :options ns-options}])
-        (when (= {"value" "composite-tuple" "label" "Composite Tuple"} (:value value-type))
+        (when (= {"value" "tuple" "label" "Composite Tuple"} (:value value-type))
           [validated-input/select-box {:color-scheme color-scheme
                                        :label "Tuple Attributes"
                                        :route :index

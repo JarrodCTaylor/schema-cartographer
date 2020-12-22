@@ -339,7 +339,7 @@
                       (when ref-namespaces {:references-namespaces (map #(keyword (value %)) ref-namespaces)})
                       (when tuple-attrs
                         (case (get value-type "value")
-                          "composite-tuple" {:tuple-attrs (mapv #(keyword (value %)) tuple-attrs)}
+                          "tuple" {:tuple-attrs (mapv #(keyword (value %)) tuple-attrs)}
                           "fixed-length-tuple" {:tuple-attrs (mapv #(keyword "db.type" (value %)) tuple-attrs)}
                           "variable-length-tuple" {:tuple-attrs (keyword "db.type" (value tuple-attrs))}))
                       (when attr-preds {:attr-preds (mapv symbol (str/split attr-preds #"\s"))}))]

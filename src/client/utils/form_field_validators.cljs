@@ -66,7 +66,7 @@
 (defmethod input-error? :new-entity-attr-form/value-type [{:keys [value dirty?]}]
   (when (not= {"value" "ref" "label" "Reference"} value)
     (>dis [::shared-events/set-form-field-value :index :new-entity-attr-form :is-component {"value" false "label" "False"}]))
-  (when (contains? #{{"value" "composite-tuple" "label" "Composite Tuple"}
+  (when (contains? #{{"value" "tuple" "label" "Composite Tuple"}
                      {"value" "fixed-length-tuple" "label" "Fixed Length Tuple"}
                      {"value" "variable-length-tuple" "label" "Variable Length Tuple"}} value)
     (>dis [::shared-events/set-form-field-value :index :new-entity-attr-form :cardinality {"value" "one" "label" "One"}]))
