@@ -12,7 +12,7 @@
 * [Usage CLJS](https://github.com/JarrodCTaylor/schema-cartographer#Client)
 * [Convention & Schema Annotations](https://github.com/JarrodCTaylor/schema-cartographer#conventions--schema-annotations)
     * [Basic Example](https://github.com/JarrodCTaylor/schema-cartographer#basic-example)
-    * [Complete Example Schema](https://github.com/JarrodCTaylor/schema-cartographer#complete-example-schema)
+    * [Complete Example Schema](https://github.com/JarrodCTaylor/schema-cartographer/blob/master/resources/complete_example_schema.clj)
 * [License](https://github.com/JarrodCTaylor/schema-cartographer#copyright-and-license)
 
 # CLI
@@ -188,7 +188,7 @@ We can then conclude all attrs with a `:db/ident` having a keyword with the name
 
 # Complete Example Schema
 
-Create a connection to a new Datomic database and transact the following [example schema](https://github.com/JarrodCTaylor/schema-cartographer/blob/master/resources/complete-example-schema.clj). This will provide a complete fully annotated schema suitable to experiment with the application and for use as a reference.
+Create a connection to a new Datomic database and transact the following [example schema](https://github.com/JarrodCTaylor/schema-cartographer/blob/master/resources/complete_example_schema.clj). This will provide a complete fully annotated schema suitable to experiment with the application and for use as a reference.
 
 ## Copyright and License
 
