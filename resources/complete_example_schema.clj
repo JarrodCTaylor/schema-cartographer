@@ -68,7 +68,7 @@
                             {:db/ident       :employee/validate
                              :cartographer/validates-namespace "employee"
                              :db.entity/attrs [:employee/first-name :employee/last-name]
-                             :db.entity/preds 'i-am-not-real.entity-preds/valid-employee-name?}
+                             :db.entity/preds 'i-am-not-real/valid-employee-name?}
                             ;; --- Stores --------------------------------------
                             {:db/id          "store"
                              :cartographer/entity :store
