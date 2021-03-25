@@ -28,4 +28,4 @@ jobs:
           cd $HOME/.datomic
           echo '{:storage-dir "/home/runner"}' > dev-local.edn
       - name: Run clj tests
-        run: bin/kaocha clj-unit
+        run: bin/kaocha
