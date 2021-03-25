@@ -1,65 +1,12 @@
 {:paths ["src" "resources"]
 
- :deps {org.clojure/clojure       {:mvn/version "1.10.1"}
-        org.clojure/clojurescript {:mvn/version "1.10.773"}
-        org.clojure/test.check    {:mvn/version "1.1.0"}
-        org.clojure/tools.cli     {:mvn/version "1.0.194"}
-        com.datomic/client-cloud  {:mvn/version "0.8.101"}}
+ :deps {org.clojure/clojure       {:mvn/version "1.10.3"}
+        org.clojure/tools.cli     {:mvn/version "1.0.206"}
+        com.datomic/client-cloud  {:mvn/version "0.8.105"}}
 
  :aliases {;; ====
-           ;  bin/kaocha clj-unit
+           ;  bin/kaocha clj-test
            ; -------------------------------------------------------------------
            :clj-test {:extra-paths ["test"]
-                      :extra-deps {lambdaisland/kaocha {:mvn/version "1.0.641"}
-                                   com.datomic/dev-local {:mvn/version "0.9.180"}}}
-
-           ;; ====
-           ;  clojure -Acljs-test
-           ; -------------------------------------------------------------------
-           :cljs-test {:extra-paths ["test"]
-                       :extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                                     thheller/shadow-cljs        {:mvn/version "2.11.6"}
-                                     metosin/reitit              {:mvn/version "0.5.5"}
-                                     expound                     {:mvn/version "0.8.5"}
-                                     re-frame                    {:mvn/version "1.1.1"}
-                                     reagent                     {:mvn/version "1.0.0-alpha2"}
-                                     day8.re-frame/test          {:mvn/version "0.1.5"}
-                                     day8.re-frame/async-flow-fx {:mvn/version "0.1.0"}
-                                     binaryage/devtools          {:mvn/version "1.0.2"}}
-                       :main-opts   ["-m" "shadow.cljs.devtools.cli" "watch" "test"]}
-
-           :ci {:extra-paths ["test"]
-                :extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                              thheller/shadow-cljs        {:mvn/version "2.11.6"}
-                              metosin/reitit              {:mvn/version "0.5.5"}
-                              expound                     {:mvn/version "0.8.5"}
-                              re-frame                    {:mvn/version "1.1.1"}
-                              reagent                     {:mvn/version "1.0.0-alpha2"}
-                              day8.re-frame/test          {:mvn/version "0.1.5"}
-                              day8.re-frame/async-flow-fx {:mvn/version "0.1.0"}
-                              binaryage/devtools          {:mvn/version "1.0.2"}}
-                :main-opts   ["-m" "shadow.cljs.devtools.cli" "compile" "ci"]}
-           ;; ===
-           ;  Min production build
-           ;  clojure -Acljs-min
-           :cljs-min {:extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                                    thheller/shadow-cljs        {:mvn/version "2.11.6"}
-                                    metosin/reitit              {:mvn/version "0.5.5"}
-                                    expound                     {:mvn/version "0.8.5"}
-                                    re-frame                    {:mvn/version "1.1.1"}
-                                    reagent                     {:mvn/version "1.0.0-alpha2"}}
-                      :main-opts ["-m" "shadow.cljs.devtools.cli" "release" "app"]}
-
-           ;; ===
-           ;  clojure -Acljs-dev
-           :cljs-dev {:extra-paths ["test"]
-                      :main-opts   ["-m" "shadow.cljs.devtools.cli" "watch" "app"]
-                      :extra-deps  {day8.re-frame/http-fx       {:mvn/version "0.1.6"}
-                                    thheller/shadow-cljs        {:mvn/version "2.11.6"}
-                                    metosin/reitit              {:mvn/version "0.5.5"}
-                                    expound                     {:mvn/version "0.8.5"}
-                                    re-frame                    {:mvn/version "1.1.1"}
-                                    reagent                     {:mvn/version "1.0.0-alpha2"}
-                                    day8.re-frame/async-flow-fx {:mvn/version "0.1.0"}
-                                    day8.re-frame/test          {:mvn/version "0.1.5"}
-                                    binaryage/devtools          {:mvn/version "1.0.2"}}}}}
+                      :extra-deps {lambdaisland/kaocha {:mvn/version "1.0.732"}
+                                   com.datomic/dev-local {:mvn/version "0.9.232"}}}}}

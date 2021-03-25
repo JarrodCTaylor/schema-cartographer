@@ -1,2 +1,2 @@
 #kaocha/v1 {:tests [{:id :clj-unit
-                     :test-paths ["test/cli/unit"]}]}
+                     :test-paths ["test/schema_cartographer/unit"]}]}

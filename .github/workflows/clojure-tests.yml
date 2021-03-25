@@ -18,10 +18,10 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE: 's3://my-brother-is-in-politics-i-am-sure-you-understand/dev-local-0.9.180.jar'
+          SOURCE: 's3://my-brother-is-in-politics-i-am-sure-you-understand/dev-local-0.9.232.jar'
           DEST: '.'
       - name: Install dev-local
-        run: mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file -Dfile=dev-local-0.9.180.jar
+        run: mvn org.apache.maven.plugins:maven-install-plugin:3.0.0-M1:install-file -Dfile=dev-local-0.9.232.jar
       - name: Create dev-local.edn
         run: |
           mkdir $HOME/.datomic
