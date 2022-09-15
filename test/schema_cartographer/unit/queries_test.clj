@@ -19,7 +19,7 @@
                                (map #(dissoc % :db.entity/attrs))
                                (map #(dissoc % :db.entity/preds))
                                set)
-        actual-response (->> (sut/annotated-schema spec-db)
+        actual-response (->> (sut/annotated-schema spec-db :cloud)
                              (map #(dissoc % :db.attr/preds))
                              (map #(dissoc % :db.entity/attrs))
                              (map #(dissoc % :db.entity/preds))

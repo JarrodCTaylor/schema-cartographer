@@ -9,7 +9,7 @@
 
 # I Have
 
-## Nothing And I Am Starting From Scratch
+## Nothing. I Am Starting From Scratch
 
 My recommendation is visit [https://schema-cartographer.com](https://schema-cartographer.com) and use the application to create a schema and export the needed transactions when you are done. 
 

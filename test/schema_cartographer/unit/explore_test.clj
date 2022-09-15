@@ -1,7 +1,6 @@
 (ns schema-cartographer.unit.explore-test
   (:require
-    [datomic.client.api :as d]
-    [clojure.test :refer [deftest testing is run-tests]]
+    [clojure.test :refer [deftest testing is]]
     [schema-cartographer.unit.utils :refer [setup-speculative-db]]
     [unannotated-test-schema :refer [unannotated-ice-cream-shop-schema unannotated-transactions]]
     [schema-cartographer.queries :as query]
@@ -96,7 +95,7 @@
 
     (binding [*print-namespace-maps* false]
       (let [db (setup-speculative-db db-name unannotated-ice-cream-shop-schema unannotated-transactions)
-            schema (query/unannotated-schema db)
+            schema (query/unannotated-schema {:db db :db-type :cloud})
             expected-response (-> (io/resource "expected-unannotated-schema-data.edn") slurp edn/read-string)
-            actual-response (sut/explore db schema nil)]
+            actual-response (sut/explore db schema nil :cloud)]
         (is (= expected-response actual-response)))))

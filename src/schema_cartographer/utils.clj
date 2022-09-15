@@ -19,7 +19,7 @@
           return-value
           (if-let [ms (and (retryable? return-value) (backoff n))]
             (do
-              (println "Retryable anomaly encountered. Retrying after" ms "ms....")
+              (println "Retryable anomaly encountered [" return-value "]. Retrying after" ms "ms....")
               (Thread/sleep ms)
               (recur (inc n)))
             (throw return-value)))))))
