@@ -46,7 +46,7 @@
             (when (= 0 (mod counter 100000))
               (println " --" (format "%,d" counter) "processed"))
             {:counter (inc counter)
-             :response (set/union response #{(or (namespace kws) "unnamespaced")})})
+             :response (set/union response #{(or (and kws (namespace kws)) "unnamespaced")})})
           {:counter 0 :response #{}}
           (if ref-search-limit
             (take ref-search-limit idents)
@@ -57,7 +57,7 @@
             (when (= 0 (mod counter 100000))
               (println " --" (format "%,d" counter) "processed"))
             {:counter (inc counter)
-             :response (set/union response (disj (set (map #(or (namespace %) "unnamespaced") kws)) "db"))})
+             :response (set/union response (disj (set (map #(or (and kws (namespace %)) "unnamespaced") kws)) "db"))})
           {:counter 0 :response #{}}
           (if ref-search-limit
             (take ref-search-limit keys)
