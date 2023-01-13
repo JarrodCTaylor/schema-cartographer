@@ -1,8 +1,0 @@
-[{:db/ident :zorg/first-name
-  :db/valueType {:db/ident :db.type/string}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/doc "Zorg first name"}
- {:db/ident :zorg/last-name
-  :db/valueType {:db/ident :db.type/string}
-  :db/cardinality {:db/ident :db.cardinality/one}
-  :db/doc "Zorg last name"}]
